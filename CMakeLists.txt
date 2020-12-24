@@ -13,7 +13,7 @@ add_executable (final_sfml)
 
 add_subdirectory (include)
 add_subdirectory (src)
-add_subdirectory (resources)
+add_subdirectory (resources/)
 
 #this is for macos==============================
 include_directories(/usr/local/include)
