@@ -1,2 +1,9 @@
 /Users/davidmaman/Desktop/OOP/final_sfml/cmake-build-debug/CMakeFiles/rebuild_cache.dir
 /Users/davidmaman/Desktop/OOP/final_sfml/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/davidmaman/Desktop/OOP/final_sfml/cmake-build-debug/CMakeFiles/final_sfml.dir
+/Users/davidmaman/Desktop/OOP/final_sfml/cmake-build-debug/include/CMakeFiles/rebuild_cache.dir
+/Users/davidmaman/Desktop/OOP/final_sfml/cmake-build-debug/include/CMakeFiles/edit_cache.dir
+/Users/davidmaman/Desktop/OOP/final_sfml/cmake-build-debug/src/CMakeFiles/rebuild_cache.dir
+/Users/davidmaman/Desktop/OOP/final_sfml/cmake-build-debug/src/CMakeFiles/edit_cache.dir
+/Users/davidmaman/Desktop/OOP/final_sfml/cmake-build-debug/resources/CMakeFiles/rebuild_cache.dir
+/Users/davidmaman/Desktop/OOP/final_sfml/cmake-build-debug/resources/CMakeFiles/edit_cache.dir

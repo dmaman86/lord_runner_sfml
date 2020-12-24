@@ -157,7 +157,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=Project
+CMAKE_PROJECT_NAME:STATIC=final_sfml
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/Library/Developer/CommandLineTools/usr/bin/ranlib
@@ -229,6 +229,18 @@ Project_BINARY_DIR:STATIC=/Users/davidmaman/Desktop/OOP/final_sfml/cmake-build-d
 
 //Value Computed by CMake
 Project_SOURCE_DIR:STATIC=/Users/davidmaman/Desktop/OOP/final_sfml
+
+//The directory containing a CMake configuration file for SFML.
+SFML_DIR:PATH=/usr/local/lib/cmake/SFML
+
+//Path to a file.
+SFML_DOC_DIR:PATH=SFML_DOC_DIR-NOTFOUND
+
+//Value Computed by CMake
+final_sfml_BINARY_DIR:STATIC=/Users/davidmaman/Desktop/OOP/final_sfml/cmake-build-debug
+
+//Value Computed by CMake
+final_sfml_SOURCE_DIR:STATIC=/Users/davidmaman/Desktop/OOP/final_sfml
 
 
 ########################
@@ -333,7 +345,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=1
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=4
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
