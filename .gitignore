@@ -3,4 +3,4 @@
 .idea/
 
 #CMake
-cmake-build-*/
+/cmake-build-debug/
