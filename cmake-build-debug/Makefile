@@ -143,6 +143,168 @@ final_sfml/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/final_sfml.dir/build.make CMakeFiles/final_sfml.dir/build
 .PHONY : final_sfml/fast
 
+src/AssetManager.o: src/AssetManager.cpp.o
+
+.PHONY : src/AssetManager.o
+
+# target to build an object file
+src/AssetManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/final_sfml.dir/build.make CMakeFiles/final_sfml.dir/src/AssetManager.cpp.o
+.PHONY : src/AssetManager.cpp.o
+
+src/AssetManager.i: src/AssetManager.cpp.i
+
+.PHONY : src/AssetManager.i
+
+# target to preprocess a source file
+src/AssetManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/final_sfml.dir/build.make CMakeFiles/final_sfml.dir/src/AssetManager.cpp.i
+.PHONY : src/AssetManager.cpp.i
+
+src/AssetManager.s: src/AssetManager.cpp.s
+
+.PHONY : src/AssetManager.s
+
+# target to generate assembly for a file
+src/AssetManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/final_sfml.dir/build.make CMakeFiles/final_sfml.dir/src/AssetManager.cpp.s
+.PHONY : src/AssetManager.cpp.s
+
+src/Game.o: src/Game.cpp.o
+
+.PHONY : src/Game.o
+
+# target to build an object file
+src/Game.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/final_sfml.dir/build.make CMakeFiles/final_sfml.dir/src/Game.cpp.o
+.PHONY : src/Game.cpp.o
+
+src/Game.i: src/Game.cpp.i
+
+.PHONY : src/Game.i
+
+# target to preprocess a source file
+src/Game.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/final_sfml.dir/build.make CMakeFiles/final_sfml.dir/src/Game.cpp.i
+.PHONY : src/Game.cpp.i
+
+src/Game.s: src/Game.cpp.s
+
+.PHONY : src/Game.s
+
+# target to generate assembly for a file
+src/Game.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/final_sfml.dir/build.make CMakeFiles/final_sfml.dir/src/Game.cpp.s
+.PHONY : src/Game.cpp.s
+
+src/InputManager.o: src/InputManager.cpp.o
+
+.PHONY : src/InputManager.o
+
+# target to build an object file
+src/InputManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/final_sfml.dir/build.make CMakeFiles/final_sfml.dir/src/InputManager.cpp.o
+.PHONY : src/InputManager.cpp.o
+
+src/InputManager.i: src/InputManager.cpp.i
+
+.PHONY : src/InputManager.i
+
+# target to preprocess a source file
+src/InputManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/final_sfml.dir/build.make CMakeFiles/final_sfml.dir/src/InputManager.cpp.i
+.PHONY : src/InputManager.cpp.i
+
+src/InputManager.s: src/InputManager.cpp.s
+
+.PHONY : src/InputManager.s
+
+# target to generate assembly for a file
+src/InputManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/final_sfml.dir/build.make CMakeFiles/final_sfml.dir/src/InputManager.cpp.s
+.PHONY : src/InputManager.cpp.s
+
+src/MainMenuState.o: src/MainMenuState.cpp.o
+
+.PHONY : src/MainMenuState.o
+
+# target to build an object file
+src/MainMenuState.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/final_sfml.dir/build.make CMakeFiles/final_sfml.dir/src/MainMenuState.cpp.o
+.PHONY : src/MainMenuState.cpp.o
+
+src/MainMenuState.i: src/MainMenuState.cpp.i
+
+.PHONY : src/MainMenuState.i
+
+# target to preprocess a source file
+src/MainMenuState.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/final_sfml.dir/build.make CMakeFiles/final_sfml.dir/src/MainMenuState.cpp.i
+.PHONY : src/MainMenuState.cpp.i
+
+src/MainMenuState.s: src/MainMenuState.cpp.s
+
+.PHONY : src/MainMenuState.s
+
+# target to generate assembly for a file
+src/MainMenuState.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/final_sfml.dir/build.make CMakeFiles/final_sfml.dir/src/MainMenuState.cpp.s
+.PHONY : src/MainMenuState.cpp.s
+
+src/SplashState.o: src/SplashState.cpp.o
+
+.PHONY : src/SplashState.o
+
+# target to build an object file
+src/SplashState.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/final_sfml.dir/build.make CMakeFiles/final_sfml.dir/src/SplashState.cpp.o
+.PHONY : src/SplashState.cpp.o
+
+src/SplashState.i: src/SplashState.cpp.i
+
+.PHONY : src/SplashState.i
+
+# target to preprocess a source file
+src/SplashState.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/final_sfml.dir/build.make CMakeFiles/final_sfml.dir/src/SplashState.cpp.i
+.PHONY : src/SplashState.cpp.i
+
+src/SplashState.s: src/SplashState.cpp.s
+
+.PHONY : src/SplashState.s
+
+# target to generate assembly for a file
+src/SplashState.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/final_sfml.dir/build.make CMakeFiles/final_sfml.dir/src/SplashState.cpp.s
+.PHONY : src/SplashState.cpp.s
+
+src/StateMachine.o: src/StateMachine.cpp.o
+
+.PHONY : src/StateMachine.o
+
+# target to build an object file
+src/StateMachine.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/final_sfml.dir/build.make CMakeFiles/final_sfml.dir/src/StateMachine.cpp.o
+.PHONY : src/StateMachine.cpp.o
+
+src/StateMachine.i: src/StateMachine.cpp.i
+
+.PHONY : src/StateMachine.i
+
+# target to preprocess a source file
+src/StateMachine.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/final_sfml.dir/build.make CMakeFiles/final_sfml.dir/src/StateMachine.cpp.i
+.PHONY : src/StateMachine.cpp.i
+
+src/StateMachine.s: src/StateMachine.cpp.s
+
+.PHONY : src/StateMachine.s
+
+# target to generate assembly for a file
+src/StateMachine.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/final_sfml.dir/build.make CMakeFiles/final_sfml.dir/src/StateMachine.cpp.s
+.PHONY : src/StateMachine.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -179,6 +341,24 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... final_sfml"
+	@echo "... src/AssetManager.o"
+	@echo "... src/AssetManager.i"
+	@echo "... src/AssetManager.s"
+	@echo "... src/Game.o"
+	@echo "... src/Game.i"
+	@echo "... src/Game.s"
+	@echo "... src/InputManager.o"
+	@echo "... src/InputManager.i"
+	@echo "... src/InputManager.s"
+	@echo "... src/MainMenuState.o"
+	@echo "... src/MainMenuState.i"
+	@echo "... src/MainMenuState.s"
+	@echo "... src/SplashState.o"
+	@echo "... src/SplashState.i"
+	@echo "... src/SplashState.s"
+	@echo "... src/StateMachine.o"
+	@echo "... src/StateMachine.i"
+	@echo "... src/StateMachine.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
