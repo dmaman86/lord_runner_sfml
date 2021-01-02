@@ -6,4 +6,5 @@
 
 resources/.DS_Store
 
+cmake-build-debug/
 
