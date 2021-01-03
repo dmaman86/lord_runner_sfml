@@ -25,6 +25,11 @@ void MainMenuState::Init()
     m_background.setScale( ( float )windowSize.x / textureSize.x,
                            ( float )windowSize.y / textureSize.y );
 
+    if( !m_soundBuffer.loadFromFile( "../resources/sounds/menusound.wav" ) )
+        std::cout << "Error loading Open Sound Effect" << std::endl;
+
+    m_sound.setBuffer( m_soundBuffer );
+
     sf::Text text;
 
     m_data->assets.LoadFont( "Main Menu Font", "../resources/fonts/arial.ttf" );
@@ -55,11 +60,13 @@ void MainMenuState::HandleInput()
 
     while( m_data->window.pollEvent( event ) )
     {
+        m_sound.play();
         if( sf::Event::Closed == event.type )
             m_data->window.close();
 
         if( m_data->input.isSpriteClicked( m_buttons[ 0 ], sf::Mouse::Left, m_data->window ) )
         {
+            m_sound.pause();
             m_buttons[ 0 ].setFillColor( sf::Color::Black );
             m_buttons[ 1 ].setFillColor( sf::Color::White );
             m_buttons[ 2 ].setFillColor( sf::Color::White );
@@ -69,6 +76,7 @@ void MainMenuState::HandleInput()
 
         if( m_data->input.isSpriteClicked( m_buttons[ 1 ], sf::Mouse::Left, m_data->window ) )
         {
+            m_sound.pause();
             m_buttons[ 1 ].setFillColor( sf::Color::Black );
             m_buttons[ 0 ].setFillColor( sf::Color::White );
             m_buttons[ 2 ].setFillColor( sf::Color::White );
@@ -78,6 +86,7 @@ void MainMenuState::HandleInput()
 
         if( m_data->input.isSpriteClicked( m_buttons[ 2 ], sf::Mouse::Left, m_data->window ) )
         {
+            m_sound.pause();
             m_buttons[ 2 ].setFillColor( sf::Color::Black );
             m_buttons[ 0 ].setFillColor( sf::Color::White );
             m_buttons[ 1 ].setFillColor( sf::Color::White );

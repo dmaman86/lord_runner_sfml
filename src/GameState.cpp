@@ -12,6 +12,11 @@ void GameState::Init()
 {
     m_data->assets.LoadTexture( "Game Background", "../resources/img/background.png" );
     m_background.setTexture( this->m_data->assets.GetTexture( "Game Background" ) );
+
+    if( !m_soundBuffer.loadFromFile( "../resources/sounds/gamesound.wav" ) )
+        std::cout << "Error loading Open Sound Effect" << std::endl;
+
+    m_sound.setBuffer( m_soundBuffer );
 }
 
 void GameState::HandleInput()
@@ -20,12 +25,14 @@ void GameState::HandleInput()
 
     while( m_data->window.pollEvent( event ) )
     {
+        m_sound.play();
         if( sf::Event::Closed == event.type )
             m_data->window.close();
         if( sf::Keyboard::isKeyPressed( sf::Keyboard::Escape ) )
             m_data->window.close();
         if( sf::Keyboard::isKeyPressed( sf::Keyboard::Space ) )
         {
+            m_sound.pause();
             m_data->machine.AddState( StateRef( new PauseState( m_data ) ), true );
         }
     }
@@ -54,7 +61,7 @@ void GameState::Draw( float dt )
 //Private function
 std::string GameState::getPath()
 {
-    std::string path = "../resources/img/Board" + std::to_string(m_numLevel) + ".txt";
+    std::string path = "../resources/levels/Board" + std::to_string(m_numLevel) + ".txt";
     return path;
 }
 

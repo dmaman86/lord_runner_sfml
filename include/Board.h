@@ -5,15 +5,15 @@
 #include <string>
 #include <memory>
 
-#include "Picture.h"
-#include "StaticObj.h"
-#include "Monster.h"
-#include "Player.h"
-#include "Creature.h"
-#include "Flor.h"
-#include "Ladder.h"
-#include "Coin.h"
-#include "Ropes.h"
+#include "models/Picture.h"
+#include "models/StaticObj.h"
+#include "models/Monster.h"
+#include "models/Player.h"
+#include "models/Creature.h"
+#include "models/Flor.h"
+#include "models/Ladder.h"
+#include "models/Coin.h"
+#include "models/Ropes.h"
 
 
 

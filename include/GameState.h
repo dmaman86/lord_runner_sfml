@@ -34,4 +34,7 @@ private:
     void read_data( std::ifstream & );
 
     int m_numLevel = 1;
+
+    sf::SoundBuffer m_soundBuffer;
+    sf::Sound m_sound;
 };
