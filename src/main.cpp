@@ -7,7 +7,7 @@
 int main()
 {
     try{
-        Game game( 1024, 768, "Lord Runner Game" );
+        Game game( 1920, 1080, "Lord Runner Game" );
         game.Run();
 
     }catch( std::exception & err )

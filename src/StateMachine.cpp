@@ -2,7 +2,7 @@
 
 void StateMachine::AddState( StateRef newState, bool isReplacing )
 {
-    this->m_m_isAdding = true;
+    this->m_isAdding = true;
     this->m_isReplacing = isReplacing;
 
     this->m_newState = std::move( newState );
@@ -24,7 +24,7 @@ void StateMachine::ProcessStateChange()
         this->m_isRemoving = false;
     }
 
-    if( this->m_m_isAdding )
+    if( this->m_isAdding )
     {
         if( !this->m_states.empty() )
         {
@@ -35,7 +35,7 @@ void StateMachine::ProcessStateChange()
         }
         this->m_states.push( std::move( this->m_newState ) );
         this->m_states.top()->Init();
-        this->m_m_isAdding = false;
+        this->m_isAdding = false;
     }
 }
 

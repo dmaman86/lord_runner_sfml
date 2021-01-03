@@ -24,6 +24,6 @@ private:
     StateRef m_newState;
 
     bool m_isRemoving;
-    bool m_m_isAdding;
+    bool m_isAdding;
     bool m_isReplacing;
 };

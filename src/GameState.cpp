@@ -1,7 +1,12 @@
 #include "GameState.h"
 #include "PauseState.h"
 
-GameState::GameState( GameDataRef data ) : m_data( data ) {}
+GameState::GameState( GameDataRef data ) : m_data( data )
+{
+    std::ifstream fd_readLevel( getPath() );
+    if( fd_readLevel.is_open() )
+        read_data( fd_readLevel );
+}
 
 void GameState::Init()
 {
@@ -28,7 +33,7 @@ void GameState::HandleInput()
 
 void GameState::Update( float dt )
 {
-
+    m_board.update( dt );
 }
 
 void GameState::Draw( float dt )
@@ -37,6 +42,44 @@ void GameState::Draw( float dt )
 
     m_data->window.draw( m_background );
 
+    m_board.renderStaticObj( &m_data->window );
+
+    m_board.renderMonster( &m_data->window );
+
+    m_board.renderPlayer( &m_data->window );
+
     m_data->window.display();
 }
+
+//Private function
+std::string GameState::getPath()
+{
+    std::string path = "../resources/img/Board" + std::to_string(m_numLevel) + ".txt";
+    return path;
+}
+
+void GameState::read_data(std::ifstream& fd_readLevel)
+{
+    //std::string heightStr, weidthStr;
+    size_t height, weidth;
+    char c;
+
+    fd_readLevel >> height;
+    fd_readLevel >> weidth;
+    this->m_board.initAvg(height, weidth);
+
+    fd_readLevel.get(c);	//eat '\n'
+    for (size_t i = 0; i < height ;i++)
+    {
+        for (size_t j = 0; j < weidth;j++)
+        {
+            fd_readLevel.get(c);
+            m_board.initData(sf::Vector2f((float)j, (float)i), c);
+        }
+        fd_readLevel.get(c);	//eat '\n'
+    }
+
+    fd_readLevel.close();
+}
+
 
