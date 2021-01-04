@@ -3,7 +3,7 @@
 
 # screenshot open
 
-![ Alt text ]( resources/screenshot/open_screen.png=120*120)
+![ Alt text ]( resources/screenshot/open_screen.png?raw=true)
 
 # screenshot menu game
 
