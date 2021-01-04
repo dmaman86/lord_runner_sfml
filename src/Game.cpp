@@ -1,11 +1,13 @@
 #include "Game.h"
 #include "SplashState.h"
+#include "StateStack.h"
 
 Game::Game( int width, int height, std::string title )
 {
     m_data->window.create( sf::VideoMode( width, height ), title );
 
     m_data->machine.AddState( StateRef( new SplashState( this->m_data ) ) );
+    // m_data->machine.pushState( StateRef( new SplashState( this->m_data ) ) );
 
     // this->Run();
 }
@@ -33,10 +35,10 @@ void Game::Run()
 
         while( accumulator >= dt )
         {
+            accumulator -= dt;
+            this->m_data->machine.GetActiveState()->PlaySound();
             this->m_data->machine.GetActiveState()->HandleInput();
             this->m_data->machine.GetActiveState()->Update( dt );
-
-            accumulator -= dt;
         }
 
         interpolation = accumulator / dt;

@@ -7,7 +7,15 @@
 #include "MainMenuState.h"
 
 PauseState::PauseState( GameDataRef data )
-    :m_data( data )
+    :m_data( data ), m_isResetGamePressed( false ),
+    m_isResetGameSelected( false ), m_isReturnGamePressed( false ),
+    m_isReturnGameSelected( false ), m_isBackMenuPressed( false ),
+    m_isBackMenuSelected( false )
+{
+
+}
+
+PauseState::~PauseState()
 {
 
 }
@@ -38,7 +46,7 @@ void PauseState::Init()
     text.setFont( m_data->assets.GetFont( "Main Menu Font" ) );
     text.setCharacterSize( 24 );
     text.setStyle( sf::Text::Bold );
-    for( size_t i = 0; i < 2; i++ )
+    for( size_t i = 0; i < 3; i++ )
     {
         m_buttons.push_back( text );
 
@@ -52,6 +60,13 @@ void PauseState::Init()
     m_buttons[ 0 ].setFillColor( sf::Color::White );
     m_buttons[ 1 ].setString( "Back Menu" );
     m_buttons[ 1 ].setFillColor( sf::Color::White );
+    m_buttons[ 2 ].setString( "Restart Game" );
+    m_buttons[ 2 ].setFillColor( sf::Color::White );
+}
+
+void PauseState::PlaySound()
+{
+
 }
 
 void PauseState::HandleInput()
@@ -63,20 +78,41 @@ void PauseState::HandleInput()
         if( sf::Event::Closed == event.type )
             m_data->window.close();
 
-        if( m_data->input.isSpriteClicked( m_buttons[ 0 ], sf::Mouse::Left, m_data->window ) )
+        if( ( m_isReturnGamePressed = m_data->input.isSpriteClicked( m_buttons[ 0 ], sf::Mouse::Left, m_data->window ) ) == true )
         {
-            std::cout << "Return to Game" << std::endl;
+            m_isReturnGameSelected = true;
+            m_isBackMenuSelected = false;
+            m_isResetGameSelected = false;
         }
-        if( m_data->input.isSpriteClicked( m_buttons[ 1 ], sf::Mouse::Left, m_data->window ) )
+        if( ( m_isBackMenuPressed = m_data->input.isSpriteClicked( m_buttons[ 1 ], sf::Mouse::Left, m_data->window ) ) == true )
         {
-            std::cout << "Return to Menu" << std::endl;
+            m_isReturnGameSelected = false;
+            m_isBackMenuSelected = true;
+            m_isResetGameSelected = false;
+        }
+        if( ( m_isResetGamePressed = m_data->input.isSpriteClicked( m_buttons[ 2 ], sf::Mouse::Left, m_data->window ) ) == true )
+        {
+            m_isReturnGameSelected = false;
+            m_isBackMenuSelected = false;
+            m_isResetGameSelected = true;
         }
     }
 }
 
 void PauseState::Update( float dt )
 {
-
+    if( m_isReturnGameSelected )
+    {
+        m_data->machine.AddState( StateRef( new GameState( m_data ) ) );
+    }
+    else if( m_isBackMenuSelected )
+    {
+        m_data->machine.AddState( StateRef( new MainMenuState( m_data ) ) );
+    }
+    else if( m_isResetGameSelected )
+    {
+        m_data->machine.AddState( StateRef( new GameState( m_data ) ), true );
+    }
 }
 
 void PauseState::Draw( float dt )

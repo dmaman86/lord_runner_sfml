@@ -31,13 +31,18 @@ void SplashState::Init()
 
 }
 
+void SplashState::PlaySound()
+{
+    // m_sound.play();
+}
+
 void SplashState::HandleInput()
 {
     sf::Event event;
 
     while( m_data->window.pollEvent( event ) )
     {
-        m_sound.play();
+        // m_sound.pause();
         if( sf::Event::Closed == event.type )
             m_data->window.close();
     }
@@ -47,7 +52,7 @@ void SplashState::Update( float dt )
 {
     if( m_clock.getElapsedTime().asSeconds() > 3.0 )
     {
-        m_sound.pause();
+        // m_sound.pause();
         m_data->machine.AddState( StateRef( new MainMenuState( m_data ) ), true );
     }
 }

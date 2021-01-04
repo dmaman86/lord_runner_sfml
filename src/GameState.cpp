@@ -1,7 +1,7 @@
 #include "GameState.h"
 #include "PauseState.h"
 
-GameState::GameState( GameDataRef data ) : m_data( data )
+GameState::GameState( GameDataRef data ) : m_data( data ), m_isPause( false )
 {
     std::ifstream fd_readLevel( getPath() );
     if( fd_readLevel.is_open() )
@@ -17,6 +17,14 @@ void GameState::Init()
         std::cout << "Error loading Open Sound Effect" << std::endl;
 
     m_sound.setBuffer( m_soundBuffer );
+
+    if( !m_music.openFromFile( "../resources/sounds/gamesound.wav" ) )
+        std::cout << "Error loading Open Sound Effect" << std::endl;
+}
+
+void GameState::PlaySound()
+{
+    // m_music.play();
 }
 
 void GameState::HandleInput()
@@ -25,22 +33,25 @@ void GameState::HandleInput()
 
     while( m_data->window.pollEvent( event ) )
     {
-        m_sound.play();
         if( sf::Event::Closed == event.type )
             m_data->window.close();
         if( sf::Keyboard::isKeyPressed( sf::Keyboard::Escape ) )
             m_data->window.close();
         if( sf::Keyboard::isKeyPressed( sf::Keyboard::Space ) )
-        {
-            m_sound.pause();
-            m_data->machine.AddState( StateRef( new PauseState( m_data ) ), true );
-        }
+            m_isPause = true;
     }
 }
 
 void GameState::Update( float dt )
 {
+    // m_music.play();
     m_board.update( dt );
+
+    if( m_isPause )
+    {
+        m_isPause = false;
+        m_data->machine.AddState( StateRef( new PauseState( m_data ) ), true );
+    }
 }
 
 void GameState::Draw( float dt )

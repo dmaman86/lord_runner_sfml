@@ -8,6 +8,16 @@
 MainMenuState::MainMenuState( GameDataRef data )
     :m_data( data )
 {
+    m_isPlayButtonSelected = false;
+    m_isPlayButtonPressed = false;
+    m_isSettingsButtonSelected = false;
+    m_isSettingsButtonPressed = false;
+    m_isAboutOurSelected = false;
+    m_isAboutOurPressed = false;
+}
+
+MainMenuState::~MainMenuState()
+{
 
 }
 
@@ -29,6 +39,9 @@ void MainMenuState::Init()
         std::cout << "Error loading Open Sound Effect" << std::endl;
 
     m_sound.setBuffer( m_soundBuffer );
+
+    if( !m_music.openFromFile( "../resources/sounds/menusound.wav" ) )
+        std::cout << "Error loading Open Sound Effect" << std::endl;
 
     sf::Text text;
 
@@ -54,50 +67,78 @@ void MainMenuState::Init()
     m_buttons[ 2 ].setFillColor( sf::Color::White );
 }
 
+void MainMenuState::PlaySound()
+{
+    // m_music.play();
+}
+
 void MainMenuState::HandleInput()
 {
     sf::Event event;
 
     while( m_data->window.pollEvent( event ) )
     {
-        m_sound.play();
         if( sf::Event::Closed == event.type )
             m_data->window.close();
 
-        if( m_data->input.isSpriteClicked( m_buttons[ 0 ], sf::Mouse::Left, m_data->window ) )
+        if( ( m_isPlayButtonPressed = m_data->input.isSpriteClicked( m_buttons[ 0 ], sf::Mouse::Left, m_data->window ) ) == true )
         {
-            m_sound.pause();
-            m_buttons[ 0 ].setFillColor( sf::Color::Black );
-            m_buttons[ 1 ].setFillColor( sf::Color::White );
-            m_buttons[ 2 ].setFillColor( sf::Color::White );
-            std::cout << "Go to Game Screen" << std::endl;
-            m_data->machine.AddState( StateRef( new GameState( m_data ) ), true );
+            m_isPlayButtonSelected = true;
+            m_isSettingsButtonSelected = false;
+            m_isAboutOurSelected = false;
         }
 
-        if( m_data->input.isSpriteClicked( m_buttons[ 1 ], sf::Mouse::Left, m_data->window ) )
+        if( ( m_isSettingsButtonPressed = m_data->input.isSpriteClicked( m_buttons[ 1 ], sf::Mouse::Left, m_data->window ) ) == true )
         {
-            m_sound.pause();
-            m_buttons[ 1 ].setFillColor( sf::Color::Black );
-            m_buttons[ 0 ].setFillColor( sf::Color::White );
-            m_buttons[ 2 ].setFillColor( sf::Color::White );
-            std::cout << "Go to Settings Screen" << std::endl;
+            m_isSettingsButtonSelected = true;
+            m_isPlayButtonSelected = false;
+            m_isAboutOurSelected = false;
         }
 
 
-        if( m_data->input.isSpriteClicked( m_buttons[ 2 ], sf::Mouse::Left, m_data->window ) )
+        if( ( m_isAboutOurPressed = m_data->input.isSpriteClicked( m_buttons[ 2 ], sf::Mouse::Left, m_data->window ) ) == true )
         {
-            m_sound.pause();
-            m_buttons[ 2 ].setFillColor( sf::Color::Black );
-            m_buttons[ 0 ].setFillColor( sf::Color::White );
-            m_buttons[ 1 ].setFillColor( sf::Color::White );
-            std::cout << "Go to About Our Screen" << std::endl;
+            m_isAboutOurSelected = true;
+            m_isPlayButtonSelected = false;
+            m_isSettingsButtonSelected = false;
         }
     }
 }
 
 void MainMenuState::Update( float dt )
 {
+    if( m_isPlayButtonSelected )
+    {
+        m_buttons[ 0 ].setFillColor( sf::Color::Black );
+        m_buttons[ 1 ].setFillColor( sf::Color::White );
+        m_buttons[ 2 ].setFillColor( sf::Color::White );
+    }
+    else if( m_isSettingsButtonSelected )
+    {
+        m_buttons[ 1 ].setFillColor( sf::Color::Black );
+        m_buttons[ 0 ].setFillColor( sf::Color::White );
+        m_buttons[ 2 ].setFillColor( sf::Color::White );
+    }
+    else
+    {
+        m_buttons[ 2 ].setFillColor( sf::Color::Black );
+        m_buttons[ 0 ].setFillColor( sf::Color::White );
+        m_buttons[ 1 ].setFillColor( sf::Color::White );
+    }
 
+    if( m_isPlayButtonPressed )
+    {
+        // m_music.pause();
+        m_data->machine.AddState( StateRef( new GameState( m_data ) ), true );
+    }
+    else if( m_isSettingsButtonPressed )
+    {
+        std::cout << "Go to Setting Screen" << std::endl;
+    }
+    else if( m_isAboutOurPressed )
+    {
+        std::cout << "Go to About Out Screen" << std::endl;
+    }
 }
 
 void MainMenuState::Draw( float dt )
