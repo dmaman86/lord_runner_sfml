@@ -18,5 +18,4 @@ target_sources (final_sfml PRIVATE "main.cpp"
 								   "models/Coin.cpp"
 								   "models/Ladder.cpp"
 								   "models/Ropes.cpp"
-								   "models/Picture.cpp"
-									"StateStack.cpp")
+								   "models/Picture.cpp")
