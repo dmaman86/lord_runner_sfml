@@ -25,7 +25,7 @@ void PauseState::Init()
     sf::Vector2u textureSize, windowSize;
 
     m_data->assets.LoadTexture( "Main Menu BackGround",
-                                "../resources/img/background_menu.png" );
+                                "background_menu.png" );
 
     windowSize = this->m_data->window.getSize();
     textureSize = this->m_data->assets.GetTexture( "Main Menu BackGround" ).getSize();
@@ -34,7 +34,7 @@ void PauseState::Init()
     m_background.setScale( ( float )windowSize.x / textureSize.x,
                            ( float )windowSize.y / textureSize.y );
 
-    m_data->assets.LoadFont( "Main Menu Font", "../resources/fonts/arial.ttf" );
+    m_data->assets.LoadFont( "Main Menu Font", "arial.ttf" );
 
     m_paused_text.setFont( m_data->assets.GetFont( "Main Menu Font" ) );
     m_paused_text.setString( "Game Paused" );

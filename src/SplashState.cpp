@@ -14,13 +14,13 @@ void SplashState::Init()
 {
     sf::Vector2u textureSize, windowSize;
 
-    if( !m_soundBuffer.loadFromFile( "../resources/sounds/open.wav" ) )
+    if( !m_soundBuffer.loadFromFile( "open.wav" ) )
         std::cout << "Error loading Open Sound Effect" << std::endl;
 
     m_sound.setBuffer( m_soundBuffer );
 
     m_data->assets.LoadTexture( "Splash State Background",
-                                "../resources/img/splash-background.png" );
+                                "splash-background.png" );
 
     windowSize = this->m_data->window.getSize();
     textureSize = this->m_data->assets.GetTexture( "Splash State Background" ).getSize();

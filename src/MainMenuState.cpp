@@ -26,7 +26,7 @@ void MainMenuState::Init()
     sf::Vector2u textureSize, windowSize;
 
     m_data->assets.LoadTexture( "Main Menu BackGround",
-                                "../resources/img/background_menu.png" );
+                                "background_menu.png" );
 
     windowSize = this->m_data->window.getSize();
     textureSize = this->m_data->assets.GetTexture( "Main Menu BackGround" ).getSize();
@@ -35,17 +35,17 @@ void MainMenuState::Init()
     m_background.setScale( ( float )windowSize.x / textureSize.x,
                            ( float )windowSize.y / textureSize.y );
 
-    if( !m_soundBuffer.loadFromFile( "../resources/sounds/menusound.wav" ) )
+    if( !m_soundBuffer.loadFromFile( "menusound.wav" ) )
         std::cout << "Error loading Open Sound Effect" << std::endl;
 
     m_sound.setBuffer( m_soundBuffer );
 
-    if( !m_music.openFromFile( "../resources/sounds/menusound.wav" ) )
+    if( !m_music.openFromFile( "menusound.wav" ) )
         std::cout << "Error loading Open Sound Effect" << std::endl;
 
     sf::Text text;
 
-    m_data->assets.LoadFont( "Main Menu Font", "../resources/fonts/arial.ttf" );
+    m_data->assets.LoadFont( "Main Menu Font", "arial.ttf" );
     text.setFont( m_data->assets.GetFont( "Main Menu Font" ) );
     text.setCharacterSize( 24 );
     text.setStyle( sf::Text::Bold );

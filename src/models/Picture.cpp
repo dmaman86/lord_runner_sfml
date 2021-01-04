@@ -15,12 +15,12 @@ Picture::~Picture()
 //====================================================
 void Picture::loadTextureName()		//load from text 
 {
-	m_texture_name[0] = "../resources/img/hero.png";
-	m_texture_name[1] = "../resources/img/monster.png";
-	m_texture_name[2] = "../resources/img/coin.png";
-	m_texture_name[3] = "../resources/img/wall.png";
-	m_texture_name[4] = "../resources/img/ropes.png";
-	m_texture_name[5] = "../resources/img/ladder.png";
+	m_texture_name[0] = "hero.png";
+	m_texture_name[1] = "monster.png";
+	m_texture_name[2] = "coin.png";
+	m_texture_name[3] = "wall.png";
+	m_texture_name[4] = "ropes.png";
+	m_texture_name[5] = "ladder.png";
 }
 
 //====================================================

@@ -10,15 +10,15 @@ GameState::GameState( GameDataRef data ) : m_data( data ), m_isPause( false )
 
 void GameState::Init()
 {
-    m_data->assets.LoadTexture( "Game Background", "../resources/img/background.png" );
+    m_data->assets.LoadTexture( "Game Background", "background.png" );
     m_background.setTexture( this->m_data->assets.GetTexture( "Game Background" ) );
 
-    if( !m_soundBuffer.loadFromFile( "../resources/sounds/gamesound.wav" ) )
+    if( !m_soundBuffer.loadFromFile( "gamesound.wav" ) )
         std::cout << "Error loading Open Sound Effect" << std::endl;
 
     m_sound.setBuffer( m_soundBuffer );
 
-    if( !m_music.openFromFile( "../resources/sounds/gamesound.wav" ) )
+    if( !m_music.openFromFile( "gamesound.wav" ) )
         std::cout << "Error loading Open Sound Effect" << std::endl;
 }
 
@@ -72,7 +72,7 @@ void GameState::Draw( float dt )
 //Private function
 std::string GameState::getPath()
 {
-    std::string path = "../resources/levels/Board" + std::to_string(m_numLevel) + ".txt";
+    std::string path = "Board" + std::to_string(m_numLevel) + ".txt";
     return path;
 }
 
