@@ -1,7 +1,5 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-
 class State{
 public:
 
@@ -13,5 +11,4 @@ public:
 
     virtual void Pause(){ }
     virtual void Resume(){ }
-    virtual void Start(){ }
 };

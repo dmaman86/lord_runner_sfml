@@ -19,6 +19,9 @@ void SplashState::Init()
 
     m_sound.setBuffer( m_soundBuffer );
 
+    if( !m_music.openFromFile( "open.wav" ) )
+        std::cout << "Error loading Open Sound Effect" << std::endl;
+
     m_data->assets.LoadTexture( "Splash State Background",
                                 "splash-background.png" );
 
@@ -33,7 +36,7 @@ void SplashState::Init()
 
 void SplashState::PlaySound()
 {
-    // m_sound.play();
+    m_music.play();
 }
 
 void SplashState::HandleInput()
@@ -52,7 +55,7 @@ void SplashState::Update( float dt )
 {
     if( m_clock.getElapsedTime().asSeconds() > 3.0 )
     {
-        // m_sound.pause();
+        m_music.stop();
         m_data->machine.AddState( StateRef( new MainMenuState( m_data ) ), true );
     }
 }

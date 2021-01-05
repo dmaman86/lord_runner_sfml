@@ -15,12 +15,25 @@ add_subdirectory (include)
 add_subdirectory (src)
 add_subdirectory(resources)
 
-#this is for macos==============================
-include_directories(/usr/local/include)
+if( APPLE )
+    #this is for macos==============================
+    include_directories(/usr/local/include)
 
-find_package(SFML 2.5.1 COMPONENTS system window graphics network audio REQUIRED)
-if (SFML_FOUND)
-    include_directories(${SFML_INCLUDE_DIRS})
-    target_link_libraries(final_sfml sfml-window sfml-graphics sfml-audio sfml-network)
+    find_package(SFML 2.5.1 COMPONENTS system window graphics network audio REQUIRED)
+    if (SFML_FOUND)
+        include_directories(${SFML_INCLUDE_DIRS})
+        target_link_libraries(final_sfml sfml-window sfml-graphics sfml-audio sfml-network)
+    endif()
+    #=========================================
+else()
+    #this is for windows==============================
+    set (SFML_STATIC_LIBRARIES TRUE)
+    set (SFML_DIR "C:/SFML/SFML-2.5.1/lib/cmake/SFML")
+
+    find_package (SFML 2.5 COMPONENTS graphics REQUIRED)
+
+    set_target_properties (sfml-main sfml-system sfml-window sfml-graphics sfml-audio sfml-network PROPERTIES MAP_IMPORTED_CONFIG_RELWITHDEBINFO RELEASE)
+
+    target_link_libraries (final_sfml sfml-graphics sfml-main)
+    #=========================================
 endif()
-#=========================================

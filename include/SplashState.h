@@ -21,4 +21,6 @@ private:
 
     sf::SoundBuffer m_soundBuffer;
     sf::Sound m_sound;
+
+    sf::Music m_music;
 };
