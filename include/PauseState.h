@@ -7,7 +7,7 @@
 
 class PauseState : public State{
 public:
-    PauseState( GameDataRef data );
+    PauseState( GameDataRef & data );
     ~PauseState();
 
     void Init() override;
@@ -23,9 +23,6 @@ private:
     std::vector< sf::Text > m_buttons;
 
     void centerOrigin( sf::Text & );
-
-    bool m_isReturnGameSelected;
-    bool m_isReturnGamePressed;
 
     bool m_isBackMenuSelected;
     bool m_isBackMenuPressed;

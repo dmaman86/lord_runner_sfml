@@ -1,7 +1,7 @@
 #include "GameState.h"
 #include "PauseState.h"
 
-GameState::GameState( GameDataRef data ) : m_data( data ), m_isPause( false )
+GameState::GameState( GameDataRef & data ) : m_data( data ), m_isPause( false )
 {
     std::ifstream fd_readLevel( getPath() );
     if( fd_readLevel.is_open() )

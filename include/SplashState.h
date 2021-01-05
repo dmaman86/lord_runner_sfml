@@ -7,7 +7,7 @@
 
 class SplashState : public State{
 public:
-    SplashState( GameDataRef data );
+    SplashState( GameDataRef & data );
 
     void Init() override;
     void PlaySound() override;

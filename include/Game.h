@@ -10,7 +10,6 @@
 
 struct GameData{
     StateMachine machine;
-    // StateStack machine;
     sf::RenderWindow window;
     AssetManager assets;
     InputManager input;

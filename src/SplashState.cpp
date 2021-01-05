@@ -4,7 +4,7 @@
 #include "SplashState.h"
 #include "MainMenuState.h"
 
-SplashState::SplashState( GameDataRef data )
+SplashState::SplashState( GameDataRef & data )
     :m_data( data )
 {
 
@@ -36,7 +36,7 @@ void SplashState::Init()
 
 void SplashState::PlaySound()
 {
-    m_music.play();
+    // m_sound.play();
 }
 
 void SplashState::HandleInput()
@@ -45,9 +45,12 @@ void SplashState::HandleInput()
 
     while( m_data->window.pollEvent( event ) )
     {
-        // m_sound.pause();
+        m_sound.play();
         if( sf::Event::Closed == event.type )
+        {
+            m_sound.pause();
             m_data->window.close();
+        }
     }
 }
 
@@ -55,7 +58,7 @@ void SplashState::Update( float dt )
 {
     if( m_clock.getElapsedTime().asSeconds() > 3.0 )
     {
-        m_music.stop();
+        m_sound.pause();
         m_data->machine.AddState( StateRef( new MainMenuState( m_data ) ), true );
     }
 }

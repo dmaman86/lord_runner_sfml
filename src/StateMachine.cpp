@@ -61,3 +61,10 @@ StateRef& StateMachine::GetActiveState()
 {
     return this->m_states.top();
 }
+
+
+void StateMachine::ChangeState()
+{
+    this->m_states.pop();
+    this->m_states.push( std::move( GetActiveState() ) );
+}

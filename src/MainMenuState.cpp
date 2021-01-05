@@ -5,7 +5,7 @@
 #include "GameState.h"
 
 
-MainMenuState::MainMenuState( GameDataRef data )
+MainMenuState::MainMenuState( GameDataRef & data )
     :m_data( data )
 {
     m_isPlayButtonSelected = false;
@@ -57,29 +57,37 @@ void MainMenuState::Init()
                                   m_buttons[ i ].getLocalBounds().height / 2 );
         m_buttons[ i ].setPosition( sf::Vector2f( windowSize.x / 2,
                                                   ( windowSize.y / 2 ) + ( i * 100 ) ) );
+        m_buttons[ i ].setFillColor( sf::Color::White );
     }
 
     m_buttons[ 0 ].setString( "Play Game" );
-    m_buttons[ 0 ].setFillColor( sf::Color::White );
     m_buttons[ 1 ].setString( "Settings Game" );
-    m_buttons[ 1 ].setFillColor( sf::Color::White );
     m_buttons[ 2 ].setString( "About Our" );
-    m_buttons[ 2 ].setFillColor( sf::Color::White );
 }
 
 void MainMenuState::PlaySound()
 {
-    // m_music.play();
+    m_sound.play();
 }
 
 void MainMenuState::HandleInput()
 {
     sf::Event event;
 
+    // m_sound.play();
     while( m_data->window.pollEvent( event ) )
     {
+        // m_sound.play();
         if( sf::Event::Closed == event.type )
+        {
+            m_sound.pause();
             m_data->window.close();
+        }
+        if( sf::Keyboard::isKeyPressed( sf::Keyboard::Escape ) )
+        {
+            m_sound.pause();
+            m_data->window.close();
+        }
 
         if( ( m_isPlayButtonPressed = m_data->input.isSpriteClicked( m_buttons[ 0 ], sf::Mouse::Left, m_data->window ) ) == true )
         {
@@ -115,20 +123,21 @@ void MainMenuState::Update( float dt )
     }
     else if( m_isSettingsButtonSelected )
     {
-        m_buttons[ 1 ].setFillColor( sf::Color::Black );
         m_buttons[ 0 ].setFillColor( sf::Color::White );
+        m_buttons[ 1 ].setFillColor( sf::Color::Black );
         m_buttons[ 2 ].setFillColor( sf::Color::White );
     }
     else
     {
-        m_buttons[ 2 ].setFillColor( sf::Color::Black );
         m_buttons[ 0 ].setFillColor( sf::Color::White );
         m_buttons[ 1 ].setFillColor( sf::Color::White );
+        m_buttons[ 2 ].setFillColor( sf::Color::Black );
     }
 
     if( m_isPlayButtonPressed )
     {
         // m_music.pause();
+        m_sound.pause();
         m_data->machine.AddState( StateRef( new GameState( m_data ) ), true );
     }
     else if( m_isSettingsButtonPressed )

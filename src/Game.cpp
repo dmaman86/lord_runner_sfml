@@ -38,6 +38,7 @@ void Game::Run()
         }
 
         interpolation = accumulator / dt;
+        this->m_data->machine.GetActiveState()->PlaySound();
         this->m_data->machine.GetActiveState()->Draw( interpolation );
     }
 }

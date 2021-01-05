@@ -8,7 +8,7 @@
 
 class MainMenuState : public State{
 public:
-    MainMenuState( GameDataRef data );
+    MainMenuState( GameDataRef & data );
     ~MainMenuState();
 
     void Init() override;

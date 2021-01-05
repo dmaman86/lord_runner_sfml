@@ -21,6 +21,8 @@ public:
 
     StateRef& GetActiveState();
 
+    void ChangeState();
+
 private:
     std::stack< StateRef > m_states;
     StateRef m_newState;

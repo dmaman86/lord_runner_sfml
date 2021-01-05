@@ -18,7 +18,7 @@
 class GameState : public State
 {
 public:
-    GameState( GameDataRef data );
+    GameState( GameDataRef &data );
 
     void Init() override;
     void PlaySound() override;
