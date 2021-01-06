@@ -15,5 +15,7 @@ int main()
         std::cout << "Exception: " << err.what() << std::endl;
     }
 
+	std::cout << "Daniel Mehatzven" << std::endl;
+
     return( EXIT_SUCCESS );
 }
