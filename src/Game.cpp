@@ -10,36 +10,21 @@ Game::Game( int width, int height, std::string title )
 
 void Game::Run()
 {
-    float newTime, frameTime, interpolation;
-
-    float currentTime = this->m_clock.getElapsedTime().asSeconds();
-
     float accumulator = 0.0f;
 
     while( this->m_data->window.isOpen() )
     {
-        this->m_data->machine.ProcessStateChange();
+        accumulator += this->m_clock.restart().asSeconds();
 
-        newTime = this->m_clock.getElapsedTime().asSeconds();
-        frameTime = newTime - currentTime;
-
-        if( frameTime > 0.25f )
-            frameTime = 0.25f;
-
-        currentTime = newTime;
-        accumulator += frameTime;
-
-        while( accumulator >= m_dt )
+        while( accumulator > m_dt )
         {
             accumulator -= m_dt;
 
+            this->m_data->machine.ProcessStateChange();
             this->m_data->machine.GetActiveState()->HandleInput();
             this->m_data->machine.GetActiveState()->Update( m_dt );
+            this->m_data->machine.GetActiveState()->PlaySound( m_dt );
+            this->m_data->machine.GetActiveState()->Draw( m_dt );
         }
-
-        interpolation = accumulator / m_dt;
-        this->m_data->machine.GetActiveState()->PlaySound( interpolation );
-        this->m_data->machine.GetActiveState()->Draw( interpolation );
-        // this->m_data->machine.GetActiveState()->PlaySound( interpolation );
     }
 }
