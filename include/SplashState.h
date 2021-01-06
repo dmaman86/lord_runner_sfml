@@ -8,7 +8,7 @@
 class SplashState : public State{
 public:
     SplashState( GameDataRef & data );
-
+    ~SplashState();
     void Init() override;
     void HandleInput() override;
     void Update( float dt ) override;

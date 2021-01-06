@@ -8,6 +8,11 @@ GameState::GameState( GameDataRef & data ) : m_data( data ), m_isPause( false )
         read_data( fd_readLevel );
 }
 
+GameState::~GameState()
+{
+
+}
+
 void GameState::Init()
 {
     m_data->assets.LoadTexture( "Game Background", "background.png" );

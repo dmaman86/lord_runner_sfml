@@ -96,6 +96,7 @@ void PauseState::Update( float dt )
     }
     else if( m_isResetGameSelected )
     {
+        m_data->machine.RemoveState();
         m_data->machine.AddState( StateRef( new GameState( m_data ) ), true );
     }
 }

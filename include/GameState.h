@@ -19,6 +19,7 @@ class GameState : public State
 {
 public:
     GameState( GameDataRef &data );
+    ~GameState();
 
     void Init() override;
     void HandleInput() override;

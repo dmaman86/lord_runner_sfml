@@ -10,6 +10,11 @@ SplashState::SplashState( GameDataRef & data )
 
 }
 
+SplashState::~SplashState()
+{
+
+}
+
 void SplashState::Init()
 {
     sf::Vector2u textureSize, windowSize;
