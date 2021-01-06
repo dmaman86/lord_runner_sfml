@@ -1,10 +1,8 @@
 #include "Board.h"
 
-Board::Board() : 
-	m_pic()   
-	//m_player(std::make_unique <Player>(sf::Vector2f(0.f,0.f), sf::Vector2f(50.f, 50.f), m_pic.getTxt(0)))
+Board::Board()
 {
-
+    initTextures();
 }
 
 Board::~Board() 
@@ -31,27 +29,41 @@ void Board::initData(sf::Vector2f pos, char c)
 		return;
 	if (c == '@')
 	{
-		m_player = std::make_unique <Player>(pos, m_avgPix, m_pic.getTxt(0));
+
+	    m_player = std::make_unique< Player >( pos, m_avgPix,
+                                            &m_textures.GetTexture( "Player Texture" ) );
+		// m_player = std::make_unique <Player>(pos, m_avgPix, m_pic.getTxt(0));
 	}
 	if (c == '%')
 	{
-		m_monsters.push_back(std::make_unique <Monster>(pos, m_avgPix, m_pic.getTxt(1)));
+
+	    m_monsters.push_back( std::make_unique< Monster >( pos, m_avgPix,
+                                                        &m_textures.GetTexture( "Monster Texture" ) ) );
+		// m_monsters.push_back(std::make_unique <Monster>(pos, m_avgPix, m_pic.getTxt(1)));
 	}
 	else if (c == '-')
 	{
-		m_static_obj.push_back(std::make_unique <Ropes>(pos, m_avgPix, m_pic.getTxt(4)));
+        m_static_obj.push_back( std::make_unique< Ropes >( pos, m_avgPix,
+                                                           &m_textures.GetTexture( "Ropes Texture" ) ) );
+		// m_static_obj.push_back(std::make_unique <Ropes>(pos, m_avgPix, m_pic.getTxt(4)));
 	}
 	else if (c == 'H')
 	{
-		m_static_obj.push_back(std::make_unique <Ladder>(pos, m_avgPix, m_pic.getTxt(5)));
+		// m_static_obj.push_back(std::make_unique <Ladder>(pos, m_avgPix, m_pic.getTxt(5)));
+        m_static_obj.push_back( std::make_unique< Ladder >( pos, m_avgPix,
+                                                           &m_textures.GetTexture( "Ladder Texture" ) ) );
 	}
 	else if (c == '#')
 	{
-		m_static_obj.push_back(std::make_unique <Flor>(pos, m_avgPix, m_pic.getTxt(3)));
+		// m_static_obj.push_back(std::make_unique <Flor>(pos, m_avgPix, m_pic.getTxt(3)));
+        m_static_obj.push_back( std::make_unique< Flor >( pos, m_avgPix,
+                                                           &m_textures.GetTexture( "Floor Texture" ) ) );
 	}
 	else if (c == '*')
 	{
-		m_static_obj.push_back(std::make_unique <Coin>(pos, m_avgPix, m_pic.getTxt(2)));
+		// m_static_obj.push_back(std::make_unique <Coin>(pos, m_avgPix, m_pic.getTxt(2)));
+        m_static_obj.push_back( std::make_unique< Coin >( pos, m_avgPix,
+                                                           &m_textures.GetTexture( "Coin Texture" ) ) );
 	}
 
 }
@@ -61,56 +73,6 @@ void Board::update(const float& dt)
 	this->updateCreature(dt,*this->m_player);
 	this->updateMonsters(dt);
 }
-
-/*
-bool Board::collisionFlor(sf::RectangleShape rec)
-{
-	for (int i = 0; i < m_static_obj.size();i++)
-	{
-		if (rec.getGlobalBounds().contains(m_static_obj[i].getPositionRec()) && m_static_obj[i].isFlor())
-		{
-			return true;
-		}
-	}
-	return false;
-}
-*/
-/*
-bool Board::collisionFlor(sf::RectangleShape rec)
-{
-	for (int i = 0; i < m_static_obj.size();i++)
-	{
-
-		if ((rec.getPosition().x - rec.getSize().x / 2 < m_static_obj[i]->getPositionRec().x + m_static_obj[i]->getSizeRec().x / 2 &&
-			rec.getPosition().x - rec.getSize().x / 2 > m_static_obj[i]->getPositionRec().x - m_static_obj[i]->getSizeRec().x / 2 &&
-			rec.getPosition().y + rec.getSize().y / 2 >= m_static_obj[i]->getPositionRec().y - m_static_obj[i]->getSizeRec().y / 2 &&
-			rec.getPosition().y - rec.getSize().y / 2 <= m_static_obj[i]->getPositionRec().y + m_static_obj[i]->getSizeRec().y / 2)
-			||
-			(rec.getPosition().x + rec.getSize().x / 2 > m_static_obj[i]->getPositionRec().x - m_static_obj[i]->getSizeRec().x / 2 &&
-				rec.getPosition().x + rec.getSize().x / 2 < m_static_obj[i]->getPositionRec().x + m_static_obj[i]->getSizeRec().x / 2 &&
-				rec.getPosition().y + rec.getSize().y / 2 >= m_static_obj[i]->getPositionRec().y - m_static_obj[i]->getSizeRec().y / 2 &&
-				rec.getPosition().y - rec.getSize().y / 2 <= m_static_obj[i]->getPositionRec().y + m_static_obj[i]->getSizeRec().y / 2))
-
-			return true;
-	}
-
-	return false;
-
-}
-*/
-/*
-void Board::updateCreature(const float& dt,Creature* creacure)
-{
-	creacure->setDirection();
-
-	sf::RectangleShape helper = creacure->getRecNextStep(dt);
-
-	if (!collisionFlor(helper))
-		creacure->move(dt);
-	
-	creacure->resetDirection();
-}
-*/
 
 void Board::collisionsStatic(Creature& creature)
 {
@@ -201,4 +163,15 @@ void Board::renderStaticObj(sf::RenderWindow* target)
 void Board::renderPlayer(sf::RenderWindow* target)
 {
 	m_player->render(target);
+}
+
+
+void Board::initTextures()
+{
+    m_textures.LoadTexture( "Player Texture", "hero.png" );
+    m_textures.LoadTexture( "Monster Texture", "monster.png" );
+    m_textures.LoadTexture( "Ropes Texture", "ropes.png" );
+    m_textures.LoadTexture( "Coin Texture", "coin.png" );
+    m_textures.LoadTexture( "Floor Texture", "wall.png" );
+    m_textures.LoadTexture( "Ladder Texture", "ladder.png" );
 }

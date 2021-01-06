@@ -43,7 +43,7 @@ void PauseState::Init()
 
     sf::Text text;
     text.setFont( m_data->assets.GetFont( "Main Menu Font" ) );
-    text.setCharacterSize( 24 );
+    text.setCharacterSize( 55 );
     text.setStyle( sf::Text::Bold );
     for( size_t i = 0; i < 2; i++ )
     {

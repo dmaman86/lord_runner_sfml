@@ -5,7 +5,6 @@
 #include <string>
 #include <memory>
 
-#include "models/Picture.h"
 #include "models/StaticObj.h"
 #include "models/Monster.h"
 #include "models/Player.h"
@@ -14,6 +13,8 @@
 #include "models/Ladder.h"
 #include "models/Coin.h"
 #include "models/Ropes.h"
+
+#include "AssetManager.h"
 
 
 
@@ -41,8 +42,7 @@ private:
 	//std::vector<StaticObj*> m_static_obj;
 	std::vector<std::unique_ptr<StaticObj>> m_static_obj;
 
-	
-	Picture m_pic;
+	AssetManager m_textures;
 
 	
 	//Player m_player;
@@ -54,6 +54,8 @@ private:
 	//bool collisionFlor(sf::RectangleShape rec);
 	void collisionsStatic(Creature& rec);
 	bool HaveSomthingToStand(Creature& creacure);
+
+	void initTextures();
 
 
 };

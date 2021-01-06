@@ -11,8 +11,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
-#include "Picture.h"
-
 // forward declaration
 class StaticObj;
 class Creature;
@@ -27,7 +25,7 @@ The root of tree inheritance
 Classes inherit directly : * StaticObj * Creature
 
 */ 
-class Object : public Picture
+class Object
 {
 
 public:
@@ -55,7 +53,7 @@ public:
 
 protected:
 	sf::Sprite* m_rec;
-	sf::Texture m_txt;
+	// sf::Texture m_txt;
 private:
 
 }; // end Object

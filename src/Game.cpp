@@ -3,7 +3,7 @@
 
 Game::Game( int width, int height, std::string title )
 {
-    m_data->window.create( sf::VideoMode( width, height ), title, sf::Style::Fullscreen );
+    m_data->window.create( sf::VideoMode( width, height ), title );
 
     m_data->machine.AddState( StateRef( new SplashState( this->m_data ) ) );
 }

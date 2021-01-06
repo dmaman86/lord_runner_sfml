@@ -28,7 +28,8 @@ void MainMenuState::Init()
     m_data->assets.LoadTexture( "Main Menu BackGround",
                                 "background_menu.png" );
 
-    m_data->assets.LoadMusicFile( "Music Menu", "menusound.wav" );
+    m_data->assets.LoadMusicFile( "Music Menu",
+                                  "menusound.wav" );
 
     if( m_music.openFromFile( m_data->assets.GetMusic( "Music Menu" ) ) )
         m_music.setLoop( true );
