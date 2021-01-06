@@ -47,6 +47,7 @@ void StateMachine::ProcessStateChange()
 
         this->m_states.push( std::move( this->m_newState ) );
         this->m_states.top()->Init();
+        // this->m_states.top()->PlaySound();
         this->m_states.top()->Resume();
         this->m_isAdding = false;
     }

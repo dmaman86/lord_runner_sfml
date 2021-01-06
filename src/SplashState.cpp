@@ -14,14 +14,10 @@ void SplashState::Init()
 {
     sf::Vector2u textureSize, windowSize;
 
-    if( !m_soundBuffer.loadFromFile( "open.wav" ) )
-        std::cout << "Error loading Open Sound Effect" << std::endl;
+    m_data->assets.LoadSoundFile( "Open Sound", "open.wav" );
 
-    m_sound.setBuffer( m_soundBuffer );
 
-    if( !m_music.openFromFile( "open.wav" ) )
-        std::cout << "Error loading Open Sound Effect" << std::endl;
-
+    m_sound.setBuffer( m_data->assets.GetSound( "Open Sound" ) );
     m_data->assets.LoadTexture( "Splash State Background",
                                 "splash-background.png" );
 
@@ -31,12 +27,17 @@ void SplashState::Init()
     m_background.setTexture( this->m_data->assets.GetTexture( "Splash State Background" ) );
     m_background.setScale( ( float )windowSize.x / textureSize.x,
                            ( float )windowSize.y / textureSize.y );
-
 }
 
-void SplashState::PlaySound()
+void SplashState::PlaySound( float dt )
 {
-    // m_sound.play();
+    static int i = 1;
+
+    if( i == 1 )
+    {
+        m_sound.play();
+        i++;
+    }
 }
 
 void SplashState::HandleInput()
@@ -45,10 +46,9 @@ void SplashState::HandleInput()
 
     while( m_data->window.pollEvent( event ) )
     {
-        m_sound.play();
         if( sf::Event::Closed == event.type )
         {
-            m_sound.pause();
+            m_sound.stop();
             m_data->window.close();
         }
     }

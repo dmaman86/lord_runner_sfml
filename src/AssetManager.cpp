@@ -25,3 +25,34 @@ sf::Font& AssetManager::GetFont( std::string name )
 {
     return this->m_fonts.at( name );
 }
+
+void AssetManager::LoadSoundFile( std::string name, std::string fileName )
+{
+    sf::SoundBuffer soundBuffer;
+
+    if( soundBuffer.loadFromFile( fileName ) )
+    {
+        this->m_sound[ name ] = soundBuffer;
+    }
+}
+
+sf::SoundBuffer& AssetManager::GetSound( std::string name )
+{
+    return this->m_sound.at( name );
+}
+
+void AssetManager::LoadMusicFile( std::string name, std::string fileName )
+{
+    sf::Music *music = new sf::Music;
+
+    if( music->openFromFile( fileName ) )
+    {
+        this->m_music[ name ] = fileName;
+    }
+}
+
+
+std::string& AssetManager::GetMusic( std::string name )
+{
+    return this->m_music.at( name );
+}

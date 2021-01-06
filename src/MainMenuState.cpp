@@ -28,6 +28,12 @@ void MainMenuState::Init()
     m_data->assets.LoadTexture( "Main Menu BackGround",
                                 "background_menu.png" );
 
+    m_data->assets.LoadMusicFile( "Music Menu", "menusound.wav" );
+
+    if( m_music.openFromFile( m_data->assets.GetMusic( "Music Menu" ) ) )
+        m_music.setLoop( true );
+
+
     windowSize = this->m_data->window.getSize();
     textureSize = this->m_data->assets.GetTexture( "Main Menu BackGround" ).getSize();
 
@@ -35,19 +41,11 @@ void MainMenuState::Init()
     m_background.setScale( ( float )windowSize.x / textureSize.x,
                            ( float )windowSize.y / textureSize.y );
 
-    if( !m_soundBuffer.loadFromFile( "menusound.wav" ) )
-        std::cout << "Error loading Open Sound Effect" << std::endl;
-
-    m_sound.setBuffer( m_soundBuffer );
-
-    if( !m_music.openFromFile( "menusound.wav" ) )
-        std::cout << "Error loading Open Sound Effect" << std::endl;
-
     sf::Text text;
 
     m_data->assets.LoadFont( "Main Menu Font", "arial.ttf" );
     text.setFont( m_data->assets.GetFont( "Main Menu Font" ) );
-    text.setCharacterSize( 24 );
+    text.setCharacterSize( 55 );
     text.setStyle( sf::Text::Bold );
     for( size_t i = 0; i < 3; i++ )
     {
@@ -65,50 +63,55 @@ void MainMenuState::Init()
     m_buttons[ 2 ].setString( "About Our" );
 }
 
-void MainMenuState::PlaySound()
+void MainMenuState::PlaySound( float dt )
 {
-    m_sound.play();
+    static int i = 1;
+
+    if( i == 1 )
+    {
+        m_music.play();
+        i++;
+    }
 }
 
 void MainMenuState::HandleInput()
 {
     sf::Event event;
 
-    // m_sound.play();
     while( m_data->window.pollEvent( event ) )
     {
-        // m_sound.play();
-        if( sf::Event::Closed == event.type )
+        if (sf::Event::Closed == event.type || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         {
-            m_sound.pause();
-            m_data->window.close();
-        }
-        if( sf::Keyboard::isKeyPressed( sf::Keyboard::Escape ) )
-        {
-            m_sound.pause();
+            m_music.stop();
             m_data->window.close();
         }
 
-        if( ( m_isPlayButtonPressed = m_data->input.isSpriteClicked( m_buttons[ 0 ], sf::Mouse::Left, m_data->window ) ) == true )
+        if (sf::Event::MouseButtonPressed)
         {
-            m_isPlayButtonSelected = true;
-            m_isSettingsButtonSelected = false;
-            m_isAboutOurSelected = false;
-        }
+            if ((m_isPlayButtonPressed = m_data->input.isSpriteClicked(m_buttons[0], sf::Mouse::Left,
+                                                                       m_data->window)) == true)
+            {
+                m_isPlayButtonSelected = true;
+                m_isSettingsButtonSelected = false;
+                m_isAboutOurSelected = false;
+            }
 
-        if( ( m_isSettingsButtonPressed = m_data->input.isSpriteClicked( m_buttons[ 1 ], sf::Mouse::Left, m_data->window ) ) == true )
-        {
-            m_isSettingsButtonSelected = true;
-            m_isPlayButtonSelected = false;
-            m_isAboutOurSelected = false;
-        }
+            if ((m_isSettingsButtonPressed = m_data->input.isSpriteClicked(m_buttons[1], sf::Mouse::Left,
+                                                                           m_data->window)) == true)
+            {
+                m_isSettingsButtonSelected = true;
+                m_isPlayButtonSelected = false;
+                m_isAboutOurSelected = false;
+            }
 
 
-        if( ( m_isAboutOurPressed = m_data->input.isSpriteClicked( m_buttons[ 2 ], sf::Mouse::Left, m_data->window ) ) == true )
-        {
-            m_isAboutOurSelected = true;
-            m_isPlayButtonSelected = false;
-            m_isSettingsButtonSelected = false;
+            if ((m_isAboutOurPressed = m_data->input.isSpriteClicked(m_buttons[2], sf::Mouse::Left,
+                                                                     m_data->window)) == true)
+            {
+                m_isAboutOurSelected = true;
+                m_isPlayButtonSelected = false;
+                m_isSettingsButtonSelected = false;
+            }
         }
     }
 }
@@ -136,8 +139,8 @@ void MainMenuState::Update( float dt )
 
     if( m_isPlayButtonPressed )
     {
-        // m_music.pause();
-        m_sound.pause();
+        // m_music_t.Stop();
+        m_music.stop();
         m_data->machine.AddState( StateRef( new GameState( m_data ) ), true );
     }
     else if( m_isSettingsButtonPressed )

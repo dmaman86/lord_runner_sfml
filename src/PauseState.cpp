@@ -61,7 +61,7 @@ void PauseState::Init()
     m_buttons[ 1 ].setFillColor( sf::Color::White );
 }
 
-void PauseState::PlaySound()
+void PauseState::PlaySound( float dt )
 {
 
 }

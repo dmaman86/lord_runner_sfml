@@ -32,13 +32,14 @@ void Game::Run()
         while( accumulator >= dt )
         {
             accumulator -= dt;
-            // this->m_data->machine.GetActiveState()->PlaySound();
+
             this->m_data->machine.GetActiveState()->HandleInput();
             this->m_data->machine.GetActiveState()->Update( dt );
         }
 
         interpolation = accumulator / dt;
-        this->m_data->machine.GetActiveState()->PlaySound();
+        this->m_data->machine.GetActiveState()->PlaySound( interpolation );
         this->m_data->machine.GetActiveState()->Draw( interpolation );
+        // this->m_data->machine.GetActiveState()->PlaySound( interpolation );
     }
 }
