@@ -1,7 +1,7 @@
 #include "models/Player.h"
 
 Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
-	Creature(pos, size, 250,txt) ,m_life(0),m_score(0)
+	DynamicObject(pos, size, 250,txt) ,m_life(0),m_score(0)
 {
 
 }

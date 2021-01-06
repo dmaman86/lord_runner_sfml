@@ -1,8 +1,8 @@
 #pragma once
 
-#include "models/Creature.h"
+#include "models/DynamicObject.h"
 //class Game;
-class Monster : public Creature
+class Monster : public DynamicObject
 {
 
 public:

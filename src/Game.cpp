@@ -29,15 +29,15 @@ void Game::Run()
         currentTime = newTime;
         accumulator += frameTime;
 
-        while( accumulator >= dt )
+        while( accumulator >= m_dt )
         {
-            accumulator -= dt;
+            accumulator -= m_dt;
 
             this->m_data->machine.GetActiveState()->HandleInput();
-            this->m_data->machine.GetActiveState()->Update( dt );
+            this->m_data->machine.GetActiveState()->Update( m_dt );
         }
 
-        interpolation = accumulator / dt;
+        interpolation = accumulator / m_dt;
         this->m_data->machine.GetActiveState()->PlaySound( interpolation );
         this->m_data->machine.GetActiveState()->Draw( interpolation );
         // this->m_data->machine.GetActiveState()->PlaySound( interpolation );

@@ -1,16 +1,16 @@
 #pragma once
 
 
-#include "StaticObj.h"
-
-class Coin : public StaticObj
+#include "StaticObject.h"
+class DynamicObject;
+class Coin : public StaticObject
 {
 
 public:
 	Coin(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt);
-	void virtual handleColision(Creature& obj) override;
+	void virtual handleColision(DynamicObject& obj) override;
 	//bool collisionWithStand(const sf::Vector2f, const sf::Vector2f) override ;
-	bool collisionWithStand(Creature& obj, sf::Vector2f size) override;
+	bool collisionWithStand(DynamicObject& obj, sf::Vector2f size) override;
 
 	//void virtual handleColision(Monster& obj) override;
 	//void virtual handleColision(Player& obj) override;

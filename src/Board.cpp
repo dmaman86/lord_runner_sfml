@@ -56,7 +56,7 @@ void Board::initData(sf::Vector2f pos, char c)
 	else if (c == '#')
 	{
 		// m_static_obj.push_back(std::make_unique <Flor>(pos, m_avgPix, m_pic.getTxt(3)));
-        m_static_obj.push_back( std::make_unique< Flor >( pos, m_avgPix,
+        m_static_obj.push_back( std::make_unique< Floor >( pos, m_avgPix,
                                                            &m_textures.GetTexture( "Floor Texture" ) ) );
 	}
 	else if (c == '*')
@@ -74,7 +74,7 @@ void Board::update(const float& dt)
 	this->updateMonsters(dt);
 }
 
-void Board::collisionsStatic(Creature& creature)
+void Board::collisionsStatic(DynamicObject& creature)
 {
 	for (int i = 0; i < m_static_obj.size();i++)
 	{
@@ -83,7 +83,7 @@ void Board::collisionsStatic(Creature& creature)
 	}
 }
 
-bool Board::HaveSomthingToStand(Creature& creacure)
+bool Board::HaveSomthingToStand(DynamicObject& creacure)
 {
 	bool b = false;
 	for (int i = 0; i < m_static_obj.size();i++)
@@ -110,7 +110,7 @@ bool Board::HaveSomthingToStand(Creature* creacure)
 	return b;
 }
 */
-void Board::updateCreature(const float& dt, Creature& creacure)
+void Board::updateCreature(const float& dt, DynamicObject& creacure)
 {
 	creacure.resetData();
 	creacure.setDirection();

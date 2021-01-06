@@ -12,8 +12,8 @@
 #include <SFML/Audio.hpp>
 
 // forward declaration
-class StaticObj;
-class Creature;
+class StaticObject;
+class DynamicObject;
 class Monster;
 class Player;
 

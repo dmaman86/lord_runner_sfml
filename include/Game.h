@@ -23,7 +23,7 @@ public:
     void Run();
 
 private:
-    const float dt = 1.0f / 60.0f;
+    const float m_dt = 1.0f / 60.0f;
 
     sf::Clock m_clock;
     GameDataRef m_data = std::make_shared< GameData >();

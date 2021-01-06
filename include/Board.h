@@ -5,11 +5,11 @@
 #include <string>
 #include <memory>
 
-#include "models/StaticObj.h"
+#include "models/StaticObject.h"
 #include "models/Monster.h"
 #include "models/Player.h"
-#include "models/Creature.h"
-#include "models/Flor.h"
+#include "models/DynamicObject.h"
+#include "models/Floor.h"
 #include "models/Ladder.h"
 #include "models/Coin.h"
 #include "models/Ropes.h"
@@ -36,24 +36,24 @@ public:
 
 private:
 	//std::vector<Monster*> m_monsters;
-	std::vector<std::unique_ptr<Creature>> m_monsters;
+	std::vector<std::unique_ptr<DynamicObject>> m_monsters;
 
 	
 	//std::vector<StaticObj*> m_static_obj;
-	std::vector<std::unique_ptr<StaticObj>> m_static_obj;
+	std::vector<std::unique_ptr<StaticObject>> m_static_obj;
 
 	AssetManager m_textures;
 
 	
 	//Player m_player;
-	std::unique_ptr<Creature> m_player;
+	std::unique_ptr<DynamicObject> m_player;
 	sf::Vector2f m_avgPix;
 
 	void updateMonsters(const float& dt);
-	void updateCreature(const float& dt, Creature& creacure);
+	void updateCreature(const float& dt, DynamicObject& creacure);
 	//bool collisionFlor(sf::RectangleShape rec);
-	void collisionsStatic(Creature& rec);
-	bool HaveSomthingToStand(Creature& creacure);
+	void collisionsStatic(DynamicObject& rec);
+	bool HaveSomthingToStand(DynamicObject& creacure);
 
 	void initTextures();
 

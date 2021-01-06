@@ -1,15 +1,15 @@
 #include "models/Ladder.h"
 
 Ladder::Ladder(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
-	StaticObj(pos, size, txt)
+	StaticObject(pos, size, txt)
 {}
 
-void Ladder::handleColision(Creature& obj)
+void Ladder::handleColision(DynamicObject& obj)
 {
 	obj.handleColision(*this);
 }
 
-bool Ladder::collisionWithStand(Creature& obj, sf::Vector2f size)
+bool Ladder::collisionWithStand(DynamicObject& obj, sf::Vector2f size)
 {
 	return this->m_rec->getGlobalBounds().intersects(obj.getGlobBounds());
 }
