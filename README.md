@@ -13,3 +13,8 @@
 
 ![ Alt text ]( resources/screenshot/game_screen.png?raw=true)
 
+
+# screenshot game
+
+![ Alt text ]( resources/screenshot/pause_screen.png?raw=true)
+
