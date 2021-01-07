@@ -4,6 +4,8 @@
 #include "MainMenuState.h"
 #include "GameState.h"
 
+#include "Identifiers.h"
+
 
 MainMenuState::MainMenuState( GameDataRef & data )
     :m_data( data )
@@ -25,7 +27,7 @@ void MainMenuState::Init()
 {
     sf::Vector2u textureSize, windowSize;
 
-    m_data->assets.LoadTexture( "Main Menu BackGround",
+    m_data->assets.LoadTexture( Textures::Menu,
                                 "background_menu.png" );
 
     m_data->assets.LoadMusicFile( "Music Menu",
@@ -36,9 +38,9 @@ void MainMenuState::Init()
 
 
     windowSize = this->m_data->window.getSize();
-    textureSize = this->m_data->assets.GetTexture( "Main Menu BackGround" ).getSize();
+    textureSize = this->m_data->assets.GetTexture( Textures::Menu ).getSize();
 
-    m_background.setTexture( this->m_data->assets.GetTexture( "Main Menu BackGround" ) );
+    m_background.setTexture( this->m_data->assets.GetTexture( Textures::Menu ) );
     m_background.setScale( ( float )windowSize.x / textureSize.x,
                            ( float )windowSize.y / textureSize.y );
 
@@ -140,7 +142,6 @@ void MainMenuState::Update( float dt )
 
     if( m_isPlayButtonPressed )
     {
-        // m_music_t.Stop();
         m_music.stop();
         m_data->machine.AddState( StateRef( new GameState( m_data ) ), true );
     }

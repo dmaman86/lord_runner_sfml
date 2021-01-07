@@ -13,10 +13,7 @@
 #include "models/Ladder.h"
 #include "models/Coin.h"
 #include "models/Ropes.h"
-
 #include "AssetManager.h"
-
-
 
 class Board
 {

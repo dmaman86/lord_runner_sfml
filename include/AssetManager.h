@@ -4,13 +4,15 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
+#include "Identifiers.h"
+
 class AssetManager{
 public:
     AssetManager(){}
     ~AssetManager(){}
 
-    void LoadTexture( std::string name, std::string fileName );
-    sf::Texture& GetTexture( std::string name );
+    void LoadTexture( Textures::ID name, std::string fileName );
+    sf::Texture& GetTexture( Textures::ID name );
 
     void LoadFont( std::string name, std::string fileName );
     sf::Font& GetFont( std::string name );
@@ -23,7 +25,7 @@ public:
 
 
 private:
-    std::map< std::string, sf::Texture > m_textures;
+    std::map< Textures::ID, sf::Texture > m_textures;
     std::map< std::string, sf::Font > m_fonts;
     std::map< std::string, sf::SoundBuffer > m_sound;
     std::map< std::string, std::string > m_music;

@@ -6,6 +6,8 @@
 #include "GameState.h"
 #include "MainMenuState.h"
 
+#include "Identifiers.h"
+
 PauseState::PauseState( GameDataRef & data )
     :m_data( data ), m_isResetGamePressed( false ),
     m_isResetGameSelected( false ), m_isBackMenuPressed( false ),
@@ -23,13 +25,12 @@ void PauseState::Init()
 {
     sf::Vector2u textureSize, windowSize;
 
-    m_data->assets.LoadTexture( "Main Menu BackGround",
-                                "background_menu.png" );
-
     windowSize = this->m_data->window.getSize();
-    textureSize = this->m_data->assets.GetTexture( "Main Menu BackGround" ).getSize();
 
-    m_background.setTexture( this->m_data->assets.GetTexture( "Main Menu BackGround" ) );
+    textureSize = this->m_data->assets.GetTexture( Textures::Menu ).getSize();
+
+    m_background.setTexture( this->m_data->assets.GetTexture( Textures::Menu ) );
+
     m_background.setScale( ( float )windowSize.x / textureSize.x,
                            ( float )windowSize.y / textureSize.y );
 

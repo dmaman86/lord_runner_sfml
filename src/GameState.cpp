@@ -1,6 +1,8 @@
 #include "GameState.h"
 #include "PauseState.h"
 
+#include "Identifiers.h"
+
 GameState::GameState( GameDataRef & data ) : m_data( data ), m_isPause( false )
 {
     std::ifstream fd_readLevel( getPath() );
@@ -15,8 +17,9 @@ GameState::~GameState()
 
 void GameState::Init()
 {
-    m_data->assets.LoadTexture( "Game Background", "background.png" );
-    m_background.setTexture( this->m_data->assets.GetTexture( "Game Background" ) );
+    m_data->assets.LoadTexture( Textures::Game, "background.png" );
+    m_background.setTexture( this->m_data->assets.GetTexture( Textures::Game ) );
+
 
     if( !m_soundBuffer.loadFromFile( "gamesound.wav" ) )
         std::cout << "Error loading Open Sound Effect" << std::endl;

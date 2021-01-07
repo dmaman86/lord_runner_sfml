@@ -1,16 +1,15 @@
 #include "AssetManager.h"
 
+
 #include <iostream>
 
-void AssetManager::LoadTexture( std::string name, std::string fileName )
+void AssetManager::LoadTexture( Textures::ID name, std::string fileName )
 {
-    sf::Texture tex;
-
-    if( tex.loadFromFile( fileName ) )
-        this->m_textures[ name ] = tex;
+    if( !this->m_textures[ name ].loadFromFile( fileName ) )
+        std::cout << "Not found Texture File" << std::endl;
 }
 
-sf::Texture& AssetManager::GetTexture( std::string name )
+sf::Texture& AssetManager::GetTexture( Textures::ID name )
 {
     return this->m_textures.at( name );
 }
@@ -30,13 +29,6 @@ sf::Font& AssetManager::GetFont( std::string name )
 
 void AssetManager::LoadSoundFile( std::string name, std::string fileName )
 {
-    /*sf::SoundBuffer soundBuffer;
-
-    if( soundBuffer.loadFromFile( fileName ) )
-    {
-        this->m_sound[ name ] = soundBuffer;
-    }*/
-
     if( !this->m_sound[ name ].loadFromFile( fileName ) )
         std::cout << "Not found Sound File" << std::endl;
 }

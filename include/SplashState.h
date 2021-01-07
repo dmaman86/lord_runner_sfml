@@ -19,8 +19,5 @@ private:
     sf::Clock m_clock;
     sf::Sprite m_background;
 
-    // sf::SoundBuffer m_soundBuffer;
     sf::Sound m_sound;
-
-    // sf::Music m_music;
 };

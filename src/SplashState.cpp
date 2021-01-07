@@ -23,13 +23,14 @@ void SplashState::Init()
 
 
     m_sound.setBuffer( m_data->assets.GetSound( "Open Sound" ) );
-    m_data->assets.LoadTexture( "Splash State Background",
+
+    m_data->assets.LoadTexture( Textures::Splash,
                                 "splash-background.png" );
 
     windowSize = this->m_data->window.getSize();
-    textureSize = this->m_data->assets.GetTexture( "Splash State Background" ).getSize();
+    textureSize = this->m_data->assets.GetTexture( Textures::Splash ).getSize();
 
-    m_background.setTexture( this->m_data->assets.GetTexture( "Splash State Background" ) );
+    m_background.setTexture( this->m_data->assets.GetTexture( Textures::Splash ) );
     m_background.setScale( ( float )windowSize.x / textureSize.x,
                            ( float )windowSize.y / textureSize.y );
 }
