@@ -34,16 +34,16 @@ void PauseState::Init()
     m_background.setScale( ( float )windowSize.x / textureSize.x,
                            ( float )windowSize.y / textureSize.y );
 
-    m_data->assets.LoadFont( "Main Menu Font", "arial.ttf" );
+    m_data->assets.LoadFont( Fonts::Main, "arial.ttf" );
 
-    m_paused_text.setFont( m_data->assets.GetFont( "Main Menu Font" ) );
+    m_paused_text.setFont( m_data->assets.GetFont( Fonts::Main ) );
     m_paused_text.setString( "Game Paused" );
     m_paused_text.setCharacterSize( 70 );
     centerOrigin( m_paused_text );
     m_paused_text.setPosition( 0.5f * windowSize.x, 0.4f * windowSize.y );
 
     sf::Text text;
-    text.setFont( m_data->assets.GetFont( "Main Menu Font" ) );
+    text.setFont( m_data->assets.GetFont( Fonts::Main ) );
     text.setCharacterSize( 55 );
     text.setStyle( sf::Text::Bold );
     for( size_t i = 0; i < 2; i++ )
@@ -76,12 +76,14 @@ void PauseState::HandleInput()
         if( sf::Event::Closed == event.type )
             m_data->window.close();
 
-        if( ( m_isBackMenuPressed = m_data->input.isSpriteClicked( m_buttons[ 0 ], sf::Mouse::Left, m_data->window ) ) == true )
+        if( ( m_isBackMenuPressed = m_data->input.isSpriteClicked( m_buttons[ 0 ],
+                                    sf::Mouse::Left, m_data->window ) ) == true )
         {
             m_isBackMenuSelected = true;
             m_isResetGameSelected = false;
         }
-        if( ( m_isResetGamePressed = m_data->input.isSpriteClicked( m_buttons[ 1 ], sf::Mouse::Left, m_data->window ) ) == true )
+        if( ( m_isResetGamePressed = m_data->input.isSpriteClicked( m_buttons[ 1 ],
+                                    sf::Mouse::Left, m_data->window ) ) == true )
         {
             m_isBackMenuSelected = false;
             m_isResetGameSelected = true;

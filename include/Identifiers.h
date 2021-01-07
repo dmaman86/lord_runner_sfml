@@ -16,3 +16,11 @@ namespace Textures
         Coin
     };
 }
+
+namespace Fonts
+{
+    enum ID
+    {
+        Main,
+    };
+}

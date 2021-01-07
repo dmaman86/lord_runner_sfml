@@ -18,6 +18,8 @@ configure_file ("./sounds/gamesound.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("./sounds/menusound.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("./sounds/open.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 
+configure_file("./records/Records.txt" ${CMAKE_BINARY_DIR} COPYONLY)
+
 
 
 

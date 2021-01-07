@@ -1,21 +1,12 @@
 # lord runner sfml
 
-###By David Maman & Daniel Cohen
+```bash
+By David Maman & Daniel Cohen
+```
 
-## screenshot open
+## screenshot
 
-![ Alt text ]( resources/screenshot/open_screen.png?raw=true)
-
-## screenshot menu game
-
-![ Alt text ]( resources/screenshot/menu_screen.png?raw=true)
-
-## screenshot game
-
-![ Alt text ]( resources/screenshot/game_screen.png?raw=true)
-
-
-## screenshot pause game
-
-![ Alt text ]( resources/screenshot/pause_screen.png?raw=true)
-
+<img src="resources/screenshot/open_screen.png" width="400">
+<img src="resources/screenshot/menu_screen.png" width="400">
+<img src="resources/screenshot/game_screen.png" width="400">
+<img src="resources/screenshot/pause_screen.png" width="400">

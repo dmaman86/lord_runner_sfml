@@ -16,6 +16,8 @@ MainMenuState::MainMenuState( GameDataRef & data )
     m_isSettingsButtonPressed = false;
     m_isAboutOurSelected = false;
     m_isAboutOurPressed = false;
+    m_isRecordsPressed = false;
+    m_isRecordsSelected = false;
 }
 
 MainMenuState::~MainMenuState()
@@ -46,11 +48,11 @@ void MainMenuState::Init()
 
     sf::Text text;
 
-    m_data->assets.LoadFont( "Main Menu Font", "arial.ttf" );
-    text.setFont( m_data->assets.GetFont( "Main Menu Font" ) );
+    m_data->assets.LoadFont( Fonts::Main, "arial.ttf" );
+    text.setFont( m_data->assets.GetFont( Fonts::Main ) );
     text.setCharacterSize( 55 );
     text.setStyle( sf::Text::Bold );
-    for( size_t i = 0; i < 3; i++ )
+    for( size_t i = 0; i < 4; i++ )
     {
         m_buttons.push_back( text );
 
@@ -64,6 +66,7 @@ void MainMenuState::Init()
     m_buttons[ 0 ].setString( "Play Game" );
     m_buttons[ 1 ].setString( "Settings Game" );
     m_buttons[ 2 ].setString( "About Our" );
+    m_buttons[3].setString("Records Game");
 }
 
 void MainMenuState::PlaySound( float dt )
@@ -97,6 +100,7 @@ void MainMenuState::HandleInput()
                 m_isPlayButtonSelected = true;
                 m_isSettingsButtonSelected = false;
                 m_isAboutOurSelected = false;
+                m_isRecordsSelected = false;
             }
 
             if ((m_isSettingsButtonPressed = m_data->input.isSpriteClicked(m_buttons[1], sf::Mouse::Left,
@@ -105,6 +109,7 @@ void MainMenuState::HandleInput()
                 m_isSettingsButtonSelected = true;
                 m_isPlayButtonSelected = false;
                 m_isAboutOurSelected = false;
+                m_isRecordsSelected = false;
             }
 
 
@@ -114,6 +119,15 @@ void MainMenuState::HandleInput()
                 m_isAboutOurSelected = true;
                 m_isPlayButtonSelected = false;
                 m_isSettingsButtonSelected = false;
+                m_isRecordsSelected = false;
+            }
+
+            if ((m_isRecordsPressed = m_data->input.isSpriteClicked(m_buttons[3], sf::Mouse::Left, m_data->window)) == true)
+            {
+                m_isAboutOurSelected = false;
+                m_isPlayButtonSelected = false;
+                m_isSettingsButtonSelected = false;
+                m_isRecordsSelected = true;
             }
         }
     }
@@ -121,37 +135,24 @@ void MainMenuState::HandleInput()
 
 void MainMenuState::Update( float dt )
 {
-    if( m_isPlayButtonSelected )
-    {
-        m_buttons[ 0 ].setFillColor( sf::Color::Black );
-        m_buttons[ 1 ].setFillColor( sf::Color::White );
-        m_buttons[ 2 ].setFillColor( sf::Color::White );
-    }
-    else if( m_isSettingsButtonSelected )
-    {
-        m_buttons[ 0 ].setFillColor( sf::Color::White );
-        m_buttons[ 1 ].setFillColor( sf::Color::Black );
-        m_buttons[ 2 ].setFillColor( sf::Color::White );
-    }
-    else
-    {
-        m_buttons[ 0 ].setFillColor( sf::Color::White );
-        m_buttons[ 1 ].setFillColor( sf::Color::White );
-        m_buttons[ 2 ].setFillColor( sf::Color::Black );
-    }
 
-    if( m_isPlayButtonPressed )
+    updateColorButton();
+    if( m_isPlayButtonSelected )
     {
         m_music.stop();
         m_data->machine.AddState( StateRef( new GameState( m_data ) ), true );
     }
-    else if( m_isSettingsButtonPressed )
+    else if( m_isSettingsButtonSelected )
     {
         std::cout << "Go to Setting Screen" << std::endl;
     }
-    else if( m_isAboutOurPressed )
+    else if( m_isAboutOurSelected )
     {
         std::cout << "Go to About Out Screen" << std::endl;
+    }
+    else if (m_isRecordsSelected)
+    {
+        std::cout << "Go to Records Screen" << std::endl;
     }
 }
 
@@ -165,4 +166,38 @@ void MainMenuState::Draw( float dt )
         m_data->window.draw( button );
 
     m_data->window.display();
+}
+
+void MainMenuState::updateColorButton()
+{
+    if (m_isPlayButtonSelected)
+    {
+        m_buttons[0].setFillColor(sf::Color::Black);
+        m_buttons[1].setFillColor(sf::Color::White);
+        m_buttons[2].setFillColor(sf::Color::White);
+        m_buttons[3].setFillColor(sf::Color::White);
+
+    }
+    else if (m_isSettingsButtonSelected)
+    {
+        m_buttons[0].setFillColor(sf::Color::White);
+        m_buttons[1].setFillColor(sf::Color::Black);
+        m_buttons[2].setFillColor(sf::Color::White);
+        m_buttons[3].setFillColor(sf::Color::White);
+
+    }
+    else if (m_isAboutOurSelected)
+    {
+        m_buttons[0].setFillColor(sf::Color::White);
+        m_buttons[1].setFillColor(sf::Color::White);
+        m_buttons[2].setFillColor(sf::Color::Black);
+        m_buttons[3].setFillColor(sf::Color::White);
+    }
+    else
+    {
+        m_buttons[0].setFillColor(sf::Color::White);
+        m_buttons[1].setFillColor(sf::Color::White);
+        m_buttons[2].setFillColor(sf::Color::White);
+        m_buttons[3].setFillColor(sf::Color::Black);
+    }
 }

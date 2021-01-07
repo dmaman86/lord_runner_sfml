@@ -33,4 +33,9 @@ private:
 
     bool m_isAboutOurSelected;
     bool m_isAboutOurPressed;
+
+    bool m_isRecordsSelected;
+    bool m_isRecordsPressed;
+
+    void updateColorButton();
 };

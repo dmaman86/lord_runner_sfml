@@ -16,4 +16,7 @@ target_sources (final_sfml PRIVATE "main.cpp"
 								   "models/Floor.cpp"
 								   "models/Coin.cpp"
 								   "models/Ladder.cpp"
-								   "models/Ropes.cpp")
+								   "models/Ropes.cpp"
+								   "GameOverState.cpp"
+								   "GameWinState.cpp"
+								   "RecordsState.cpp")

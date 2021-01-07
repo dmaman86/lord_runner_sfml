@@ -14,7 +14,7 @@ sf::Texture& AssetManager::GetTexture( Textures::ID name )
     return this->m_textures.at( name );
 }
 
-void AssetManager::LoadFont( std::string name, std::string fileName )
+void AssetManager::LoadFont( Fonts::ID name, std::string fileName )
 {
     sf::Font font;
 
@@ -22,7 +22,7 @@ void AssetManager::LoadFont( std::string name, std::string fileName )
         this->m_fonts[ name ] = font;
 }
 
-sf::Font& AssetManager::GetFont( std::string name )
+sf::Font& AssetManager::GetFont( Fonts::ID name )
 {
     return this->m_fonts.at( name );
 }
