@@ -5,8 +5,9 @@ By David Maman & Daniel Cohen
 ```
 
 ## screenshot
-
-<img src="resources/screenshot/open_screen.png" width="400">
-<img src="resources/screenshot/menu_screen.png" width="400">
-<img src="resources/screenshot/game_screen.png" width="400">
-<img src="resources/screenshot/pause_screen.png" width="400">
+<div width="500">
+	<img src="resources/screenshot/open_screen.png" width="400">
+	<img src="resources/screenshot/menu_screen.png" width="400">
+	<img src="resources/screenshot/game_screen.png" width="400">
+	<img src="resources/screenshot/pause_screen.png" width="400">
+</div>
