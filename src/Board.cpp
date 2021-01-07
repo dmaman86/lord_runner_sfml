@@ -1,5 +1,7 @@
 #include "Board.h"
 
+#include <ctype.h>
+
 Board::Board()
 {
     initTextures();
@@ -25,8 +27,8 @@ void Board::initAvg(size_t y, size_t x )
 
 void Board::initData(sf::Vector2f pos, char c)
 {
-	if (c == ' ' || c == '\n')
-		return;
+	if( isspace( c ) || iscntrl( c ) || c == '\0' )
+	    return;
 	if (c == '@')
 	{
         m_player = std::make_unique< Player >( pos, m_avgPix,

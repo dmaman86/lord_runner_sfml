@@ -102,7 +102,6 @@ std::string GameState::getPath()
 
 void GameState::read_data(std::ifstream& fd_readLevel)
 {
-    //std::string heightStr, weidthStr;
     size_t height, weidth;
     char c;
 

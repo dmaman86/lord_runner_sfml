@@ -6,7 +6,7 @@ Object::Object(sf::Vector2f position, sf::Vector2f size, sf::Texture* txt)
 
 	m_rec->setPosition(sf::Vector2f(position.x * size.x, position.y * size.y));
 
-	m_rec->setTexture(*txt);
+    m_rec->setTexture(*txt);
 	//m_rec->setScale(size.x / 100, size.y / 100);
 	//m_rec->setColor(sf::Color::Red);
 	
