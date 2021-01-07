@@ -32,40 +32,32 @@ void Board::initData(sf::Vector2f pos, char c)
 
 	    m_player = std::make_unique< Player >( pos, m_avgPix,
                                             &m_textures.GetTexture( "Player Texture" ) );
-		// m_player = std::make_unique <Player>(pos, m_avgPix, m_pic.getTxt(0));
 	}
 	if (c == '%')
 	{
-
 	    m_monsters.push_back( std::make_unique< Monster >( pos, m_avgPix,
-                                                        &m_textures.GetTexture( "Monster Texture" ) ) );
-		// m_monsters.push_back(std::make_unique <Monster>(pos, m_avgPix, m_pic.getTxt(1)));
+                                            &m_textures.GetTexture( "Monster Texture" ) ) );
 	}
 	else if (c == '-')
 	{
         m_static_obj.push_back( std::make_unique< Ropes >( pos, m_avgPix,
-                                                           &m_textures.GetTexture( "Ropes Texture" ) ) );
-		// m_static_obj.push_back(std::make_unique <Ropes>(pos, m_avgPix, m_pic.getTxt(4)));
+                                            &m_textures.GetTexture( "Ropes Texture" ) ) );
 	}
 	else if (c == 'H')
 	{
-		// m_static_obj.push_back(std::make_unique <Ladder>(pos, m_avgPix, m_pic.getTxt(5)));
         m_static_obj.push_back( std::make_unique< Ladder >( pos, m_avgPix,
-                                                           &m_textures.GetTexture( "Ladder Texture" ) ) );
+                                            &m_textures.GetTexture( "Ladder Texture" ) ) );
 	}
 	else if (c == '#')
 	{
-		// m_static_obj.push_back(std::make_unique <Flor>(pos, m_avgPix, m_pic.getTxt(3)));
         m_static_obj.push_back( std::make_unique< Floor >( pos, m_avgPix,
-                                                           &m_textures.GetTexture( "Floor Texture" ) ) );
+                                            &m_textures.GetTexture( "Floor Texture" ) ) );
 	}
 	else if (c == '*')
 	{
-		// m_static_obj.push_back(std::make_unique <Coin>(pos, m_avgPix, m_pic.getTxt(2)));
         m_static_obj.push_back( std::make_unique< Coin >( pos, m_avgPix,
-                                                           &m_textures.GetTexture( "Coin Texture" ) ) );
+                                            &m_textures.GetTexture( "Coin Texture" ) ) );
 	}
-
 }
 
 void Board::update(const float& dt)
@@ -95,21 +87,6 @@ bool Board::HaveSomthingToStand(DynamicObject& creacure)
 	return b;
 }
 
-/*
-bool Board::HaveSomthingToStand(Creature* creacure)
-{
-	bool b = false;
-	for (int i = 0; i < m_static_obj.size();i++)
-	{	
-		if (m_static_obj[i]->collisionWithStand
-		(creacure->getPositionRec(), this->m_avgPix))
-			b = true;
-	}
-	if(!b)
-		creacure->setDir();
-	return b;
-}
-*/
 void Board::updateCreature(const float& dt, DynamicObject& creacure)
 {
 	creacure.resetData();
@@ -119,26 +96,10 @@ void Board::updateCreature(const float& dt, DynamicObject& creacure)
 		creacure.setDir();
 	creacure.move(dt);
 
-
 	collisionsStatic(creacure);
 
 	creacure.resetDirection();
 }
-/*
-void Board::updateCreature(const float& dt, Creature* creacure)
-{
-	creacure->setDirection();
-
-	sf::Sprite helper = creacure->getRecNextStep(dt);
-
-	if (!collisionFlor(helper))
-		creacure->move(dt);
-
-	creacure->resetDirection();
-}
-*/
-
-
 
 void Board::updateMonsters(const float& dt)
 {
