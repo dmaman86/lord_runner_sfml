@@ -16,7 +16,7 @@ add_subdirectory (src)
 add_subdirectory(resources)
 
 if( APPLE )
-    #this is for macos==============================
+    #this is for macos=======================
     include_directories(/usr/local/include)
 
     find_package(SFML 2.5.1 COMPONENTS system window graphics network audio REQUIRED)

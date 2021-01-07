@@ -1,4 +1,4 @@
-# lord_runner_sfml
+# lord runner sfml
 
 ###By David Maman & Daniel Cohen
 
