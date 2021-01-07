@@ -20,7 +20,4 @@ void Player::setDirection()
 	this->SaveLastPosition();
 }
 
-void Player::initPlayer(sf::Vector2f pos, sf::Vector2f avgPix, sf::Texture * txt)
-{
-	Object::initObject(pos, avgPix, txt);
-}
+
