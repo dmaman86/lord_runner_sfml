@@ -21,28 +21,25 @@ class Player;
 
 /* ================================================
 Abstract class Object
-The root of tree inheritance
-Classes inherit directly : * StaticObj * Creature
 
+Classes inherit directly : 1. StaticObject - absract class 
+						   2. DynamicObject - absract class 
 */ 
 class Object
 {
 
 public:
 	// Constractor / Distactor
-	Object(sf::Vector2f position, sf::Vector2f size, sf::Texture* txt); // need move name!
-	virtual ~Object() ; // using inheritance, prefer virtual destractor
+	Object(sf::Vector2f position, sf::Vector2f size, sf::Texture* txt); 
+	virtual ~Object() ; 
 
 	const sf::Vector2f& getPositionRec() ;
-	const sf::Vector2f& getSizeRec();
-	const void setPosRec(sf::Vector2f& pos);
-	const sf::FloatRect getGlobBounds() const;
-	const void initObject(sf::Vector2f pos, sf::Vector2f avgPix, sf::Texture*);
 
 	bool collisionWith(const Object& obj) const;
 	
-	// Pure virtual functions 
 	void virtual render(sf::RenderWindow* target);
+
+	// Pure virtual functions 
 
 	//void virtual handleColision(Object& obj) = 0;
 	//void virtual handleColision(StaticObj& obj) = 0;
@@ -53,7 +50,7 @@ public:
 
 protected:
 	sf::Sprite* m_rec;
-	// sf::Texture m_txt;
+
 private:
 
 }; // end Object

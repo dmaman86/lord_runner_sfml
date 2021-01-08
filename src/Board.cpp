@@ -109,11 +109,9 @@ void Board::updateCreature(const float& dt, DynamicObject& creacure)
 	creacure.move(dt);
 
 	if (!isInRange(creacure))
-		creacure.setPosRec(creacure.getLastPos());
+		creacure.goBack();
 
 	collisionsStatic(creacure);
-
-	//creacure.resetDirection();
 }
 
 void Board::updateMonsters(const float& dt)

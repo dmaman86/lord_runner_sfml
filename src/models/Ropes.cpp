@@ -13,7 +13,8 @@ void Ropes::handleColision(DynamicObject& obj)
 
 bool Ropes::collisionWithStand(DynamicObject& obj, sf::Vector2f size)
 {
-	return this->m_rec->getGlobalBounds().intersects(obj.getGlobBounds());
+	return this->collisionWith(obj);
+	//return this->m_rec->getGlobalBounds().intersects(obj.getGlobBounds());
 }
 /*
 bool Ropes::collisionWithStand(const sf::Vector2f v2f, const sf::Vector2f)

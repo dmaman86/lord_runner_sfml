@@ -30,32 +30,9 @@ Object::~Object()
 	delete this->m_rec;
 }
 
-const void Object::initObject(sf::Vector2f pos, sf::Vector2f avgPix,sf::Texture * txt)
-{
-	m_rec->setPosition(sf::Vector2f(pos.x * avgPix.x, pos.y * avgPix.y));
-	//m_rec->setScale(avgPix.x / 100, avgPix.y / 100);
-	m_rec->setOrigin(avgPix.x / 2.f, avgPix.y / 2.f);
-	m_rec->setScale(avgPix.x / txt->getSize().x, avgPix.y / txt->getSize().y);
-}
-
 const sf::Vector2f& Object::getPositionRec()
 {
 	return m_rec->getPosition();
-}
-
-const sf::Vector2f& Object::getSizeRec()
-{
-	return m_rec->getScale();
-}
-
-const void Object::setPosRec(sf::Vector2f& pos)
-{
-	m_rec->setPosition(pos);
-}
-
-const sf::FloatRect Object::getGlobBounds() const
-{
-	return this->m_rec->getGlobalBounds();
 }
 
 bool Object::collisionWith(const Object& obj) const

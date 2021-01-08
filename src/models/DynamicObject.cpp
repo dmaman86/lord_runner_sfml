@@ -111,7 +111,7 @@ void Creature::handleColision(Player& obj)
 */
 void DynamicObject::handleColision(Floor& obj)
 {
-	this->setPosRec(m_last_postion);
+	this->goBack();
 }
 
 void DynamicObject::handleColision(Coin& obj)
@@ -140,6 +140,11 @@ void DynamicObject::resetData()
 	this->resetDirection();
 	if(this->m_rec->getRotation() == 90.f)
 		this->m_rec->setRotation( 0.f );
+}
+
+void DynamicObject::goBack()
+{
+	this->m_rec->setPosition(m_last_postion);
 }
 
 sf::Vector2f& DynamicObject::getLastPos()

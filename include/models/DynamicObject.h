@@ -24,6 +24,8 @@ public:
 	void SaveLastPosition();
 	void resetData();
 
+	void goBack();
+
 	sf::Vector2f& getLastPos();
 
 	sf::Vector2f getMovement();

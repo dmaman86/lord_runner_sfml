@@ -11,7 +11,7 @@ void Ladder::handleColision(DynamicObject& obj)
 
 bool Ladder::collisionWithStand(DynamicObject& obj, sf::Vector2f size)
 {
-	return this->m_rec->getGlobalBounds().intersects(obj.getGlobBounds());
+	return this->collisionWith(obj);
 }
 /*
 bool Ladder::collisionWithStand(const sf::Vector2f v2f, const sf::Vector2f b)

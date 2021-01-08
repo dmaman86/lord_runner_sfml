@@ -25,7 +25,7 @@ bool Floor::collisionWithStand(DynamicObject& obj, sf::Vector2f size)
 	helpRec.setPosition(obj.getPositionRec());
 	
 	helpRec.setPosition
-	(sf::Vector2f(helpRec.getPosition().x, helpRec.getPosition().y + (size.y/2.f)));
+	(sf::Vector2f(helpRec.getPosition().x, helpRec.getPosition().y + (size.y / 4.f)));
 
 	return this->m_rec->getGlobalBounds().intersects(helpRec.getGlobalBounds());
 }
