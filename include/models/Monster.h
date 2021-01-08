@@ -7,7 +7,7 @@ class Monster : public DynamicObject
 
 public:
 	Monster(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt);
-	void virtual setDirection() override;
+	void virtual updateDirection() override;
 
 private:
 

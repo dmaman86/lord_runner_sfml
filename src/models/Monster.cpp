@@ -7,7 +7,7 @@ Monster::Monster(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
 
 }
 
-void Monster::setDirection()
+void Monster::updateDirection()
 {
 	srand((unsigned int)time(NULL));
 

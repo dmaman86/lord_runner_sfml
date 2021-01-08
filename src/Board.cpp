@@ -88,18 +88,32 @@ bool Board::HaveSomthingToStand(DynamicObject& creacure)
 	return b;
 }
 
+bool Board::isInRange(DynamicObject& creacure)
+{
+	if ( 0 + m_avgPix.x / 2u < creacure.getPositionRec().x
+		&& 0 + m_avgPix.y / 2u < creacure.getPositionRec().y
+		&& COLL_GAME_SCREEN - ( m_avgPix.x / 2u  )> creacure.getPositionRec().x
+	    && ROW_GAME_SCREEN - ( m_avgPix.y / 2u  )> creacure.getPositionRec().y )
+		return true;
+	return false;
+}
+
 void Board::updateCreature(const float& dt, DynamicObject& creacure)
 {
 	creacure.resetData();
-	creacure.setDirection();
+	creacure.updateDirection();
 
 	if(!HaveSomthingToStand(creacure))
-		creacure.setDir();
+		creacure.setDirectionDown();
+
 	creacure.move(dt);
+
+	if (!isInRange(creacure))
+		creacure.setPosRec(creacure.getLastPos());
 
 	collisionsStatic(creacure);
 
-	creacure.resetDirection();
+	//creacure.resetDirection();
 }
 
 void Board::updateMonsters(const float& dt)

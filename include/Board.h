@@ -51,6 +51,8 @@ private:
 	//bool collisionFlor(sf::RectangleShape rec);
 	void collisionsStatic(DynamicObject& rec);
 	bool HaveSomthingToStand(DynamicObject& creacure);
+	bool isInRange(DynamicObject& creacure);
+
 
 	void initTextures();
 

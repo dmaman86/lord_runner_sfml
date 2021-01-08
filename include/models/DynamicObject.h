@@ -19,14 +19,15 @@ public:
 	void foo() {};
 	void move(const float& dt);
 	void virtual update(const float& dt,int dir);
-	void virtual render(sf::RenderWindow* window)override;
-//	sf::RectangleShape virtual getRecNextStep(const float& );
-	sf::Sprite virtual getRecNextStep();
+	void virtual render(sf::RenderWindow* window) override;
+	sf::Sprite virtual getRecNextStep(); // need deleated
 	void SaveLastPosition();
 	void resetData();
 
+	sf::Vector2f& getLastPos();
+
 	sf::Vector2f getMovement();
-	void virtual setDirection() = 0;
+	void virtual updateDirection() = 0;
 	void resetDirection();
 
 	//void virtual handleColision(Object& obj) override;
@@ -39,7 +40,7 @@ public:
 	void virtual handleColision(Ladder& obj) ;
 	void virtual handleColision(Ropes& obj) ;
 
-	void setDir();
+	void setDirectionDown();
 
 protected:
 	

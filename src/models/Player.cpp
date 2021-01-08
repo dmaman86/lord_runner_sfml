@@ -6,7 +6,7 @@ Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
 
 }
 
-void Player::setDirection()
+void Player::updateDirection()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		m_dircetion = 1;

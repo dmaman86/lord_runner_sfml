@@ -129,7 +129,7 @@ void DynamicObject::handleColision(Ropes& obj)
 	this->m_rec->setRotation(90.f);
 }
 
-void DynamicObject::setDir()
+void DynamicObject::setDirectionDown()
 {
 	this->m_dircetion = 4;
 }
@@ -140,5 +140,10 @@ void DynamicObject::resetData()
 	this->resetDirection();
 	if(this->m_rec->getRotation() == 90.f)
 		this->m_rec->setRotation( 0.f );
+}
+
+sf::Vector2f& DynamicObject::getLastPos()
+{
+	return this->m_last_postion;
 }
 
