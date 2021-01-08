@@ -78,6 +78,12 @@ void MainMenuState::PlaySound( float dt )
         m_music.play();
         i++;
     }
+
+    /*if (m_playMusic)
+    {
+        m_music.play();
+        m_playMusic = false;
+    }*/
 }
 
 void MainMenuState::HandleInput()
@@ -135,10 +141,10 @@ void MainMenuState::HandleInput()
 
 void MainMenuState::Update( float dt )
 {
-
     updateColorButton();
     if( m_isPlayButtonSelected )
     {
+        // m_playMusic = true;
         m_music.stop();
         m_data->machine.AddState( StateRef( new GameState( m_data ) ), true );
     }
