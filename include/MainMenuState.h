@@ -37,5 +37,7 @@ private:
     bool m_isRecordsSelected;
     bool m_isRecordsPressed;
 
+    bool m_playMusic = true;
+
     void updateColorButton();
 };
