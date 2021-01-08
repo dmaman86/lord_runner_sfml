@@ -10,6 +10,20 @@ namespace States
         Pause,
         GameOver,
         GameWin,
-        Records
+        Records,
+        AboutOur,
+        Settings
+    };
+}
+
+namespace StatesMenu
+{
+    enum ID
+    {
+        Game = 0,
+        Settings,
+        AboutOur,
+        Records,
+        Exit
     };
 }

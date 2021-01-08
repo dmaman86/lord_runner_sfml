@@ -16,6 +16,7 @@ public:
     void Update( float dt ) override;
     void Draw( float dt ) override;
     void PlaySound( float dt ) override;
+    void StopSound();
 
 private:
     GameDataRef  m_data;
@@ -24,6 +25,7 @@ private:
     std::vector< sf::Text > m_buttons;
 
     sf::Music m_music;
+    sf::Sound m_sound;
 
     bool m_isPlayButtonSelected;
     bool m_isPlayButtonPressed;
@@ -37,7 +39,10 @@ private:
     bool m_isRecordsSelected;
     bool m_isRecordsPressed;
 
-    bool m_playMusic = true;
+    bool m_playMusic;
+    bool m_pressed = false;
 
     void updateColorButton();
+
+    sf::Clock m_clock;
 };
