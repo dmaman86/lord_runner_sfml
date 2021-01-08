@@ -13,6 +13,13 @@ configure_file ("./fonts/FlappyFont.ttf" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("./fonts/Marker Felt.ttf" ${CMAKE_BINARY_DIR} COPYONLY)
 
 configure_file ("./levels/Board1.txt" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("./levels/Board2.txt" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("./levels/Board3.txt" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("./levels/Board4.txt" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("./levels/Board5.txt" ${CMAKE_BINARY_DIR} COPYONLY)
+
+
+
 
 configure_file ("./sounds/gamesound.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("./sounds/menusound.wav" ${CMAKE_BINARY_DIR} COPYONLY)
