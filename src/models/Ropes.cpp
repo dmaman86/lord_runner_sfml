@@ -3,7 +3,8 @@
 Ropes::Ropes(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
 	StaticObject(pos, size, txt)
 {
-
+	// that made ropes low
+	this->m_rec->setScale(m_rec->getScale().x * 1, m_rec->getScale().y * 0.5);
 }
 
 void Ropes::handleColision(DynamicObject& obj)

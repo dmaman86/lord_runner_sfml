@@ -1,6 +1,7 @@
 #include "models/Object.h"
 
 Object::Object(sf::Vector2f position, sf::Vector2f size, sf::Texture* txt)
+	: m_isExist(true)
 {
 	/*
 	m_rec = new sf::Sprite;
@@ -23,6 +24,7 @@ Object::Object(sf::Vector2f position, sf::Vector2f size, sf::Texture* txt)
 	m_rec->setPosition
 	(sf::Vector2f((position.x * size.x) + size.x / 2u, (position.y * size.y) + size.y / 2u));
 
+
 }
 
 Object::~Object()
@@ -38,6 +40,11 @@ const sf::Vector2f& Object::getPositionRec()
 bool Object::collisionWith(const Object& obj) const
 {
 	return m_rec->getGlobalBounds().intersects(obj.m_rec->getGlobalBounds());
+}
+
+bool Object::isExsist() const
+{
+	return m_isExist;
 }
 
 void Object::render(sf::RenderWindow* window)

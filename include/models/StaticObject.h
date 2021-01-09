@@ -1,9 +1,9 @@
 #pragma once
 #include "models/Object.h"
 #include "models/Monster.h"
-#include "models/Player.h"
+//#include "models/Player.h"
 //class Flor;
-
+class Player;
 class StaticObject : public Object
 {
 
@@ -24,6 +24,7 @@ public:
 
 //   void  virtual render(sf::RenderWindow* target)override;
 //	const sf::Vector2f& getPositionRec();
+protected:
 
 private:
 

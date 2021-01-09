@@ -37,6 +37,8 @@ public:
 
 	bool collisionWith(const Object& obj) const;
 	
+	bool isExsist() const;
+
 	void virtual render(sf::RenderWindow* target);
 
 	// Pure virtual functions 
@@ -50,6 +52,7 @@ public:
 
 protected:
 	sf::Sprite* m_rec;
+	bool m_isExist;
 
 private:
 

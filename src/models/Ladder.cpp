@@ -2,7 +2,10 @@
 
 Ladder::Ladder(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
 	StaticObject(pos, size, txt)
-{}
+{
+	// that made ladder Tall and narrow
+	//this->m_rec->setScale(m_rec->getScale().x * 0.75, m_rec->getScale().y);
+}
 
 void Ladder::handleColision(DynamicObject& obj)
 {

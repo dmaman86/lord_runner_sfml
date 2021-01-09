@@ -18,6 +18,17 @@ void Player::updateDirection()
 		m_dircetion = 4;
 
 	this->SaveLastPosition();
+
+	//std::cout << m_score << std::endl;
+}
+
+void Player::handleColision(Coin& obj)
+{
+	if (obj.isExsist())
+	{
+		obj.handleColision(*this);
+		this->m_score++;
+	}
 }
 
 

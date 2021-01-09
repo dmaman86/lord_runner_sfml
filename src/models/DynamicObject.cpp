@@ -2,9 +2,10 @@
 
 DynamicObject::DynamicObject
 (sf::Vector2f pos, sf::Vector2f size, size_t speed, sf::Texture* txt)
-	: Object(pos, size, txt), m_moveSpeed(speed),m_dircetion(0)
+	: Object(pos, size , txt), m_moveSpeed(speed),m_dircetion(0)
 {
-
+	// that made dynamic Object can move betwwen two static Object
+	this->m_rec->setScale(m_rec->getScale() * (float)0.99);
 }
 
 
@@ -126,7 +127,8 @@ void DynamicObject::handleColision(Ladder& obj)
 
 void DynamicObject::handleColision(Ropes& obj)
 {
-	this->m_rec->setRotation(90.f);
+	// para rotate on ropes - maybe pur another texture?
+	//this->m_rec->setRotation(90.f);
 }
 
 void DynamicObject::setDirectionDown()

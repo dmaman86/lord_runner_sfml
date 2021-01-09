@@ -49,7 +49,8 @@ void StaticObj::handleColision(Creature& obj)
 
 void StaticObject::render(sf::RenderWindow* window)
 {
-	this->Object::render(window);
+	if(m_isExist)
+		this->Object::render(window);
 }
 
 /*
