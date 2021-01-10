@@ -2,11 +2,13 @@
 
 
 #include <iostream>
+#include <algorithm>
 
 void AssetManager::LoadTexture( Textures::ID name, std::string fileName )
 {
-    if( !this->m_textures[ name ].loadFromFile( fileName ) )
-        std::cout << "Not found Texture File" << std::endl;
+    if( m_textures.find( name ) == m_textures.end() )
+        if( !this->m_textures[ name ].loadFromFile( fileName ) )
+            std::cout << "Not found Texture File" << std::endl;
 }
 
 sf::Texture& AssetManager::GetTexture( Textures::ID name )
@@ -17,9 +19,9 @@ sf::Texture& AssetManager::GetTexture( Textures::ID name )
 void AssetManager::LoadFont( Fonts::ID name, std::string fileName )
 {
     sf::Font font;
-
-    if( font.loadFromFile( fileName ) )
-        this->m_fonts[ name ] = font;
+    if (m_fonts.find( name ) == m_fonts.end())
+        if( font.loadFromFile( fileName ) )
+            this->m_fonts[ name ] = font;
 }
 
 sf::Font& AssetManager::GetFont( Fonts::ID name )
@@ -29,8 +31,9 @@ sf::Font& AssetManager::GetFont( Fonts::ID name )
 
 void AssetManager::LoadSoundFile( std::string name, std::string fileName )
 {
-    if( !this->m_sound[ name ].loadFromFile( fileName ) )
-        std::cout << "Not found Sound File" << std::endl;
+    if (m_sound.find(name) == m_sound.end())
+        if( !this->m_sound[ name ].loadFromFile( fileName ) )
+            std::cout << "Not found Sound File" << std::endl;
 }
 
 sf::SoundBuffer& AssetManager::GetSound( std::string name )
@@ -41,11 +44,11 @@ sf::SoundBuffer& AssetManager::GetSound( std::string name )
 void AssetManager::LoadMusicFile( std::string name, std::string fileName )
 {
     sf::Music *music = new sf::Music;
-
-    if( music->openFromFile( fileName ) )
-    {
-        this->m_music[ name ] = fileName;
-    }
+    if (m_music.find(name) == m_music.end())
+        if( music->openFromFile( fileName ) )
+        {
+            this->m_music[ name ] = fileName;
+        }
 }
 
 
