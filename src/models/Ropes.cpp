@@ -14,8 +14,14 @@ void Ropes::handleColision(DynamicObject& obj)
 
 bool Ropes::collisionWithStand(DynamicObject& obj, sf::Vector2f size)
 {
-	return this->collisionWith(obj);
-	//return this->m_rec->getGlobalBounds().intersects(obj.getGlobBounds());
+	//return this->collisionWith(obj);
+	if ((this->m_rec->getPosition().x + size.x / 2 >= obj.getPositionRec().x
+		&& this->m_rec->getPosition().x - size.x / 2 <= obj.getPositionRec().x)
+		&& ( this->m_rec->getPosition().y + size.y / 2 - 5 <= obj.getPositionRec().y
+		&& this->m_rec->getPosition().y + size.y / 2 >= obj.getPositionRec().y  )
+		)
+			return true;
+	return false;
 }
 /*
 bool Ropes::collisionWithStand(const sf::Vector2f v2f, const sf::Vector2f)
