@@ -3,16 +3,6 @@
 Object::Object(sf::Vector2f position, sf::Vector2f size, sf::Texture* txt)
 	: m_isExist(true)
 {
-	/*
-	m_rec = new sf::Sprite;
-
-	m_rec->setPosition(sf::Vector2f(position.x * size.x, position.y * size.y));
-
-    m_rec->setTexture(*txt);
-
-	m_rec->scale(size.x / txt->getSize().x, size.y / txt->getSize().y);
-	m_rec->setOrigin(size.x / 2.f, size.y / 2.f);
-	*/
 	m_rec = new sf::Sprite;
 
 	m_rec->setTexture(*txt);
@@ -23,8 +13,6 @@ Object::Object(sf::Vector2f position, sf::Vector2f size, sf::Texture* txt)
 
 	m_rec->setPosition
 	(sf::Vector2f((position.x * size.x) + size.x / 2u, (position.y * size.y) + size.y / 2u));
-
-
 }
 
 Object::~Object()
@@ -32,25 +20,26 @@ Object::~Object()
 	delete this->m_rec;
 }
 
-const sf::Vector2f& Object::getPositionRec()
+const sf::Sprite& Object::getSprite() const
 {
-	return m_rec->getPosition();
+	return *this->m_rec;
 }
 
-bool Object::collisionWith(const Object& obj) const
+const bool Object::collisionWith(const Object& obj) const
 {
 	return m_rec->getGlobalBounds().intersects(obj.m_rec->getGlobalBounds());
 }
 
-bool Object::isExsist() const
+const bool Object::isExsist() const
 {
 	return m_isExist;
 }
 
-void Object::render(sf::RenderWindow* window)
+void Object::render(sf::RenderWindow* window) 
 {
 	window->draw(*m_rec);
 }
+
 
 
 

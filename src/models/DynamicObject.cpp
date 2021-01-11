@@ -11,7 +11,7 @@ DynamicObject::DynamicObject
 	: Object(pos, size , txt), m_moveSpeed(speed),m_dircetion(0)
 {
 	// that made dynamic Object can move betwwen two static Object
-	this->m_rec->setScale(m_rec->getScale() * (float)0.99);
+	this->m_rec->setScale(m_rec->getScale() * (float)0.95);
 	m_first_position = this->m_rec->getPosition();
 }
 
@@ -61,33 +61,31 @@ void DynamicObject::handleColision(Floor& obj)
 {
 	this->goBack();
 }
-
+/*
 void DynamicObject::handleColision(Coin& obj)
 {
 	//
 }
-
+*//**/
 void DynamicObject::handleColision(Ladder& obj)
 {
-	//
+	// change texture !
 }
 
 void DynamicObject::handleColision(Ropes& obj)
 {
+	// change texture !
+
+
 	// para rotate on ropes - maybe change texture?
 	//this->m_rec->setRotation(90.f);
-}
-
-// ############# Draw Function ############## // 
-void DynamicObject::render(sf::RenderWindow* window)
-{
-	this->Object::render(window);
 }
 
 /* ===================================== *
  * ######### Private Functions ########## *
  * ===================================== */
-// ############### Auxiliary Functions ############ //
+
+// ############### Auxiliary Functions : ############ //
 
 void DynamicObject::resetDirection()
 {
@@ -96,10 +94,10 @@ void DynamicObject::resetDirection()
 
 void DynamicObject::SaveLastPosition()
 {
-	m_last_postion = this->getPositionRec();
+	m_last_postion = this->getSprite().getPosition();
 }
 
-// ############### Get Functions ############ //
+// ############### Get Functions : ############ //
 
 const sf::Vector2f& DynamicObject::getMovement() const
 {

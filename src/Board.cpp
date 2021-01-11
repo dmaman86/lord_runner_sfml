@@ -82,7 +82,6 @@ void Board::update(const float& dt)
 	this->updateCreature(dt,*this->m_player);
 	this->collisionsDynamic(*this->m_player);
 	this->playerCheckInjured();
-
 	this->updateMonsters(dt);
 	//this->collisionsDynamic(*this->m_player);
 }
@@ -118,12 +117,12 @@ bool Board::HaveSomthingToStand(DynamicObject& creacure)
 	return b;
 }
 
-bool Board::isInRange(DynamicObject& creacure)
+bool Board::isInRange(DynamicObject& dynObj)
 {
-	if ( 0 + m_avgPix.x / 2u < creacure.getPositionRec().x
-		&& 0 + m_avgPix.y / 2u < creacure.getPositionRec().y
-		&& COLL_GAME_SCREEN - ( m_avgPix.x / 2u  )> creacure.getPositionRec().x
-	    && ROW_GAME_SCREEN - ( m_avgPix.y / 2u  )> creacure.getPositionRec().y )
+	if (0 + m_avgPix.x / 2u < dynObj.getSprite().getPosition().x
+		&& 0 + m_avgPix.y / 2u < dynObj.getSprite().getPosition().y
+		&& COLL_GAME_SCREEN - (m_avgPix.x / 2u) > dynObj.getSprite().getPosition().x
+		&& ROW_GAME_SCREEN - (m_avgPix.y / 2u) > dynObj.getSprite().getPosition().y)
 		return true;
 	return false;
 }

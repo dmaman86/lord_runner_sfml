@@ -13,17 +13,15 @@ public:
 	void virtual render(sf::RenderWindow* window)override;
 	
 	bool virtual collisionWithStand(DynamicObject& obj, sf::Vector2f size) = 0;
-	//bool virtual collisionWithStand(const sf::Vector2f, const sf::Vector2f) = 0;
+	
+	void virtual handleColision(Floor& obj) {};
+	void virtual handleColision(Coin& obj) {};
+	void virtual handleColision(Ladder& obj) {};
+	void virtual handleColision(Ropes& obj) {};
+	void virtual handleColision(Monster& obj) {};
+	
+	void virtual handleColision(DynamicObject& obj) = 0;//override; // important
 
-	//void virtual handleColision(Object& obj) override;
-	//void virtual handleColision(StaticObj& obj) override;
-	void virtual handleColision(DynamicObject& obj) = 0;// override; // important
-	//void virtual handleColision(Monster& obj) = 0;
-	//void virtual handleColision(Player& obj) = 0;
-	//void virtual handleColision(Flor& obj);
-
-//   void  virtual render(sf::RenderWindow* target)override;
-//	const sf::Vector2f& getPositionRec();
 protected:
 
 private:

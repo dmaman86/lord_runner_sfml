@@ -18,14 +18,12 @@ bool Flor::collisionWithStand(const sf::Vector2f v2f, const sf::Vector2f size)
 bool Floor::collisionWithStand(DynamicObject& obj, sf::Vector2f size)
 {	
 	//return false;
-	sf::RectangleShape helpRec;
+	//sf::RectangleShape helpRec;
+	sf::Sprite helpRec(obj.getSprite());
 	helpRec.setOrigin(sf::Vector2f(size.x / 2.f, size.y / 2.f));
-	helpRec.setSize(size);
-	
-	//helpRec.setPosition(obj.getPositionRec());
 	
 	helpRec.setPosition
-	(sf::Vector2f(obj.getPositionRec().x, obj.getPositionRec().y + (size.y / 25.f)));
+	(sf::Vector2f(obj.getSprite().getPosition().x, obj.getSprite().getPosition().y + (size.y / 25.f)));
 
 	return this->m_rec->getGlobalBounds().intersects(helpRec.getGlobalBounds());
 }

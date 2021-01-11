@@ -14,14 +14,7 @@ void Coin::handleColision(Player& obj)
 	this->m_isExist = false;
 }
 
-/*
-bool Coin::collisionWithStand(const sf::Vector2f v2f, const sf::Vector2f)
-{
-	return false;
-}
-*/
 bool Coin::collisionWithStand(DynamicObject& obj, sf::Vector2f size)
 {
 	return false;
 }
-

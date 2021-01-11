@@ -16,7 +16,11 @@ class StaticObject;
 class DynamicObject;
 class Monster;
 class Player;
-
+class Floor;
+class Coin;
+class Ladder;
+class Ropes;
+class Monster;
 
 
 /* ================================================
@@ -33,22 +37,22 @@ public:
 	Object(sf::Vector2f position, sf::Vector2f size, sf::Texture* txt); 
 	virtual ~Object() ; 
 
-	const sf::Vector2f& getPositionRec() ;
-
-	bool collisionWith(const Object& obj) const;
-	
-	bool isExsist() const;
+	// public functions
+	const sf::Sprite& getSprite() const;
+	const bool collisionWith(const Object& obj) const;
+	const bool isExsist() const;
 
 	void virtual render(sf::RenderWindow* target);
 
 	// Pure virtual functions 
+	void virtual handleColision(Floor& obj) = 0;
+	void virtual handleColision(Coin& obj) = 0 ;
+	void virtual handleColision(Ladder& obj) = 0;
+	void virtual handleColision(Ropes& obj) = 0;
+	void virtual handleColision(Monster& obj) = 0;
 
-	//void virtual handleColision(Object& obj) = 0;
-	//void virtual handleColision(StaticObj& obj) = 0;
-	//void virtual handleColision(Creature& obj) = 0;
-	//void virtual handleColision(Monster& obj) = 0;
-	//void virtual handleColision(Player& obj) = 0;
-	//void virtual handleColision(Flor& obj) = 0;
+	void virtual handleColision(DynamicObject& obj) = 0;// override; // important
+
 
 protected:
 	sf::Sprite* m_rec;

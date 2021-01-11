@@ -12,7 +12,7 @@ public:
 	Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt);
 	void virtual updateDirection() override;
 	void virtual handleColision(Coin& obj);
-	void virtual handleColision(Monster& obj);
+	void virtual handleColision(Monster& obj) override;
 	void virtual handleColision(DynamicObject& obj) {};
 	bool isInjured();
 

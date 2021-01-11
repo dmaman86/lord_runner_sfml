@@ -15,10 +15,10 @@ void Ropes::handleColision(DynamicObject& obj)
 bool Ropes::collisionWithStand(DynamicObject& obj, sf::Vector2f size)
 {
 	//return this->collisionWith(obj);
-	if ((this->m_rec->getPosition().x + size.x / 2 >= obj.getPositionRec().x
-		&& this->m_rec->getPosition().x - size.x / 2 <= obj.getPositionRec().x)
-		&& ( this->m_rec->getPosition().y + size.y / 2 - 5 <= obj.getPositionRec().y
-		&& this->m_rec->getPosition().y + size.y / 2 >= obj.getPositionRec().y  )
+	if ((this->m_rec->getPosition().x + size.x / 2 >= obj.getSprite().getPosition().x
+		&& this->m_rec->getPosition().x - size.x / 2 <= obj.getSprite().getPosition().x)
+		&& ( this->m_rec->getPosition().y + size.y / 2 - 5 <= obj.getSprite().getPosition().y
+		&& this->m_rec->getPosition().y + size.y / 2 >= obj.getSprite().getPosition().y  )
 		)
 			return true;
 	return false;

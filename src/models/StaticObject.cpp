@@ -53,10 +53,4 @@ void StaticObject::render(sf::RenderWindow* window)
 		this->Object::render(window);
 }
 
-/*
-const sf::Vector2f& StaticObj::getPositionRec()
-{
-	return Object::getPositionRec();
-}
-*/
 
