@@ -61,22 +61,27 @@ void Board::initData(sf::Vector2f pos, char c)
 	}
 }
 
+
+void Board::playerCheckInjured()
+{
+	Player* p = dynamic_cast <Player*> (&*this->m_player);
+	if (p) {
+		if (p->isInjured())
+		{
+			m_player->setFirstPos();
+			for (int i = 0; i < m_monsters.size();i++)
+			{
+				m_monsters[i]->setFirstPos();
+			}
+		}
+	}
+}
+
 void Board::update(const float& dt)
 {
 	this->updateCreature(dt,*this->m_player);
 	this->collisionsDynamic(*this->m_player);
-	
-	
-	Player* p = dynamic_cast <Player*> (&*this->m_player);
-	if (p->isInjured())
-	{
-		m_player->setFirstPos();
-		for (int i = 0; i < m_monsters.size();i++)
-		{
-			m_monsters[i]->setFirstPos();
-		}
-	}
-
+	this->playerCheckInjured();
 
 	this->updateMonsters(dt);
 	//this->collisionsDynamic(*this->m_player);
@@ -99,6 +104,7 @@ void Board::collisionsDynamic(DynamicObject& creature)
 			m_monsters[i]->handleColision(creature);
 	}
 }
+
 
 bool Board::HaveSomthingToStand(DynamicObject& creacure)
 {

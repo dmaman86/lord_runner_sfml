@@ -15,43 +15,30 @@ class DynamicObject :public Object
 {
 
 public:
-	DynamicObject(sf::Vector2f pos, sf::Vector2f size, size_t speed, sf::Texture* txt);
+	// Constractor / Distactor
+	DynamicObject
+	(sf::Vector2f pos, sf::Vector2f size, size_t speed, sf::Texture* txt);
 	virtual ~DynamicObject();
-	void foo() {};
-	void move(const float& dt);
-	void virtual update(const float& dt,int dir);
-	void virtual render(sf::RenderWindow* window) override;
-	//sf::Sprite virtual getRecNextStep(); // need deleated
-	void SaveLastPosition();
+
+	// public functions
+		// movment
 	void resetData();
-
+	void setDirectionDown();
+	void move(const float& dt);
 	void goBack();
-
 	void setFirstPos();
-
-	sf::Vector2f& getLastPos();
-	sf::Vector2f& getFirstPos();
-
-
-	sf::Vector2f getMovement();
+	 
+	// ============= pure virtual functions ===============
 	void virtual updateDirection() = 0;
-	void resetDirection();
-
-	//void virtual handleColision(Object& obj) override;
-	//void virtual handleColision(StaticObj& obj) override;
-	//void virtual handleColision(Creature& obj) override;
-	//void virtual handleColision(Monster& obj) override;
-	//void virtual handleColision(Player& obj) override;
-	void virtual handleColision(Floor& obj) ;
-	void virtual handleColision(Coin& obj) ;
-	void virtual handleColision(Ladder& obj) ;
-	void virtual handleColision(Ropes& obj) ;
-
 	void virtual handleColision(Monster& obj) = 0;
 	void virtual handleColision(DynamicObject& obj) = 0;
+	// ============= virual functions =====================
+	void virtual handleColision(Floor& obj);
+	void virtual handleColision(Coin& obj);
+	void virtual handleColision(Ladder& obj);
+	void virtual handleColision(Ropes& obj);
 
-
-	void setDirectionDown();
+	void virtual render(sf::RenderWindow* window) override;
 
 protected:
 	// members
@@ -62,6 +49,15 @@ protected:
 	sf::Vector2f m_first_position;
 	sf::Vector2f m_last_postion;
 
+	// private functions
+		// Auxiliary functions
+	void resetDirection();
+	void SaveLastPosition();
+		// Get functions
+	const sf::Vector2f& getMovement() const;
+	const sf::Vector2f& getLastPos() const;
+	const sf::Vector2f& getFirstPos() const;
+
 private:
 	
-};
+}; // end DynamicObject

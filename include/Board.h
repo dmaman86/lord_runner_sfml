@@ -51,6 +51,7 @@ private:
 	//bool collisionFlor(sf::RectangleShape rec);
 	void collisionsStatic(DynamicObject& rec);
 	void collisionsDynamic(DynamicObject& rec);
+	void playerCheckInjured();
 
 	bool HaveSomthingToStand(DynamicObject& creacure);
 	bool isInRange(DynamicObject& creacure);

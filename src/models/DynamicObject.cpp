@@ -1,5 +1,11 @@
 #include "models/DynamicObject.h"
 
+// Constractor / Distactor
+
+/*/ Constractor :  
+/*   position ,size and texture - send to Object constractor.
+/*   speed , direction initialized here
+/*/
 DynamicObject::DynamicObject
 (sf::Vector2f pos, sf::Vector2f size, size_t speed, sf::Texture* txt)
 	: Object(pos, size , txt), m_moveSpeed(speed),m_dircetion(0)
@@ -9,11 +15,29 @@ DynamicObject::DynamicObject
 	m_first_position = this->m_rec->getPosition();
 }
 
-
+// virual distructor
 DynamicObject::~DynamicObject()
 {
-
+	// Empty - no memory allocation
 }
+
+/* ===================================== *
+ * ######### Public Functions ########## *
+ * ===================================== */
+
+void DynamicObject::setDirectionDown()
+{
+	this->m_dircetion = 4;
+}
+
+
+void DynamicObject::resetData()
+{
+	this->resetDirection();
+	if (this->m_rec->getRotation() == 90.f)
+		this->m_rec->setRotation(0.f);
+}
+
 
 void DynamicObject::move(const float& dt)
 {
@@ -21,37 +45,63 @@ void DynamicObject::move(const float& dt)
 	(this->getMovement().x * this->m_moveSpeed * dt, this->getMovement().y * this->m_moveSpeed * dt);
 }
 
-void DynamicObject::update(const float& dt,int dir)
+void DynamicObject::goBack()
 {
-
+	this->m_rec->setPosition(getLastPos());
 }
 
+void DynamicObject::setFirstPos()
+{
+	this->m_rec->setPosition(getFirstPos());
+}
+
+/* ######### Virual Functions ########## */
+
+void DynamicObject::handleColision(Floor& obj)
+{
+	this->goBack();
+}
+
+void DynamicObject::handleColision(Coin& obj)
+{
+	//
+}
+
+void DynamicObject::handleColision(Ladder& obj)
+{
+	//
+}
+
+void DynamicObject::handleColision(Ropes& obj)
+{
+	// para rotate on ropes - maybe change texture?
+	//this->m_rec->setRotation(90.f);
+}
+
+// ############# Draw Function ############## // 
 void DynamicObject::render(sf::RenderWindow* window)
 {
 	this->Object::render(window);
 }
-/*
-sf::Sprite DynamicObject::getRecNextStep()
-{
-	//sf::Vector2f movment = this->getMovement();
-	sf::Sprite helper = *m_rec;
-	helper.
-		setPosition(m_rec->getPosition().x - m_rec->getScale().x
-			, m_rec->getPosition().y - m_rec->getScale().y);
-	return helper;
-}
-*/
-/*
-sf::RectangleShape Creature::getRecNextStep(const float& dt)
-{
-	sf::Vector2f movment = this->getMovement();
-	sf::RectangleShape helper = m_rec;
-	helper.move
-	(movment.x * this->m_moveSpeed * dt, movment.y * this->m_moveSpeed * dt);
-	return helper;
-}*/
 
-sf::Vector2f DynamicObject::getMovement()
+/* ===================================== *
+ * ######### Private Functions ########## *
+ * ===================================== */
+// ############### Auxiliary Functions ############ //
+
+void DynamicObject::resetDirection()
+{
+	this->m_dircetion = 6;
+}
+
+void DynamicObject::SaveLastPosition()
+{
+	m_last_postion = this->getPositionRec();
+}
+
+// ############### Get Functions ############ //
+
+const sf::Vector2f& DynamicObject::getMovement() const
 {
 	switch (m_dircetion)
 	{
@@ -77,92 +127,12 @@ sf::Vector2f DynamicObject::getMovement()
 	}
 }
 
-void DynamicObject::SaveLastPosition()
-{
-	m_last_postion = this->getPositionRec();
-}
-
-
-void DynamicObject::resetDirection()
-{
-	this->m_dircetion = 6;
-}
-/*
-void Creature::handleColision(StaticObj& obj)
-{
-	// just right mow
-	// need handle
-}
-
-void Creature::handleColision(Creature& obj)
-{
-	// just right mow
-	// need handle
-}
-
-void Creature::handleColision(Monster& obj)
-{
-	// just right mow
-	// need handle
-}
-
-void Creature::handleColision(Player& obj)
-{
-	// just right mow
-	// need handle
-}
-*/
-void DynamicObject::handleColision(Floor& obj)
-{
-	this->goBack();
-}
-
-void DynamicObject::handleColision(Coin& obj)
-{
-	//
-}
-
-void DynamicObject::handleColision(Ladder& obj)
-{
-	//
-}
-
-void DynamicObject::handleColision(Ropes& obj)
-{
-	// para rotate on ropes - maybe change texture?
-	//this->m_rec->setRotation(90.f);
-}
-
-
-void DynamicObject::setDirectionDown()
-{
-	this->m_dircetion = 4;
-}
-
-
-void DynamicObject::resetData()
-{
-	this->resetDirection();
-	if(this->m_rec->getRotation() == 90.f)
-		this->m_rec->setRotation( 0.f );
-}
-
-void DynamicObject::goBack()
-{
-	this->m_rec->setPosition(m_last_postion);
-}
-
-void DynamicObject::setFirstPos()
-{
-	this->m_rec->setPosition(m_first_position);
-}
-
-sf::Vector2f& DynamicObject::getLastPos()
+const sf::Vector2f& DynamicObject::getLastPos() const
 {
 	return this->m_last_postion;
 }
 
-sf::Vector2f& DynamicObject::getFirstPos()
+const sf::Vector2f& DynamicObject::getFirstPos() const
 {
 	return this->m_first_position;
 }
