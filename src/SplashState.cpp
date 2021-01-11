@@ -3,6 +3,7 @@
 
 #include "SplashState.h"
 #include "MainMenuState.h"
+#include "Singleton/ResourceManager.h"
 
 SplashState::SplashState( GameDataRef & data )
     :m_data( data )
@@ -19,31 +20,21 @@ void SplashState::Init()
 {
     sf::Vector2u textureSize, windowSize;
 
-    m_data->assets.LoadSoundFile( "Open Sound", "open.wav" );
-
-
-    m_sound.setBuffer( m_data->assets.GetSound( "Open Sound" ) );
-
-    m_data->assets.LoadTexture( Textures::Splash,
-                                "splash-background.png" );
+    m_sound = SoundManager::getInstance().getSound("Open State");
 
     windowSize = this->m_data->window.getSize();
     textureSize = this->m_data->assets.GetTexture( Textures::Splash ).getSize();
 
-    m_background.setTexture( this->m_data->assets.GetTexture( Textures::Splash ) );
+    std::unique_ptr<sf::Texture> texture = TextureManager::getInstance().getTexture("BackGround Open");
+
+    m_background.setTexture( *texture );
     m_background.setScale( ( float )windowSize.x / textureSize.x,
                            ( float )windowSize.y / textureSize.y );
 }
 
 void SplashState::PlaySound( float dt )
 {
-    static int i = 1;
-
-    if( i == 1 )
-    {
-        m_sound.play();
-        i++;
-    }
+    m_sound->play();
 }
 
 void SplashState::HandleInput()
@@ -54,7 +45,8 @@ void SplashState::HandleInput()
     {
         if( sf::Event::Closed == event.type )
         {
-            m_sound.stop();
+            // m_sound.stop();
+            m_sound->stop();
             m_data->window.close();
         }
     }
@@ -64,7 +56,8 @@ void SplashState::Update( float dt )
 {
     if( m_clock.getElapsedTime().asSeconds() > 3.0 )
     {
-        m_sound.pause();
+        // m_sound.pause();
+        m_sound->stop();
         m_data->machine.AddState( StateRef( new MainMenuState( m_data ) ), true );
     }
 }

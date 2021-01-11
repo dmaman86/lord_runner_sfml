@@ -7,12 +7,14 @@
 #include "StateMachine.h"
 #include "AssetManager.h"
 #include "InputManager.h"
+#include "Singleton/ResourceManager.h"
 
 struct GameData{
     StateMachine machine;
     sf::RenderWindow window;
     AssetManager assets;
     InputManager input;
+    ResourceManager resources;
 };
 
 typedef std::shared_ptr< GameData > GameDataRef;

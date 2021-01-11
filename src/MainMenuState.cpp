@@ -6,6 +6,7 @@
 
 #include "Identifiers.h"
 #include "IdentifiersState.h"
+#include "Singleton/ResourceManager.h"
 
 MainMenuState::MainMenuState( GameDataRef & data )
     :m_data( data ), m_playMusic( true )
@@ -18,6 +19,9 @@ MainMenuState::MainMenuState( GameDataRef & data )
     m_isAboutOurPressed = false;
     m_isRecordsPressed = false;
     m_isRecordsSelected = false;
+
+    if ((m_music = MusicManager::getInstance().getMusic("menusound.wav")) != nullptr)
+        m_music->setLoop(true);
 }
 
 MainMenuState::~MainMenuState()
@@ -29,34 +33,23 @@ void MainMenuState::Init()
 {
     sf::Vector2u textureSize, windowSize;
 
-    m_data->assets.LoadTexture( Textures::Menu,
-                                "background_menu.png" );
-
-    m_data->assets.LoadMusicFile( "Music Menu",
-                                  "menusound.wav" );
-
-    m_data->assets.LoadSoundFile("Move State", "new_move_next_state.wav");
-
-    if( m_music.openFromFile( m_data->assets.GetMusic( "Music Menu" ) ) )
-        m_music.setLoop( true );
-
-    m_sound.setBuffer(m_data->assets.GetSound("Move State"));
-    m_sound.setVolume(40.f);
+    m_sound = SoundManager::getInstance().getSound("new_move_next_state.wav");
 
 
     windowSize = this->m_data->window.getSize();
-    textureSize = this->m_data->assets.GetTexture( Textures::Menu ).getSize();
 
-    m_background.setTexture( this->m_data->assets.GetTexture( Textures::Menu ) );
+    std::unique_ptr<sf::Texture> texture = TextureManager::getInstance().getTexture("background_menu.png");
+    textureSize = texture->getSize();
+    m_background.setTexture(*texture);
     m_background.setScale( ( float )windowSize.x / textureSize.x,
                            ( float )windowSize.y / textureSize.y );
 
     sf::Text text;
-
-    m_data->assets.LoadFont( Fonts::Main, "arial.ttf" );
-    text.setFont( m_data->assets.GetFont( Fonts::Main ) );
+    std::unique_ptr<sf::Font> font = FontManager::getInstance().getFont("arial.ttf");
+    text.setFont(*font);
     text.setCharacterSize( 55 );
     text.setStyle( sf::Text::Bold );
+
     for( size_t i = 0; i < StatesMenu::Exit; i++ )
     {
         m_buttons.push_back( text );
@@ -64,7 +57,7 @@ void MainMenuState::Init()
 
         m_buttons[ i ].setOrigin( m_buttons[ i ].getLocalBounds().width / 2 ,
                                   m_buttons[ i ].getLocalBounds().height / 2 );
-        m_buttons[ i ].setPosition( sf::Vector2f( windowSize.x / 2,
+        m_buttons[ i ].setPosition( sf::Vector2f( windowSize.x / 2.5,
                                                   ( windowSize.y / 2 ) + ( i * 100 ) ) );
     }
 
@@ -76,25 +69,13 @@ void MainMenuState::Init()
 
 void MainMenuState::PlaySound( float dt )
 {
-    static int i = 1;
-
-    if (i == 1)
-    {
-        m_music.play();
-        i++;
-    }
+    m_music->play();
 }
 
 void MainMenuState::StopSound()
 {
-    static int i = 1;
-
-    if (i == 1)
-    {
-        m_music.stop();
-        m_sound.play();
-        i++;
-    }
+   // m_music->stop();
+   // m_sound->play();
 }
 
 void MainMenuState::HandleInput()
@@ -105,7 +86,7 @@ void MainMenuState::HandleInput()
     {
         if (sf::Event::Closed == event.type || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         {
-            m_music.stop();
+            m_music->stop();
             m_data->window.close();
         }
 
@@ -163,26 +144,25 @@ void MainMenuState::Update( float dt )
     {
         if (m_clock.getElapsedTime().asSeconds() > 2.0)
         {
-            StopSound();
+            // StopSound();
+            m_music->pause();
+            m_sound->pause();
+            m_pressed = false;
             if (m_isPlayButtonSelected)
             {
-                    m_pressed = false;
-                    m_data->machine.AddState(StateRef(new GameState(m_data)), true);
+                 m_data->machine.AddState(StateRef(new GameState(m_data)), true);
             }
             else if (m_isSettingsButtonSelected)
             {
-                    m_pressed = false;
-                    std::cout << "Go to Setting Screen" << std::endl;
+                std::cout << "Go to Setting Screen" << std::endl;
             }
             else if (m_isAboutOurSelected)
             {
-                    m_pressed = false;
-                    std::cout << "Go to About Out Screen" << std::endl;
+                std::cout << "Go to About Out Screen" << std::endl;
             }
             else if (m_isRecordsSelected)
             {
-                    m_pressed = false;
-                    std::cout << "Go to Records Screen" << std::endl;
+                std::cout << "Go to Records Screen" << std::endl;
             }
         }
     }

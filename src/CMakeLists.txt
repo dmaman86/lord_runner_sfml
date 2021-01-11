@@ -19,4 +19,9 @@ target_sources (final_sfml PRIVATE "main.cpp"
 								   "models/Ropes.cpp"
 								   "GameOverState.cpp"
 								   "GameWinState.cpp"
-								   "RecordsState.cpp")
+								   "RecordsState.cpp"
+								   "Singleton/FontManager.cpp"
+								   "Singleton/MusicManager.cpp"
+								   "Singleton/ResourceManager.cpp"
+								   "Singleton/SoundManager.cpp"
+								   "Singleton/TextureManager.cpp")

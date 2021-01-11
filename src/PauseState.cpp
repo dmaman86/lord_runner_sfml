@@ -5,7 +5,7 @@
 #include "PauseState.h"
 #include "GameState.h"
 #include "MainMenuState.h"
-
+#include "Singleton/ResourceManager.h"
 #include "Identifiers.h"
 
 PauseState::PauseState( GameDataRef & data )
@@ -13,7 +13,7 @@ PauseState::PauseState( GameDataRef & data )
     m_isResetGameSelected( false ), m_isBackMenuPressed( false ),
     m_isBackMenuSelected( false )
 {
-
+    m_music = MusicManager::getInstance().getMusic("Menu Music");
 }
 
 PauseState::~PauseState()
@@ -24,45 +24,49 @@ PauseState::~PauseState()
 void PauseState::Init()
 {
     sf::Vector2u textureSize, windowSize;
+    std::unique_ptr<sf::Texture> texture = TextureManager::getInstance().getTexture("BackGround Menu");
 
     windowSize = this->m_data->window.getSize();
 
-    textureSize = this->m_data->assets.GetTexture( Textures::Menu ).getSize();
+    textureSize = texture->getSize();
 
-    m_background.setTexture( this->m_data->assets.GetTexture( Textures::Menu ) );
+    m_background.setTexture( *texture );
 
     m_background.setScale( ( float )windowSize.x / textureSize.x,
                            ( float )windowSize.y / textureSize.y );
 
-    m_data->assets.LoadFont( Fonts::Main, "arial.ttf" );
+    std::unique_ptr<sf::Font> font = FontManager::getInstance().getFont("Font Game");
 
-    m_paused_text.setFont( m_data->assets.GetFont( Fonts::Main ) );
+    m_paused_text.setFont( *font );
     m_paused_text.setString( "Game Paused" );
     m_paused_text.setCharacterSize( 70 );
     centerOrigin( m_paused_text );
     m_paused_text.setPosition( 0.5f * windowSize.x, 0.4f * windowSize.y );
 
     sf::Text text;
-    text.setFont( m_data->assets.GetFont( Fonts::Main ) );
+    text.setFont( *font );
     text.setCharacterSize( 55 );
     text.setStyle( sf::Text::Bold );
     for( size_t i = 0; i < 2; i++ )
     {
         m_buttons.push_back( text );
-
+        m_buttons[i].setFillColor(sf::Color::White);
         m_buttons[ i ].setOrigin( m_buttons[ i ].getLocalBounds().width / 2 ,
                                   m_buttons[ i ].getLocalBounds().height / 2 );
-        m_buttons[ i ].setPosition( sf::Vector2f( windowSize.x / 2,
+        m_buttons[ i ].setPosition( sf::Vector2f( windowSize.x / 2.5,
                                                   ( windowSize.y / 2 ) + ( i * 100 ) ) );
     }
 
     m_buttons[ 0 ].setString( "Back Menu Game" );
-    m_buttons[ 0 ].setFillColor( sf::Color::White );
     m_buttons[ 1 ].setString( "Restart Game" );
-    m_buttons[ 1 ].setFillColor( sf::Color::White );
 }
 
 void PauseState::PlaySound( float dt )
+{
+    m_music->play();
+}
+
+void PauseState::StopSound()
 {
 
 }
@@ -73,9 +77,11 @@ void PauseState::HandleInput()
 
     while( m_data->window.pollEvent( event ) )
     {
-        if( sf::Event::Closed == event.type )
+        if (sf::Event::Closed == event.type || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+        {
+            m_music->stop();
             m_data->window.close();
-
+        }
         if( ( m_isBackMenuPressed = m_data->input.isSpriteClicked( m_buttons[ 0 ],
                                     sf::Mouse::Left, m_data->window ) ) == true )
         {
@@ -95,10 +101,12 @@ void PauseState::Update( float dt )
 {
     if( m_isBackMenuSelected )
     {
-        m_data->machine.AddState( StateRef( new MainMenuState( m_data ) ) );
+        m_music->stop();
+        m_data->machine.AddState( StateRef( new MainMenuState( m_data ) ), true );
     }
     else if( m_isResetGameSelected )
     {
+        m_music->stop();
         m_data->machine.RemoveState();
         m_data->machine.AddState( StateRef( new GameState( m_data ) ), true );
     }

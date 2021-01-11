@@ -15,12 +15,14 @@ public:
     void Update( float dt ) override;
     void Draw( float dt ) override;
     void PlaySound( float dt ) override;
+    void StopSound();
 
 private:
     GameDataRef  m_data;
     sf::Sprite m_background;
     sf::Text m_paused_text;
     std::vector< sf::Text > m_buttons;
+    std::unique_ptr<sf::Music> m_music;
 
     void centerOrigin( sf::Text & );
 

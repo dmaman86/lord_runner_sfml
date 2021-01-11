@@ -24,8 +24,10 @@ private:
     sf::Sprite m_background;
     std::vector< sf::Text > m_buttons;
 
-    sf::Music m_music;
-    sf::Sound m_sound;
+    // sf::Music m_music;
+    std::unique_ptr<sf::Music> m_music;
+    std::unique_ptr<sf::Sound> m_sound;
+    // sf::Sound m_sound;
 
     bool m_isPlayButtonSelected;
     bool m_isPlayButtonPressed;

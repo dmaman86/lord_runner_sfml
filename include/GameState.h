@@ -37,10 +37,13 @@ private:
 
     int m_numLevel = 1;
 
-    sf::SoundBuffer m_soundBuffer;
-    sf::Sound m_sound;
+    std::unique_ptr<sf::Sound> m_sound;
+    std::unique_ptr<sf::Music> m_music;
 
-    sf::Music m_music;
+    // sf::SoundBuffer m_soundBuffer;
+    // sf::Sound m_sound;
+
+    // sf::Music m_music;
 
     bool m_isPause;
 };
