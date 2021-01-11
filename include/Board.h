@@ -50,6 +50,8 @@ private:
 	void updateCreature(const float& dt, DynamicObject& creacure);
 	//bool collisionFlor(sf::RectangleShape rec);
 	void collisionsStatic(DynamicObject& rec);
+	void collisionsDynamic(DynamicObject& rec);
+
 	bool HaveSomthingToStand(DynamicObject& creacure);
 	bool isInRange(DynamicObject& creacure);
 

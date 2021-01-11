@@ -6,6 +6,7 @@ DynamicObject::DynamicObject
 {
 	// that made dynamic Object can move betwwen two static Object
 	this->m_rec->setScale(m_rec->getScale() * (float)0.99);
+	m_first_position = this->m_rec->getPosition();
 }
 
 
@@ -29,7 +30,7 @@ void DynamicObject::render(sf::RenderWindow* window)
 {
 	this->Object::render(window);
 }
-
+/*
 sf::Sprite DynamicObject::getRecNextStep()
 {
 	//sf::Vector2f movment = this->getMovement();
@@ -39,6 +40,7 @@ sf::Sprite DynamicObject::getRecNextStep()
 			, m_rec->getPosition().y - m_rec->getScale().y);
 	return helper;
 }
+*/
 /*
 sf::RectangleShape Creature::getRecNextStep(const float& dt)
 {
@@ -127,9 +129,10 @@ void DynamicObject::handleColision(Ladder& obj)
 
 void DynamicObject::handleColision(Ropes& obj)
 {
-	// para rotate on ropes - maybe pur another texture?
+	// para rotate on ropes - maybe change texture?
 	//this->m_rec->setRotation(90.f);
 }
+
 
 void DynamicObject::setDirectionDown()
 {
@@ -149,8 +152,18 @@ void DynamicObject::goBack()
 	this->m_rec->setPosition(m_last_postion);
 }
 
+void DynamicObject::setFirstPos()
+{
+	this->m_rec->setPosition(m_first_position);
+}
+
 sf::Vector2f& DynamicObject::getLastPos()
 {
 	return this->m_last_postion;
+}
+
+sf::Vector2f& DynamicObject::getFirstPos()
+{
+	return this->m_first_position;
 }
 
