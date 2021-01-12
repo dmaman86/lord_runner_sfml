@@ -16,9 +16,9 @@ MusicManager& MusicManager::getInstance()
 	return instance;
 }
 
-bool MusicManager::addMusic(std::string name, std::string fileName)
+bool MusicManager::addMusic(Music::ID nameId, std::string fileName)
 {
-	auto it = music_map.find(name);
+	auto it = music_map.find(nameId);
 
 	if (it != music_map.end())
 	{
@@ -26,30 +26,38 @@ bool MusicManager::addMusic(std::string name, std::string fileName)
 		return false;
 	}
 
-	std::unique_ptr<sf::Music> music = std::make_unique<sf::Music>();
+	sf::Music* const song = new sf::Music();
 
-	if (!music->openFromFile(fileName))
+	if (!song->openFromFile(fileName))
 	{
 		std::cout << "Unable to open music: " << fileName << std::endl;
 		return false;
 	}
 
-	music_vec.push_back(std::move(*(music)));
-	size_t musicBufferVecSize = music_vec.size();
-	std::unique_ptr<sf::Music> mus = std::make_unique<sf::Music>(std::move(music_vec[musicBufferVecSize - 1]));
+	/*if (!music.openFromFile(fileName))
+	{
+		std::cout << "Unable to open music: " << fileName << std::endl;
+		return false;
+	}*/
 
-	music_map.emplace(name, std::move(music));
+	music_vec.push_back(std::move(song));
+	// size_t musicBufferVecSize = music_vec.size();
+	// std::unique_ptr<sf::Music> mus = std::make_unique<sf::Music>(std::move(music_vec[musicBufferVecSize - 1]));
+
+	music_map.emplace(nameId, std::move(song));
 	return true;
 }
 
-std::unique_ptr<sf::Music> MusicManager::getMusic(std::string name)
+sf::Music* MusicManager::getMusic(Music::ID nameId)
 {
-	auto it = music_map.find(name);
+	auto it = music_map.find(nameId);
 
 	if (it == music_map.end())
 	{
-		std::cout << "Unable to load music: " << name << ", doesn't exist" << std::endl;
+		std::cout << "Unable to load music, doesn't exist" << std::endl;
 		return nullptr;
 	}
-	return std::move(it->second);
+	// return std::move(it->second);
+
+	return music_map.at(nameId);
 }

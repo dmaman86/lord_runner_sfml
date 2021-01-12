@@ -8,11 +8,11 @@
 #include "AssetManager.h"
 #include "InputManager.h"
 #include "Singleton/ResourceManager.h"
+#include "ResourceManager/ResourceIdentifiers.h"
 
 struct GameData{
     StateMachine machine;
     sf::RenderWindow window;
-    AssetManager assets;
     InputManager input;
     ResourceManager resources;
 };

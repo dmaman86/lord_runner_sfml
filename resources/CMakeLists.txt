@@ -18,14 +18,13 @@ configure_file ("./levels/Board3.txt" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("./levels/Board4.txt" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("./levels/Board5.txt" ${CMAKE_BINARY_DIR} COPYONLY)
 
-
-
-
 configure_file ("./sounds/gamesound.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("./sounds/menusound.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("./sounds/open.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file("./sounds/move_next_state.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file("./sounds/new_move_next_state.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file("./sounds/player_coin.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+
 
 configure_file("./records/Records.txt" ${CMAKE_BINARY_DIR} COPYONLY)
 

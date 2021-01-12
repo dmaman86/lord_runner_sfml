@@ -8,15 +8,10 @@
 #include "Singleton/ResourceManager.h"
 #include "Identifiers.h"
 
-PauseState::PauseState( GameDataRef & data )
+PauseState::PauseState( GameDataRef& data )
     :m_data( data ), m_isResetGamePressed( false ),
     m_isResetGameSelected( false ), m_isBackMenuPressed( false ),
-    m_isBackMenuSelected( false )
-{
-    m_music = MusicManager::getInstance().getMusic("Menu Music");
-}
-
-PauseState::~PauseState()
+    m_isBackMenuSelected( false ), m_music(new sf::Music), m_pressed(false)
 {
 
 }
@@ -24,7 +19,7 @@ PauseState::~PauseState()
 void PauseState::Init()
 {
     sf::Vector2u textureSize, windowSize;
-    std::unique_ptr<sf::Texture> texture = TextureManager::getInstance().getTexture("BackGround Menu");
+    std::unique_ptr<sf::Texture> texture = TextureManager::getInstance().getTexture(Textures::ID::Menu);
 
     windowSize = this->m_data->window.getSize();
 
@@ -35,7 +30,7 @@ void PauseState::Init()
     m_background.setScale( ( float )windowSize.x / textureSize.x,
                            ( float )windowSize.y / textureSize.y );
 
-    std::unique_ptr<sf::Font> font = FontManager::getInstance().getFont("Font Game");
+    std::unique_ptr<sf::Font> font = FontManager::getInstance().getFont(Fonts::ID::Main);
 
     m_paused_text.setFont( *font );
     m_paused_text.setString( "Game Paused" );
@@ -59,16 +54,13 @@ void PauseState::Init()
 
     m_buttons[ 0 ].setString( "Back Menu Game" );
     m_buttons[ 1 ].setString( "Restart Game" );
-}
 
-void PauseState::PlaySound( float dt )
-{
-    m_music->play();
-}
-
-void PauseState::StopSound()
-{
-
+    if ((m_music = MusicManager::getInstance().getMusic(Music::ID::Menu)) != nullptr)
+    {
+        m_music->setLoop(true);
+        m_music->play();
+    }
+    m_sound = SoundManager::getInstance().getSound(SoundEffect::ID::MoveState);
 }
 
 void PauseState::HandleInput()
@@ -87,28 +79,39 @@ void PauseState::HandleInput()
         {
             m_isBackMenuSelected = true;
             m_isResetGameSelected = false;
+            m_pressed = true;
         }
         if( ( m_isResetGamePressed = m_data->input.isSpriteClicked( m_buttons[ 1 ],
                                     sf::Mouse::Left, m_data->window ) ) == true )
         {
             m_isBackMenuSelected = false;
             m_isResetGameSelected = true;
+            m_pressed = false;
         }
     }
 }
 
 void PauseState::Update( float dt )
 {
-    if( m_isBackMenuSelected )
+    if (m_pressed)
     {
-        m_music->stop();
-        m_data->machine.AddState( StateRef( new MainMenuState( m_data ) ), true );
-    }
-    else if( m_isResetGameSelected )
-    {
-        m_music->stop();
-        m_data->machine.RemoveState();
-        m_data->machine.AddState( StateRef( new GameState( m_data ) ), true );
+        m_pressed = false;
+        m_sound->play();
+        if (m_clock.getElapsedTime().asSeconds() > 2.0)
+        {
+            m_sound->stop();
+            if (m_isBackMenuSelected)
+            {
+                m_music->stop();
+                m_data->machine.AddState(StateRef(new MainMenuState(m_data)), true);
+            }
+            else if (m_isResetGameSelected)
+            {
+                m_music->stop();
+                m_data->machine.RemoveState();
+                m_data->machine.AddState(StateRef(new GameState(m_data)), true);
+            }
+        }
     }
 }
 

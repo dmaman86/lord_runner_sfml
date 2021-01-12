@@ -5,18 +5,20 @@
 #include <vector>
 #include <SFML/Audio.hpp>
 
+#include "Identifiers.h"
+
 class SoundManager
 {
 public:
 	static SoundManager& getInstance();
 
-	bool addSound(std::string name, std::string fileName);
-	std::unique_ptr<sf::Sound> getSound(std::string name);
+	bool addSound(SoundEffect::ID nameId, std::string fileName);
+	std::unique_ptr<sf::Sound> getSound(SoundEffect::ID nameId);
 
 private:
 	SoundManager();
 	~SoundManager();
 
-	std::map<std::string, std::unique_ptr<sf::Sound>> sound_map;
+	std::map<SoundEffect::ID, std::unique_ptr<sf::Sound>> sound_map;
 	std::vector<sf::SoundBuffer> soundBuffer_vec;
 };

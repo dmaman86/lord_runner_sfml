@@ -7,13 +7,13 @@
 
 class SplashState : public State{
 public:
-    SplashState( GameDataRef & data );
-    ~SplashState();
+    SplashState( GameDataRef& data );
+
     void Init() override;
     void HandleInput() override;
     void Update( float dt ) override;
     void Draw( float dt ) override;
-    void PlaySound( float dt ) override;
+
 private:
     GameDataRef  m_data;
     sf::Clock m_clock;

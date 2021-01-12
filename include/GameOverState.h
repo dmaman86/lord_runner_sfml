@@ -18,24 +18,12 @@ class GameOverState : public State
 {
 public:
     GameOverState(GameDataRef& data);
-    ~GameOverState();
 
     void Init() override;
     void HandleInput() override;
     void Update(float dt) override;
     void Draw(float dt) override;
-    void PlaySound(float dt) override;
 
 private:
-    GameDataRef  m_data;
-
-    sf::Sprite m_background;
-
-
-    sf::SoundBuffer m_soundBuffer;
-    sf::Sound m_sound;
-
-    sf::Music m_music;
-
-    bool m_isPause;
+    
 };

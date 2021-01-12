@@ -18,14 +18,12 @@
 class GameState : public State
 {
 public:
-    GameState( GameDataRef &data );
-    ~GameState();
+    GameState( GameDataRef& data );
 
     void Init() override;
     void HandleInput() override;
     void Update( float dt ) override;
     void Draw( float dt ) override;
-    void PlaySound( float dt ) override;
 
 private:
     GameDataRef  m_data;
@@ -38,12 +36,12 @@ private:
     int m_numLevel = 1;
 
     std::unique_ptr<sf::Sound> m_sound;
-    std::unique_ptr<sf::Music> m_music;
+    // std::unique_ptr<sf::Music> m_music;
 
     // sf::SoundBuffer m_soundBuffer;
     // sf::Sound m_sound;
 
-    // sf::Music m_music;
+    sf::Music *m_music;
 
     bool m_isPause;
 };

@@ -4,32 +4,26 @@
 #include "Identifiers.h"
 #include "Singleton/ResourceManager.h"
 
-GameState::GameState( GameDataRef & data ) : m_data( data ), m_isPause( false )
+GameState::GameState( GameDataRef& data ) : m_data( data ), m_isPause( false )
 {
     std::ifstream fd_readLevel( getPath() );
     if( fd_readLevel.is_open() )
         read_data( fd_readLevel );
 }
 
-GameState::~GameState()
-{
-
-}
-
 void GameState::Init()
 {
-    std::unique_ptr<sf::Texture> texture = TextureManager::getInstance().getTexture("BackGround Game");
+    std::unique_ptr<sf::Texture> texture = TextureManager::getInstance().getTexture(Textures::ID::Game);
+
     m_background.setTexture( *texture );
 
-    m_sound = SoundManager::getInstance().getSound("Next State");
+    m_sound = SoundManager::getInstance().getSound(SoundEffect::ID::PlayerCoin);
 
-    if ((m_music = MusicManager::getInstance().getMusic("Game Music")) != nullptr)
+    if ((m_music = MusicManager::getInstance().getMusic(Music::ID::Game)) != nullptr)
+    {
         m_music->setLoop(true);
-}
-
-void GameState::PlaySound( float dt )
-{
-    m_music->play();
+        m_music->play();
+    }
 }
 
 void GameState::HandleInput()

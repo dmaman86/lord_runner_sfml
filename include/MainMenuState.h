@@ -8,15 +8,12 @@
 
 class MainMenuState : public State{
 public:
-    MainMenuState( GameDataRef & data );
-    ~MainMenuState();
+    MainMenuState( GameDataRef& data );
 
     void Init() override;
     void HandleInput() override;
     void Update( float dt ) override;
     void Draw( float dt ) override;
-    void PlaySound( float dt ) override;
-    void StopSound();
 
 private:
     GameDataRef  m_data;
@@ -24,8 +21,8 @@ private:
     sf::Sprite m_background;
     std::vector< sf::Text > m_buttons;
 
-    // sf::Music m_music;
-    std::unique_ptr<sf::Music> m_music;
+    sf::Music *m_music;
+    // std::unique_ptr<sf::Music> m_music;
     std::unique_ptr<sf::Sound> m_sound;
     // sf::Sound m_sound;
 

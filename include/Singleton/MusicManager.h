@@ -5,18 +5,20 @@
 #include <vector>
 #include <SFML/Audio.hpp>
 
+#include "Identifiers.h"
+
 class MusicManager
 {
 public:
 	static MusicManager& getInstance();
 
-	bool addMusic(std::string name, std::string fileName);
-	std::unique_ptr<sf::Music> getMusic(std::string name);
+	bool addMusic(Music::ID nameId, std::string fileName);
+	sf::Music* getMusic(Music::ID nameId);
 
 private:
 	MusicManager();
 	~MusicManager();
 
-	std::map<std::string, std::unique_ptr<sf::Music>> music_map;
-	std::vector<sf::Music> music_vec;
+	std::map<Music::ID, sf::Music*> music_map;
+	std::vector<sf::Music*> music_vec;
 };

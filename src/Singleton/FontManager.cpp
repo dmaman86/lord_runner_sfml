@@ -16,13 +16,13 @@ FontManager& FontManager::getInstance()
 	return instance;
 }
 
-bool FontManager::addFont(std::string name, std::string fileName)
+bool FontManager::addFont(Fonts::ID nameId, std::string fileName)
 {
-	auto it = font_map.find(name);
+	auto it = font_map.find(nameId);
 
 	if (it != font_map.end())
 	{
-		std::cout << "Unable to add font: " << name << ", already exists" << std::endl;
+		std::cout << "Unable to add font: " << fileName << ", already exists" << std::endl;
 		return false;
 	}
 
@@ -34,16 +34,16 @@ bool FontManager::addFont(std::string name, std::string fileName)
 		return false;
 	}
 
-	font_map.emplace(name, std::move(font));
+	font_map.emplace(nameId, std::move(font));
 	return true;
 }
 
-std::unique_ptr<sf::Font> FontManager::getFont(std::string name)
+std::unique_ptr<sf::Font> FontManager::getFont(Fonts::ID nameId)
 {
-	auto it = font_map.find(name);
+	auto it = font_map.find(nameId);
 	if (it == font_map.end())
 	{
-		std::cout << "Unable to load font: " << name << ", doesn't exists." << std::endl;
+		std::cout << "Unable to load font, doesn't exists." << std::endl;
 		return nullptr;
 	}
 	return std::move(it->second);

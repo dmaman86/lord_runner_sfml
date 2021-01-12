@@ -5,10 +5,9 @@
 #include "GameState.h"
 
 #include "Identifiers.h"
-#include "IdentifiersState.h"
 #include "Singleton/ResourceManager.h"
 
-MainMenuState::MainMenuState( GameDataRef & data )
+MainMenuState::MainMenuState( GameDataRef& data )
     :m_data( data ), m_playMusic( true )
 {
     m_isPlayButtonSelected = false;
@@ -20,37 +19,31 @@ MainMenuState::MainMenuState( GameDataRef & data )
     m_isRecordsPressed = false;
     m_isRecordsSelected = false;
 
-    if ((m_music = MusicManager::getInstance().getMusic("menusound.wav")) != nullptr)
-        m_music->setLoop(true);
-}
-
-MainMenuState::~MainMenuState()
-{
-
+    m_music = new sf::Music();
 }
 
 void MainMenuState::Init()
 {
     sf::Vector2u textureSize, windowSize;
 
-    m_sound = SoundManager::getInstance().getSound("new_move_next_state.wav");
+    m_sound = SoundManager::getInstance().getSound(SoundEffect::ID::MoveState);
 
 
     windowSize = this->m_data->window.getSize();
 
-    std::unique_ptr<sf::Texture> texture = TextureManager::getInstance().getTexture("background_menu.png");
+    std::unique_ptr<sf::Texture> texture = TextureManager::getInstance().getTexture(Textures::ID::Menu);
     textureSize = texture->getSize();
     m_background.setTexture(*texture);
     m_background.setScale( ( float )windowSize.x / textureSize.x,
                            ( float )windowSize.y / textureSize.y );
 
     sf::Text text;
-    std::unique_ptr<sf::Font> font = FontManager::getInstance().getFont("arial.ttf");
+    std::unique_ptr<sf::Font> font = FontManager::getInstance().getFont(Fonts::ID::Main);
     text.setFont(*font);
     text.setCharacterSize( 55 );
     text.setStyle( sf::Text::Bold );
 
-    for( size_t i = 0; i < StatesMenu::Exit; i++ )
+    for( size_t i = 0; i < 4; i++ )
     {
         m_buttons.push_back( text );
         m_buttons[i].setFillColor(sf::Color::White);
@@ -61,28 +54,23 @@ void MainMenuState::Init()
                                                   ( windowSize.y / 2 ) + ( i * 100 ) ) );
     }
 
-    m_buttons[ StatesMenu::Game ].setString( "Play Game" );
-    m_buttons[ StatesMenu::Settings ].setString( "Settings Game" );
-    m_buttons[ StatesMenu::AboutOur ].setString( "About Our" );
-    m_buttons[ StatesMenu::Records ].setString("Records Game");
-}
+    m_buttons[ 0 ].setString( "Play Game" );
+    m_buttons[ 1 ].setString( "Settings Game" );
+    m_buttons[ 2 ].setString( "About Our" );
+    m_buttons[ 3 ].setString("Records Game");
 
-void MainMenuState::PlaySound( float dt )
-{
-    m_music->play();
-}
-
-void MainMenuState::StopSound()
-{
-   // m_music->stop();
-   // m_sound->play();
+    if ((m_music = (MusicManager::getInstance().getMusic(Music::ID::Menu))) != nullptr)
+    {
+        m_music->setLoop(true);
+        m_music->play();
+    }
 }
 
 void MainMenuState::HandleInput()
 {
     sf::Event event;
 
-    while( m_data->window.pollEvent( event ) )
+    while (m_data->window.pollEvent(event))
     {
         if (sf::Event::Closed == event.type || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         {
@@ -92,9 +80,9 @@ void MainMenuState::HandleInput()
 
         if (sf::Event::MouseButtonPressed)
         {
-           
-            if ((m_isPlayButtonPressed = m_data->input.isSpriteClicked(m_buttons[ StatesMenu::Game ], sf::Mouse::Left,
-                                                                       m_data->window)) == true)
+
+            if ((m_isPlayButtonPressed = m_data->input.isSpriteClicked(m_buttons[0], sf::Mouse::Left,
+                m_data->window)) == true)
             {
                 m_isPlayButtonSelected = true;
                 m_isSettingsButtonSelected = false;
@@ -103,8 +91,8 @@ void MainMenuState::HandleInput()
                 m_pressed = true;
             }
 
-            if ((m_isSettingsButtonPressed = m_data->input.isSpriteClicked(m_buttons[ StatesMenu::Settings ], sf::Mouse::Left,
-                                                                           m_data->window)) == true)
+            if ((m_isSettingsButtonPressed = m_data->input.isSpriteClicked(m_buttons[1], sf::Mouse::Left,
+                m_data->window)) == true)
             {
                 m_isSettingsButtonSelected = true;
                 m_isPlayButtonSelected = false;
@@ -114,8 +102,8 @@ void MainMenuState::HandleInput()
             }
 
 
-            if ((m_isAboutOurPressed = m_data->input.isSpriteClicked(m_buttons[ StatesMenu::AboutOur ], sf::Mouse::Left,
-                                                                     m_data->window)) == true)
+            if ((m_isAboutOurPressed = m_data->input.isSpriteClicked(m_buttons[2], sf::Mouse::Left,
+                m_data->window)) == true)
             {
                 m_isAboutOurSelected = true;
                 m_isPlayButtonSelected = false;
@@ -124,7 +112,7 @@ void MainMenuState::HandleInput()
                 m_pressed = true;
             }
 
-            if ((m_isRecordsPressed = m_data->input.isSpriteClicked(m_buttons[ StatesMenu::Records ], sf::Mouse::Left, m_data->window)) == true)
+            if ((m_isRecordsPressed = m_data->input.isSpriteClicked(m_buttons[3], sf::Mouse::Left, m_data->window)) == true)
             {
                 m_isAboutOurSelected = false;
                 m_isPlayButtonSelected = false;
@@ -142,12 +130,13 @@ void MainMenuState::Update( float dt )
 
     if (m_pressed)
     {
+        m_pressed = false;
+        m_sound->play();
         if (m_clock.getElapsedTime().asSeconds() > 2.0)
         {
             // StopSound();
             m_music->pause();
             m_sound->pause();
-            m_pressed = false;
             if (m_isPlayButtonSelected)
             {
                  m_data->machine.AddState(StateRef(new GameState(m_data)), true);
@@ -185,32 +174,32 @@ void MainMenuState::updateColorButton()
 {
     if (m_isPlayButtonSelected)
     {
-        m_buttons[StatesMenu::Game ].setFillColor(sf::Color::Black);
-        m_buttons[StatesMenu::Settings].setFillColor(sf::Color::White);
-        m_buttons[StatesMenu::AboutOur].setFillColor(sf::Color::White);
-        m_buttons[StatesMenu::Records].setFillColor(sf::Color::White);
+        m_buttons[0].setFillColor(sf::Color::Black);
+        m_buttons[1].setFillColor(sf::Color::White);
+        m_buttons[2].setFillColor(sf::Color::White);
+        m_buttons[3].setFillColor(sf::Color::White);
 
     }
     else if (m_isSettingsButtonSelected)
     {
-        m_buttons[StatesMenu::Game].setFillColor(sf::Color::White);
-        m_buttons[StatesMenu::Settings].setFillColor(sf::Color::Black);
-        m_buttons[StatesMenu::AboutOur].setFillColor(sf::Color::White);
-        m_buttons[StatesMenu::Records].setFillColor(sf::Color::White);
+        m_buttons[0].setFillColor(sf::Color::White);
+        m_buttons[1].setFillColor(sf::Color::Black);
+        m_buttons[2].setFillColor(sf::Color::White);
+        m_buttons[3].setFillColor(sf::Color::White);
 
     }
     else if (m_isAboutOurSelected)
     {
-        m_buttons[StatesMenu::Game].setFillColor(sf::Color::White);
-        m_buttons[StatesMenu::Settings].setFillColor(sf::Color::White);
-        m_buttons[StatesMenu::AboutOur].setFillColor(sf::Color::Black);
-        m_buttons[StatesMenu::Records].setFillColor(sf::Color::White);
+        m_buttons[0].setFillColor(sf::Color::White);
+        m_buttons[1].setFillColor(sf::Color::White);
+        m_buttons[2].setFillColor(sf::Color::Black);
+        m_buttons[3].setFillColor(sf::Color::White);
     }
     else if( m_isRecordsSelected)
     {
-        m_buttons[StatesMenu::Game].setFillColor(sf::Color::White);
-        m_buttons[StatesMenu::Settings].setFillColor(sf::Color::White);
-        m_buttons[StatesMenu::AboutOur].setFillColor(sf::Color::White);
-        m_buttons[StatesMenu::Records].setFillColor(sf::Color::Black);
+        m_buttons[0].setFillColor(sf::Color::White);
+        m_buttons[1].setFillColor(sf::Color::White);
+        m_buttons[2].setFillColor(sf::Color::White);
+        m_buttons[3].setFillColor(sf::Color::Black);
     }
 }

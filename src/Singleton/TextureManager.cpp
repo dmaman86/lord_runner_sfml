@@ -16,13 +16,13 @@ TextureManager& TextureManager::getInstance()
 	return instance;
 }
 
-bool TextureManager::addTexture(std::string name, std::string fileName)
+bool TextureManager::addTexture(Textures::ID nameId, std::string fileName)
 {
-	auto it = texture_map.find(name);
+	auto it = texture_map.find(nameId);
 
 	if (it != texture_map.end())
 	{
-		std::cout << "Unable to add texture: " << name << ", already exists" << std::endl;
+		std::cout << "Unable to add texture, already exists" << std::endl;
 		return false;
 	}
 
@@ -34,16 +34,16 @@ bool TextureManager::addTexture(std::string name, std::string fileName)
 		return false;
 	}
 
-	texture_map.emplace(name,std::move(texture));
+	texture_map.emplace(nameId,std::move(texture));
 	return true;
 }
 
-std::unique_ptr<sf::Texture> TextureManager::getTexture(std::string name)
+std::unique_ptr<sf::Texture> TextureManager::getTexture(Textures::ID nameId)
 {
-	auto it = texture_map.find(name);
+	auto it = texture_map.find(nameId);
 	if (it == texture_map.end())
 	{
-		std::cout << "Unable to load texture: " << name << ", doesn't exists." << std::endl;
+		std::cout << "Unable to load texture, doesn't exists." << std::endl;
 		return nullptr;
 	}
 	return std::move(it->second);

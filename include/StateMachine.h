@@ -5,7 +5,6 @@
 #include <map>
 
 #include "State.h"
-#include "IdentifiersState.h"
 
 typedef std::unique_ptr< State > StateRef;
 

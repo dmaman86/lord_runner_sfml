@@ -4,14 +4,10 @@
 #include "SplashState.h"
 #include "MainMenuState.h"
 #include "Singleton/ResourceManager.h"
+#include "Identifiers.h"
 
-SplashState::SplashState( GameDataRef & data )
+SplashState::SplashState( GameDataRef& data )
     :m_data( data )
-{
-
-}
-
-SplashState::~SplashState()
 {
 
 }
@@ -20,20 +16,16 @@ void SplashState::Init()
 {
     sf::Vector2u textureSize, windowSize;
 
-    m_sound = SoundManager::getInstance().getSound("Open State");
-
     windowSize = this->m_data->window.getSize();
-    textureSize = this->m_data->assets.GetTexture( Textures::Splash ).getSize();
 
-    std::unique_ptr<sf::Texture> texture = TextureManager::getInstance().getTexture("BackGround Open");
+    std::unique_ptr<sf::Texture> texture = TextureManager::getInstance().getTexture(Textures::ID::Splash);
+    textureSize = texture->getSize();
 
     m_background.setTexture( *texture );
     m_background.setScale( ( float )windowSize.x / textureSize.x,
                            ( float )windowSize.y / textureSize.y );
-}
 
-void SplashState::PlaySound( float dt )
-{
+    m_sound = SoundManager::getInstance().getSound(SoundEffect::ID::Open);
     m_sound->play();
 }
 

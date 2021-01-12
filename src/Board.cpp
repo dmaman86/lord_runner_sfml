@@ -32,32 +32,32 @@ void Board::initData(sf::Vector2f pos, char c)
 	if (c == '@')
 	{
         m_player = std::make_unique< Player >( pos, m_avgPix,
-                                               &m_textures.GetTexture( Textures::Player ) );
+                                               &m_textures.GetTexture( Textures::ID::Player ) );
 	}
 	if (c == '%')
 	{
         m_monsters.push_back( std::make_unique< Monster >( pos, m_avgPix,
-                                                           &m_textures.GetTexture( Textures::Monster ) ) );
+                                                           &m_textures.GetTexture( Textures::ID::Monster ) ) );
 	}
 	else if (c == '-')
 	{
         m_static_obj.push_back( std::make_unique< Ropes >( pos, m_avgPix,
-                                                           &m_textures.GetTexture( Textures::Ropes ) ) );
+                                                           &m_textures.GetTexture( Textures::ID::Ropes ) ) );
 	}
 	else if (c == 'H')
 	{
         m_static_obj.push_back( std::make_unique< Ladder >( pos, m_avgPix,
-                                                            &m_textures.GetTexture( Textures::Ladder ) ) );
+                                                            &m_textures.GetTexture( Textures::ID::Ladder ) ) );
 	}
 	else if (c == '#')
 	{
         m_static_obj.push_back( std::make_unique< Floor >( pos, m_avgPix,
-                                                           &m_textures.GetTexture( Textures::Floor ) ) );
+                                                           &m_textures.GetTexture( Textures::ID::Floor ) ) );
 	}
 	else if (c == '*')
 	{
         m_static_obj.push_back( std::make_unique< Coin >( pos, m_avgPix,
-                                                          &m_textures.GetTexture( Textures::Coin ) ) );
+                                                          &m_textures.GetTexture( Textures::ID::Coin ) ) );
 	}
 }
 
@@ -171,10 +171,10 @@ void Board::renderPlayer(sf::RenderWindow* target)
 
 void Board::initTextures()
 {
-    m_textures.LoadTexture( Textures::Player, "hero.png" );
-    m_textures.LoadTexture( Textures::Monster, "monster.png" );
-    m_textures.LoadTexture( Textures::Ropes, "ropes.png" );
-    m_textures.LoadTexture( Textures::Coin, "coin.png" );
-    m_textures.LoadTexture( Textures::Floor, "wall.png" );
-    m_textures.LoadTexture( Textures::Ladder, "ladder.png" );
+    m_textures.LoadTexture( Textures::ID::Player, "hero.png" );
+    m_textures.LoadTexture( Textures::ID::Monster, "monster.png" );
+    m_textures.LoadTexture( Textures::ID::Ropes, "ropes.png" );
+    m_textures.LoadTexture( Textures::ID::Coin, "coin.png" );
+    m_textures.LoadTexture( Textures::ID::Floor, "wall.png" );
+    m_textures.LoadTexture( Textures::ID::Ladder, "ladder.png" );
 }
