@@ -2,7 +2,7 @@
 
 namespace Textures
 {
-    enum class ID
+    enum ID
     {
         Splash,
         Menu,
@@ -19,7 +19,7 @@ namespace Textures
 
 namespace Fonts
 {
-    enum class ID
+    enum ID
     {
         Main,
     };
@@ -27,17 +27,19 @@ namespace Fonts
 
 namespace SoundEffect
 {
-    enum class ID
+    enum ID
     {
         Open,
         MoveState,
-        PlayerCoin
+        PlayerCoin,
+        Menu,
+        Game
     };
 }
 
 namespace Music
 {
-    enum class ID
+    enum ID
     {
         Menu,
         Game

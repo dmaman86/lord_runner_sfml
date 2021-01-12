@@ -4,7 +4,7 @@
 
 Board::Board()
 {
-    initTextures();
+    // initTextures();
 }
 
 Board::~Board() 
@@ -31,33 +31,32 @@ void Board::initData(sf::Vector2f pos, char c)
 	    return;
 	if (c == '@')
 	{
-        m_player = std::make_unique< Player >( pos, m_avgPix,
-                                               &m_textures.GetTexture( Textures::ID::Player ) );
+        m_player = std::make_unique< Player >( pos, m_avgPix,&TextureManager::getInstance().getTexture(Textures::Player));
 	}
 	if (c == '%')
 	{
         m_monsters.push_back( std::make_unique< Monster >( pos, m_avgPix,
-                                                           &m_textures.GetTexture( Textures::ID::Monster ) ) );
+                                                           &TextureManager::getInstance().getTexture(Textures::Monster) ) );
 	}
 	else if (c == '-')
 	{
         m_static_obj.push_back( std::make_unique< Ropes >( pos, m_avgPix,
-                                                           &m_textures.GetTexture( Textures::ID::Ropes ) ) );
+                                                           &TextureManager::getInstance().getTexture(Textures::Ropes) ) );
 	}
 	else if (c == 'H')
 	{
         m_static_obj.push_back( std::make_unique< Ladder >( pos, m_avgPix,
-                                                            &m_textures.GetTexture( Textures::ID::Ladder ) ) );
+                                                            &TextureManager::getInstance().getTexture(Textures::Ladder)) );
 	}
 	else if (c == '#')
 	{
         m_static_obj.push_back( std::make_unique< Floor >( pos, m_avgPix,
-                                                           &m_textures.GetTexture( Textures::ID::Floor ) ) );
+                                                           &TextureManager::getInstance().getTexture(Textures::Floor) ) );
 	}
 	else if (c == '*')
 	{
         m_static_obj.push_back( std::make_unique< Coin >( pos, m_avgPix,
-                                                          &m_textures.GetTexture( Textures::ID::Coin ) ) );
+                                                          &TextureManager::getInstance().getTexture(Textures::Coin) ) );
 	}
 }
 
@@ -169,7 +168,7 @@ void Board::renderPlayer(sf::RenderWindow* target)
 }
 
 
-void Board::initTextures()
+/*void Board::initTextures()
 {
     m_textures.LoadTexture( Textures::ID::Player, "hero.png" );
     m_textures.LoadTexture( Textures::ID::Monster, "monster.png" );
@@ -177,4 +176,4 @@ void Board::initTextures()
     m_textures.LoadTexture( Textures::ID::Coin, "coin.png" );
     m_textures.LoadTexture( Textures::ID::Floor, "wall.png" );
     m_textures.LoadTexture( Textures::ID::Ladder, "ladder.png" );
-}
+}*/

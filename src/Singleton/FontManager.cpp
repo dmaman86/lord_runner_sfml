@@ -26,25 +26,26 @@ bool FontManager::addFont(Fonts::ID nameId, std::string fileName)
 		return false;
 	}
 
-	std::unique_ptr<sf::Font> font = std::make_unique<sf::Font>();
+	sf::Font *font = new sf::Font();
 
 	if (!font->loadFromFile(fileName))
 	{
 		std::cout << "Unable to open font: " << fileName << std::endl;
 		return false;
 	}
-
-	font_map.emplace(nameId, std::move(font));
+    font_map[ nameId ] = *font;
 	return true;
 }
 
-std::unique_ptr<sf::Font> FontManager::getFont(Fonts::ID nameId)
+sf::Font& FontManager::getFont(Fonts::ID nameId)
 {
+    sf::Font *font = nullptr;
 	auto it = font_map.find(nameId);
 	if (it == font_map.end())
 	{
 		std::cout << "Unable to load font, doesn't exists." << std::endl;
-		return nullptr;
+		return *font;
 	}
-	return std::move(it->second);
+	font = &it->second;
+	return *font;
 }

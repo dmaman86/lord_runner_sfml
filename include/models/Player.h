@@ -23,5 +23,5 @@ private:
 	int m_score;
 	bool m_is_injured;
 	
-	std::unique_ptr<sf::Sound>m_sound;
+	sf::Sound m_sound;
 };

@@ -24,3 +24,8 @@ void GameOverState::Draw(float dt)
 {
 
 }
+
+void GameOverState::PlaySound()
+{
+
+}

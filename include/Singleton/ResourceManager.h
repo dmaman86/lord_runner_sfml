@@ -16,7 +16,7 @@ private:
 	~ResourceManager();
 
 	FontManager& fontManager = FontManager::getInstance();
-	MusicManager& musicManager = MusicManager::getInstance();
+	// MusicManager& musicManager = MusicManager::getInstance();
 	TextureManager& textureManager = TextureManager::getInstance();
 	SoundManager& soundManager = SoundManager::getInstance();
 };

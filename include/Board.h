@@ -13,7 +13,7 @@
 #include "models/Ladder.h"
 #include "models/Coin.h"
 #include "models/Ropes.h"
-#include "AssetManager.h"
+#include "Singleton/ResourceManager.h"
 
 class Board
 {
@@ -39,8 +39,6 @@ private:
 	//std::vector<StaticObj*> m_static_obj;
 	std::vector<std::unique_ptr<StaticObject>> m_static_obj;
 
-	AssetManager m_textures;
-
 	
 	//Player m_player;
 	std::unique_ptr<DynamicObject> m_player;
@@ -57,7 +55,7 @@ private:
 	bool isInRange(DynamicObject& creacure);
 
 
-	void initTextures();
+	// void initTextures();
 
 
 };

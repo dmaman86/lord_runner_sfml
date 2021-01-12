@@ -14,6 +14,7 @@ public:
     void HandleInput() override;
     void Update( float dt ) override;
     void Draw( float dt ) override;
+    void PlaySound() override;
 
 private:
     GameDataRef  m_data;
@@ -21,9 +22,10 @@ private:
     sf::Sprite m_background;
     std::vector< sf::Text > m_buttons;
 
-    sf::Music *m_music;
+    // sf::Music m_music;
     // std::unique_ptr<sf::Music> m_music;
-    std::unique_ptr<sf::Sound> m_sound;
+    sf::Sound m_sound;
+    sf::Sound m_sound_state;
     // sf::Sound m_sound;
 
     bool m_isPlayButtonSelected;

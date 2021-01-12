@@ -26,7 +26,7 @@ bool SoundManager::addSound(SoundEffect::ID nameId, std::string fileName)
 		return false;
 	}
 
-	std::unique_ptr<sf::SoundBuffer> soundBuffer = std::make_unique<sf::SoundBuffer>();
+	sf::SoundBuffer *soundBuffer = new sf::SoundBuffer();
 
 	if (!soundBuffer->loadFromFile(fileName))
 	{
@@ -37,19 +37,20 @@ bool SoundManager::addSound(SoundEffect::ID nameId, std::string fileName)
 	soundBuffer_vec.push_back(std::move(*(soundBuffer)));
 	unsigned int soundBufferVecSize = soundBuffer_vec.size();
 	std::unique_ptr<sf::Sound> sound = std::make_unique<sf::Sound>(std::move(soundBuffer_vec[soundBufferVecSize - 1]));
-
-	sound_map.emplace(nameId, std::move(sound));
+    sound_map[ nameId ] = *sound;
 	return true;
 }
 
-std::unique_ptr<sf::Sound> SoundManager::getSound(SoundEffect::ID nameId)
+sf::Sound& SoundManager::getSound(SoundEffect::ID nameId)
 {
+    sf::Sound *sound = nullptr;
 	auto it = sound_map.find(nameId);
 
 	if (it == sound_map.end())
 	{
 		std::cout << "Unable to load sound, doesn't exist" << std::endl;
-		return nullptr;
+		return *sound;
 	}
-	return std::move(it->second);
+	sound = &it->second;
+	return *sound;
 }

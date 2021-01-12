@@ -13,6 +13,7 @@ public:
     void HandleInput() override;
     void Update( float dt ) override;
     void Draw( float dt ) override;
+    void PlaySound() override;
 
 private:
     GameDataRef  m_data;
@@ -21,5 +22,5 @@ private:
     // std::unique_ptr<sf::Sprite> m_background;
 
     // sf::Sound m_sound;
-    std::unique_ptr<sf::Sound> m_sound;
+     sf::Sound m_sound;
 };

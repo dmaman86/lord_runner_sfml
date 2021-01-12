@@ -4,7 +4,7 @@
 #include <iostream>
 #include <algorithm>
 
-void AssetManager::LoadTexture( Textures::ID name, std::string fileName )
+/*void AssetManager::LoadTexture( Textures::ID name, std::string fileName )
 {
     if( m_textures.find( name ) == m_textures.end() )
         if( !this->m_textures[ name ].loadFromFile( fileName ) )
@@ -55,4 +55,4 @@ void AssetManager::LoadMusicFile( std::string name, std::string fileName )
 std::string& AssetManager::GetMusic( std::string name )
 {
     return this->m_music.at( name );
-}
+}*/

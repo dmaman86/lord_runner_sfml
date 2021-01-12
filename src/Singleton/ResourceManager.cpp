@@ -19,23 +19,23 @@ ResourceManager& ResourceManager::getInstance()
 
 void ResourceManager::loadResource()
 {
-	musicManager.addMusic(Music::ID::Menu, "menusound.wav");
-	musicManager.addMusic(Music::ID::Game, "gamesound.wav");
+    soundManager.addSound(SoundEffect::Menu, "menusound.wav");
+    soundManager.addSound(SoundEffect::Game, "gamesound.wav");
 
-	soundManager.addSound(SoundEffect::ID::MoveState, "new_move_next_state.wav");
-	soundManager.addSound(SoundEffect::ID::Open, "open.wav");
-	soundManager.addSound(SoundEffect::ID::PlayerCoin, "player_coin.wav");
+	soundManager.addSound(SoundEffect::MoveState, "new_move_next_state.wav");
+	soundManager.addSound(SoundEffect::Open, "open.wav");
+	soundManager.addSound(SoundEffect::PlayerCoin, "player_coin.wav");
 
-	fontManager.addFont(Fonts::ID::Main, "arial.ttf");
+	fontManager.addFont(Fonts::Main, "arial.ttf");
 
-	textureManager.addTexture(Textures::ID::Game, "background.png");
-	textureManager.addTexture(Textures::ID::Menu, "background_menu.png");
-	textureManager.addTexture(Textures::ID::Splash, "splash_background.png");
+	textureManager.addTexture(Textures::Game, "background.png");
+	textureManager.addTexture(Textures::Menu, "background_menu.png");
+	textureManager.addTexture(Textures::Splash, "splash-background.png");
 
-	textureManager.addTexture(Textures::ID::Coin, "coin.png");
-	textureManager.addTexture(Textures::ID::Player, "hero.png");
-	textureManager.addTexture(Textures::ID::Ladder, "ladder.png");
-	textureManager.addTexture(Textures::ID::Monster, "monster.png");
-	textureManager.addTexture(Textures::ID::Ropes, "ropes.png");
-	textureManager.addTexture(Textures::ID::Floor, "wall.png");
+	textureManager.addTexture(Textures::Coin, "coin.png");
+	textureManager.addTexture(Textures::Player, "hero.png");
+	textureManager.addTexture(Textures::Ladder, "ladder.png");
+	textureManager.addTexture(Textures::Monster, "monster.png");
+	textureManager.addTexture(Textures::Ropes, "ropes.png");
+	textureManager.addTexture(Textures::Floor, "wall.png");
 }

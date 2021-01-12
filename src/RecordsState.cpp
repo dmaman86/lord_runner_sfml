@@ -24,3 +24,8 @@ void RecordsState::Draw(float dt)
 {
 
 }
+
+void RecordsState::PlaySound()
+{
+
+}

@@ -24,3 +24,8 @@ void GameWinState::Draw(float dt)
 {
 
 }
+
+void GameWinState::PlaySound()
+{
+
+}

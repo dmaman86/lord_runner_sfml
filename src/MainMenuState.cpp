@@ -8,7 +8,7 @@
 #include "Singleton/ResourceManager.h"
 
 MainMenuState::MainMenuState( GameDataRef& data )
-    :m_data( data ), m_playMusic( true )
+     :m_data( data ), m_playMusic( true )
 {
     m_isPlayButtonSelected = false;
     m_isPlayButtonPressed = false;
@@ -18,28 +18,26 @@ MainMenuState::MainMenuState( GameDataRef& data )
     m_isAboutOurPressed = false;
     m_isRecordsPressed = false;
     m_isRecordsSelected = false;
-
-    m_music = new sf::Music();
 }
 
 void MainMenuState::Init()
 {
     sf::Vector2u textureSize, windowSize;
 
-    m_sound = SoundManager::getInstance().getSound(SoundEffect::ID::MoveState);
+    m_sound = SoundManager::getInstance().getSound(SoundEffect::MoveState);
 
 
     windowSize = this->m_data->window.getSize();
 
-    std::unique_ptr<sf::Texture> texture = TextureManager::getInstance().getTexture(Textures::ID::Menu);
-    textureSize = texture->getSize();
-    m_background.setTexture(*texture);
+    sf::Texture texture = TextureManager::getInstance().getTexture(Textures::Menu);
+    textureSize = texture.getSize();
+    m_background.setTexture(texture);
     m_background.setScale( ( float )windowSize.x / textureSize.x,
                            ( float )windowSize.y / textureSize.y );
 
     sf::Text text;
-    std::unique_ptr<sf::Font> font = FontManager::getInstance().getFont(Fonts::ID::Main);
-    text.setFont(*font);
+    sf::Font font = FontManager::getInstance().getFont(Fonts::Main);
+    text.setFont(font);
     text.setCharacterSize( 55 );
     text.setStyle( sf::Text::Bold );
 
@@ -59,11 +57,14 @@ void MainMenuState::Init()
     m_buttons[ 2 ].setString( "About Our" );
     m_buttons[ 3 ].setString("Records Game");
 
-    if ((m_music = (MusicManager::getInstance().getMusic(Music::ID::Menu))) != nullptr)
-    {
-        m_music->setLoop(true);
-        m_music->play();
-    }
+    m_sound_state = SoundManager::getInstance().getSound(SoundEffect::Menu);
+    m_sound_state.setLoop(true);
+    // m_sound_state.play();
+}
+
+void MainMenuState::PlaySound()
+{
+    m_sound_state.play();
 }
 
 void MainMenuState::HandleInput()
@@ -74,7 +75,7 @@ void MainMenuState::HandleInput()
     {
         if (sf::Event::Closed == event.type || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         {
-            m_music->stop();
+            m_sound_state.stop();
             m_data->window.close();
         }
 
@@ -131,12 +132,12 @@ void MainMenuState::Update( float dt )
     if (m_pressed)
     {
         m_pressed = false;
-        m_sound->play();
+        m_sound.play();
         if (m_clock.getElapsedTime().asSeconds() > 2.0)
         {
             // StopSound();
-            m_music->pause();
-            m_sound->pause();
+            m_sound_state.stop();
+            m_sound.stop();
             if (m_isPlayButtonSelected)
             {
                  m_data->machine.AddState(StateRef(new GameState(m_data)), true);

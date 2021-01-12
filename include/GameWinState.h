@@ -23,7 +23,8 @@ public:
     void HandleInput() override;
     void Update(float dt) override;
     void Draw(float dt) override;
+    void PlaySound() override;
 
 private:
-
+    
 };

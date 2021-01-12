@@ -8,13 +8,12 @@
 #include "AssetManager.h"
 #include "InputManager.h"
 #include "Singleton/ResourceManager.h"
-#include "ResourceManager/ResourceIdentifiers.h"
 
 struct GameData{
     StateMachine machine;
     sf::RenderWindow window;
     InputManager input;
-    ResourceManager resources;
+    ResourceManager *resources;
 };
 
 typedef std::shared_ptr< GameData > GameDataRef;
@@ -28,5 +27,5 @@ private:
     float m_dt;
 
     sf::Clock m_clock;
-    GameDataRef m_data = std::make_shared< GameData >();
+    GameDataRef m_data = std::make_shared<GameData>();
 };
