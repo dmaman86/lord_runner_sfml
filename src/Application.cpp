@@ -57,28 +57,6 @@ Application::Application()
 
 void Application::run()
 {
-	/*sf::Clock clock;
-	double timeSinceLastUpdate = 0.0f;
-
-	while (mWindow.isOpen())
-	{
-		double dt = clock.getElapsedTime().asSeconds();
-		timeSinceLastUpdate += dt;
-		while (timeSinceLastUpdate > TimePerFrame)
-		{
-			timeSinceLastUpdate -= TimePerFrame;
-
-			processInput();
-			update(TimePerFrame);
-
-			// Check inside this loop, because stack might be empty before update() call
-			if (mStateStack.isEmpty())
-				mWindow.close();
-		}
-
-		updateStatistics(dt);
-		render();
-	}*/
 	float newTime, frameTime, interpolation;
 	float currentTime = this->m_clock.getElapsedTime().asSeconds();
 	float accumulator = 0.0f;
