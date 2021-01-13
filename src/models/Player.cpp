@@ -59,7 +59,7 @@ void Player::newData(sf::Vector2f pos, sf::Vector2f avgPix)
 	this->m_rec->setScale(m_rec->getScale() * (float)0.8);
 	//m_rec->setOrigin(avgPix.x / 2.f, avgPix.y / 2.f);
 	m_rec->setPosition(sf::Vector2f((pos.x * avgPix.x + avgPix.x / 2u),
-		((pos.y * avgPix.y) + avgPix.y / 2u)));
+		((pos.y * avgPix.y) + avgPix.y / 2u )));
 	//(sf::Vector2f((pos.x * avgPix.x) + avgPix.x / 2u, (pos.y * avgPix.y) + avgPix.y / 2u));
 
 	this->m_first_position = m_rec->getPosition();
