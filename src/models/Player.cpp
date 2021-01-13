@@ -9,7 +9,8 @@
 #endif
 
 Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
-	DynamicObject(pos, size, 250,txt) ,m_life(0),m_score(0),m_is_injured(false)
+	DynamicObject(pos, size, 250,txt) ,
+	m_life(0),m_score(0),m_is_injured(false), m_coin_collected(0)
 {
 	
 }
@@ -35,6 +36,7 @@ void Player::handleColision(Coin& obj)
 	if (obj.isExsist())
 	{
 		obj.handleColision(*this);
+		m_coin_collected++;
 		// m_sound.play();
 		this->m_score++;
 	}
@@ -49,6 +51,23 @@ void Player::handleColision(Monster& obj)
 	//std::this_thread::sleep_for(std::chrono::seconds(10));
 }
 
+void Player::newData(sf::Vector2f pos, sf::Vector2f avgPix)
+{
+	m_rec->setScale(
+		(avgPix.x / (m_rec->getTexture()->getSize().x)),
+		(avgPix.y / (m_rec->getTexture()->getSize().y)));
+	this->m_rec->setScale(m_rec->getScale() * (float)0.8);
+	//m_rec->setOrigin(avgPix.x / 2.f, avgPix.y / 2.f);
+	m_rec->setPosition(sf::Vector2f((pos.x * avgPix.x + avgPix.x / 2u),
+		((pos.y * avgPix.y) + avgPix.y / 2u)));
+	//(sf::Vector2f((pos.x * avgPix.x) + avgPix.x / 2u, (pos.y * avgPix.y) + avgPix.y / 2u));
+
+	this->m_first_position = m_rec->getPosition();
+	this->m_coin_collected = 0;
+
+}
+
+
 bool Player::isInjured()
 {
 	if (m_is_injured)
@@ -57,6 +76,11 @@ bool Player::isInjured()
 		return true;
 	}
 	return false;
+}
+
+int Player::getCoinCollected()
+{
+	return  this->m_coin_collected;
 }
 
 

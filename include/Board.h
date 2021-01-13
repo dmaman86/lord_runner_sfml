@@ -26,6 +26,8 @@ public:
 	void initAvg(size_t, size_t);
 	void initData(sf::Vector2f pos, char c, TextureHolder& textures );
 	void update(const float& dt);
+	int getCoinCount();
+	void newLevel();
 
 	
 	void renderMonster(sf::RenderWindow* window);

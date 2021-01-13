@@ -11,7 +11,7 @@ DynamicObject::DynamicObject
 	: Object(pos, size , txt), m_moveSpeed(speed),m_dircetion(0)
 {
 	// that made dynamic Object can move betwwen two static Object
-	this->m_rec->setScale(m_rec->getScale() * (float)0.95);
+	this->m_rec->setScale(m_rec->getScale() * (float)0.8);
 	m_first_position = this->m_rec->getPosition();
 }
 

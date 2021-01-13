@@ -31,7 +31,16 @@ void Board::initData(sf::Vector2f pos, char c, TextureHolder& textures)
 	    return;
 	if (c == '@')
 	{
-		m_player = std::make_unique< Player >(pos, m_avgPix, &textures.get(Textures::Player));
+		if (m_player)
+		{
+			Player* p = dynamic_cast <Player*> (&*this->m_player);
+			if (p) {
+				p->newData(pos, m_avgPix);
+			}
+		}
+		else {
+			m_player = std::make_unique< Player >(pos, m_avgPix, &textures.get(Textures::Player));
+		}
 	}
 	if (c == '%')
 	{
@@ -78,6 +87,24 @@ void Board::update(const float& dt)
 	this->playerCheckInjured();
 	this->updateMonsters(dt);
 	//this->collisionsDynamic(*this->m_player);
+}
+
+int Board::getCoinCount()
+{
+	Player* p = dynamic_cast <Player*> (&*this->m_player);
+	if (p) {
+		return p->getCoinCollected();
+	}
+	return 0;
+}
+void Board::newLevel()
+{
+	this->m_monsters.clear();
+	this->m_static_obj.clear();
+//	Player* p = dynamic_cast <Player*> (&*this->m_player);
+//	if (p) {
+//		p->newLevel();
+//	}
 }
 
 void Board::collisionsStatic(DynamicObject& creature)

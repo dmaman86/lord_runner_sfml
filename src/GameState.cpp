@@ -38,6 +38,18 @@ bool GameState::update(double dt)
 {
     m_board.update(dt); 
 
+	// NEW 
+	if (Coin::getCount() == this->m_board.getCoinCount())
+	{
+		// next level
+
+		this->m_numLevel++;
+		this->m_board.newLevel();
+		std::ifstream fd_readLevel(this->getPath());
+		if (fd_readLevel.is_open())
+			read_data(fd_readLevel);
+	}
+
     if (m_isPause)
     {
         m_isPause = false;

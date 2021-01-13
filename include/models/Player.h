@@ -15,6 +15,9 @@ public:
 	void virtual handleColision(Monster& obj) override;
 	void virtual handleColision(DynamicObject& obj) {};
 	bool isInjured();
+	int getCoinCollected();
+
+	void newData(sf::Vector2f pos, sf::Vector2f size);
 
 
 private:
@@ -22,5 +25,7 @@ private:
 	int m_score;
 	bool m_is_injured;
 	
+	int m_coin_collected;
+
 	// sf::Sound m_sound;
 };
