@@ -2,7 +2,6 @@
 
 #include "models/DynamicObject.h"
 #include "Coin.h"
-#include "Singleton/ResourceManager.h"
 
 class Monster;
 
@@ -23,5 +22,5 @@ private:
 	int m_score;
 	bool m_is_injured;
 	
-	sf::Sound m_sound;
+	// sf::Sound m_sound;
 };

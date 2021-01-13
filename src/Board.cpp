@@ -25,38 +25,33 @@ void Board::initAvg(size_t y, size_t x )
 	m_avgPix.y = (ROW_GAME_SCREEN / (float)y);
 }
 
-void Board::initData(sf::Vector2f pos, char c)
+void Board::initData(sf::Vector2f pos, char c, TextureHolder& textures)
 {
 	if( isspace( c ) || iscntrl( c ) || c == '\0' )
 	    return;
 	if (c == '@')
 	{
-        m_player = std::make_unique< Player >( pos, m_avgPix,&TextureManager::getInstance().getTexture(Textures::Player));
+		m_player = std::make_unique< Player >(pos, m_avgPix, &textures.get(Textures::Player));
 	}
 	if (c == '%')
 	{
-        m_monsters.push_back( std::make_unique< Monster >( pos, m_avgPix,
-                                                           &TextureManager::getInstance().getTexture(Textures::Monster) ) );
+		m_monsters.push_back(std::make_unique< Monster >(pos, m_avgPix, &textures.get(Textures::Monster)));
 	}
 	else if (c == '-')
 	{
-        m_static_obj.push_back( std::make_unique< Ropes >( pos, m_avgPix,
-                                                           &TextureManager::getInstance().getTexture(Textures::Ropes) ) );
+		m_static_obj.push_back(std::make_unique< Ropes >(pos, m_avgPix, &textures.get(Textures::Ropes)));
 	}
 	else if (c == 'H')
 	{
-        m_static_obj.push_back( std::make_unique< Ladder >( pos, m_avgPix,
-                                                            &TextureManager::getInstance().getTexture(Textures::Ladder)) );
+		m_static_obj.push_back(std::make_unique< Ladder >(pos, m_avgPix, &textures.get(Textures::Ladder)));
 	}
 	else if (c == '#')
 	{
-        m_static_obj.push_back( std::make_unique< Floor >( pos, m_avgPix,
-                                                           &TextureManager::getInstance().getTexture(Textures::Floor) ) );
+		m_static_obj.push_back(std::make_unique< Floor >(pos, m_avgPix, &textures.get(Textures::Wall)));
 	}
 	else if (c == '*')
 	{
-        m_static_obj.push_back( std::make_unique< Coin >( pos, m_avgPix,
-                                                          &TextureManager::getInstance().getTexture(Textures::Coin) ) );
+		m_static_obj.push_back(std::make_unique< Coin >(pos, m_avgPix, &textures.get(Textures::Coin)));
 	}
 }
 
@@ -166,14 +161,3 @@ void Board::renderPlayer(sf::RenderWindow* target)
 {
 	m_player->render(target);
 }
-
-
-/*void Board::initTextures()
-{
-    m_textures.LoadTexture( Textures::ID::Player, "hero.png" );
-    m_textures.LoadTexture( Textures::ID::Monster, "monster.png" );
-    m_textures.LoadTexture( Textures::ID::Ropes, "ropes.png" );
-    m_textures.LoadTexture( Textures::ID::Coin, "coin.png" );
-    m_textures.LoadTexture( Textures::ID::Floor, "wall.png" );
-    m_textures.LoadTexture( Textures::ID::Ladder, "ladder.png" );
-}*/

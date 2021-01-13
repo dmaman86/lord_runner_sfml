@@ -11,8 +11,7 @@
 Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
 	DynamicObject(pos, size, 250,txt) ,m_life(0),m_score(0),m_is_injured(false)
 {
-	m_sound = SoundManager::getInstance().getSound(SoundEffect::ID::PlayerCoin);
-	m_sound.setVolume(100.f);
+	
 }
 
 void Player::updateDirection()
@@ -36,7 +35,6 @@ void Player::handleColision(Coin& obj)
 	if (obj.isExsist())
 	{
 		obj.handleColision(*this);
-		SoundManager::getInstance().getSound(SoundEffect::ID::PlayerCoin).play();
 		// m_sound.play();
 		this->m_score++;
 	}

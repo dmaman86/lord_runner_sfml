@@ -1,49 +1,32 @@
 #pragma once
 
-#include <iostream>
-#include <ctime>
-#include <cstdlib>
-#include <sstream>
-#include <string>
-
-#include <SFML/System.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-
-#include "State.h"
-#include "Game.h"
+#include "./Machine/State.h"
 #include "Board.h"
+
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Text.hpp>
+
 
 class GameState : public State
 {
 public:
-    GameState( GameDataRef& data );
+	GameState(StateStack& stack, Context context);
 
-    void Init() override;
-    void HandleInput() override;
-    void Update( float dt ) override;
-    void Draw( float dt ) override;
-    void PlaySound() override;
+	virtual void		draw();
+	virtual bool		update(double dt);
+	virtual bool		handleEvent(const sf::Event& event);
+
 
 private:
-    GameDataRef  m_data;
-    Board m_board;
-    sf::Sprite m_background;
+	sf::Sprite				mBackgroundSprite;
+	sf::Sound m_sound;
+	sf::Sound m_soundState;
+	Board m_board;
 
-    std::string getPath();
-    void read_data( std::ifstream & );
+	std::string getPath();
+	void read_data(std::ifstream&);
+	int m_numLevel = 1;
+	bool m_isPause;
 
-    int m_numLevel = 1;
-
-    sf::Sound m_sound;
-    sf::Sound m_sound_state;
-    // std::unique_ptr<sf::Music> m_music;
-
-    // sf::SoundBuffer m_soundBuffer;
-    // sf::Sound m_sound;
-
-    // sf::Music *m_music;
-
-    bool m_isPause;
+	sf::Clock m_clock;
 };

@@ -1,19 +1,21 @@
+#include "Application.h"
+
+#include <stdexcept>
 #include <iostream>
 #include <cstdlib>
-#include <stdexcept>
 
-#include "Game.h"
 
 int main()
 {
-    try{
-        Game game( 1920, 1080, "Lord Runner Game" );
-        game.Run();
+	try
+	{
+		Application app;
+		app.run();
+	}
+	catch (std::exception& e)
+	{
+		std::cout << "\nEXCEPTION: " << e.what() << std::endl;
+	}
 
-    }catch( std::exception & err )
-    {
-        std::cout << "Exception: " << err.what() << std::endl;
-    }
-
-    return( EXIT_SUCCESS );
+	return(EXIT_SUCCESS);
 }

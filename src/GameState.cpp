@@ -1,81 +1,65 @@
 #include "GameState.h"
-#include "PauseState.h"
 
-#include "Identifiers.h"
-#include "Singleton/ResourceManager.h"
+#include <SFML/Graphics/RenderWindow.hpp>
 
-GameState::GameState( GameDataRef& data ) : m_data( data ), m_isPause( false )
+
+GameState::GameState(StateStack& stack, Context context)
+	: State(stack, context)
 {
-    std::ifstream fd_readLevel( getPath() );
-    if( fd_readLevel.is_open() )
-        read_data( fd_readLevel );
+    m_isPause = false;
+	std::ifstream fd_readLevel(getPath());
+	if (fd_readLevel.is_open())
+		read_data(fd_readLevel);
+
+    mBackgroundSprite.setTexture(context.textures->get(Textures::Game));
+    m_soundState.setBuffer(context.sounds->get(SoundEffect::Game));
+    m_soundState.setLoop(true);
+    m_sound.setBuffer(context.sounds->get(SoundEffect::Button));
+
+    m_soundState.play();
 }
 
-void GameState::Init()
+void GameState::draw()
 {
-    sf::Texture texture = TextureManager::getInstance().getTexture(Textures::Game);
+    sf::RenderWindow& window = *getContext().window;
 
-    m_background.setTexture( texture );
+    window.setView(window.getDefaultView());
 
-    m_sound = SoundManager::getInstance().getSound(SoundEffect::PlayerCoin);
-    m_sound_state = SoundManager::getInstance().getSound(SoundEffect::Game);
-    m_sound_state.setLoop(true);
-    // m_sound_state.play();
+    window.draw(mBackgroundSprite);
+
+    m_board.renderStaticObj(&window);
+
+    m_board.renderMonster(&window);
+
+    m_board.renderPlayer(&window);
 }
 
-void GameState::PlaySound()
+bool GameState::update(double dt)
 {
-    m_sound_state.play();
-}
+    m_board.update(dt); 
 
-void GameState::HandleInput()
-{
-    sf::Event event;
-
-    while( m_data->window.pollEvent( event ) )
-    {
-        if( sf::Event::Closed == event.type )
-        {
-            m_sound_state.stop();
-            m_data->window.close();
-        }
-        if( sf::Keyboard::isKeyPressed( sf::Keyboard::Escape ) )
-        {
-            m_sound_state.stop();
-            m_data->window.close();
-        }
-        if( sf::Keyboard::isKeyPressed( sf::Keyboard::Space ) )
-        {
-            m_isPause = true;
-        }
-    }
-}
-
-void GameState::Update( float dt )
-{
-    m_board.update( dt );
-
-    if( m_isPause )
+    if (m_isPause)
     {
         m_isPause = false;
-        m_sound_state.stop();
-        m_data->machine.AddState( StateRef( new PauseState( m_data ) ), true );
+        m_soundState.pause();
+        requestStackPush(States::Pause);
     }
+
+	return true;
 }
 
-void GameState::Draw( float dt )
+bool GameState::handleEvent(const sf::Event& event)
 {
-    m_data->window.clear();
+    if (sf::Event::Closed == event.type || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+    {
+        m_soundState.stop();
+        getContext().window->close();
+    }
 
-    m_data->window.draw( m_background );
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        m_isPause = true;
 
-    m_board.renderStaticObj( &m_data->window );
-
-    m_board.renderMonster( &m_data->window );
-
-    m_board.renderPlayer( &m_data->window );
-
-    m_data->window.display();
+	return true;
 }
 
 //Private function
@@ -95,17 +79,15 @@ void GameState::read_data(std::ifstream& fd_readLevel)
     this->m_board.initAvg(height, weidth);
 
     fd_readLevel.get(c);	//eat '\n'
-    for (size_t i = 0; i < height ;i++)
+    for (size_t i = 0; i < height; i++)
     {
-        for (size_t j = 0; j < weidth;j++)
+        for (size_t j = 0; j < weidth; j++)
         {
             fd_readLevel.get(c);
-            m_board.initData(sf::Vector2f((float)j, (float)i), c);
+            m_board.initData(sf::Vector2f((float)j, (float)i), c, *getContext().textures);
         }
         fd_readLevel.get(c);	//eat '\n'
     }
 
     fd_readLevel.close();
 }
-
-

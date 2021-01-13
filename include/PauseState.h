@@ -1,39 +1,46 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include "./Machine/State.h"
+
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Text.hpp>
 #include <SFML/Audio.hpp>
-#include "State.h"
-#include "Game.h"
+
 #include <vector>
 
-class PauseState : public State{
-public:
-    PauseState( GameDataRef& data );
 
-    void Init() override;
-    void HandleInput() override;
-    void Update( float dt ) override;
-    void Draw( float dt ) override;
-    void PlaySound() override;
+class PauseState : public State
+{
+public:
+	PauseState(StateStack& stack, Context context);
+	~PauseState();
+
+	virtual void		draw();
+	virtual bool		update(double dt);
+	virtual bool		handleEvent(const sf::Event& event);
+
 
 private:
-    GameDataRef  m_data;
-    sf::Sprite m_background;
-    sf::Text m_paused_text;
-    std::vector< sf::Text > m_buttons;
-    // std::unique_ptr<sf::Music> m_music;
-    // sf::Music* m_music;
-    sf::Sound m_sound;
-    sf::Sound m_sound_state;
-    sf::Clock m_clock;
+	sf::Sprite			mBackgroundSprite;
+	sf::Text			mPausedText;
+	std::vector<sf::Text> m_buttons;
 
-    void centerOrigin( sf::Text & );
+	sf::Sound m_sound;
+	sf::Sound m_soundState;
 
-    bool m_isBackMenuSelected;
-    bool m_isBackMenuPressed;
+	sf::Clock m_clock;
 
-    bool m_isResetGameSelected;
-    bool m_isResetGamePressed;
+	void centerOrigin(sf::Text&);
+	void updateColorButton();
 
-    bool m_pressed;
+	bool m_isBackMenuSelected;
+	bool m_isBackMenuPressed;
+
+	bool m_isResetGameSelected;
+	bool m_isResetGamePressed;
+
+	bool m_backToGameSelected;
+	bool m_backToGamePressed;
+
+	bool m_pressed;
 };

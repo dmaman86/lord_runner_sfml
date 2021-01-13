@@ -4,12 +4,13 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Audio.hpp>
 
 
-class GameOverState : public State
+class TitleState : public State
 {
 public:
-	GameOverState(StateStack& stack, Context context);
+	TitleState(StateStack& stack, Context context);
 
 	virtual void		draw();
 	virtual bool		update(double dt);
@@ -17,6 +18,11 @@ public:
 
 
 private:
-	sf::Text			mGameOverText;
-	double			mElapsedTime;
+	sf::Sprite			mBackgroundSprite;
+	sf::Text			mText;
+	sf::Sound mSound;
+	sf::Clock mClock;
+
+	bool				mShowText;
+	double			mTextEffectTime;
 };

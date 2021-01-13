@@ -13,7 +13,9 @@
 #include "models/Ladder.h"
 #include "models/Coin.h"
 #include "models/Ropes.h"
-#include "Singleton/ResourceManager.h"
+
+#include "Resources/ResourceHolder.h"
+#include "Resources/ResourceIdentifiers.h"
 
 class Board
 {
@@ -22,7 +24,7 @@ public:
 	Board();
 	~Board();
 	void initAvg(size_t, size_t);
-	void initData(sf::Vector2f pos, char c);
+	void initData(sf::Vector2f pos, char c, TextureHolder& textures );
 	void update(const float& dt);
 
 	
