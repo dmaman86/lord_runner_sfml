@@ -21,6 +21,7 @@ public:
 
 private:
 	sf::Sprite				mBackgroundSprite;
+    sf::Text m_title;
 	std::vector< sf::Text > m_buttons;
 
 	sf::Sound m_sound;
@@ -41,6 +42,7 @@ private:
     bool m_pressed = false;
 
     void updateColorButton();
+    void centerOrigin(sf::Text&);
 
     sf::Clock m_clock;
 };

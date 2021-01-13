@@ -36,6 +36,12 @@ MenuState::MenuState(StateStack& stack, Context context)
 
 	sf::Text text;
 	sf::Font& font = context.fonts->get(Fonts::Main);
+	m_title.setFont(font);
+	m_title.setString("Lord Runner Game");
+	m_title.setFillColor(sf::Color(76,0,153));
+	m_title.setCharacterSize(100);
+	centerOrigin(m_title);
+	m_title.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
 	text.setFont(font);
 	text.setCharacterSize(55);
 	text.setStyle(sf::Text::Bold);
@@ -66,6 +72,8 @@ void MenuState::draw()
 	window.setView(window.getDefaultView());
 
 	window.draw(mBackgroundSprite);
+
+	window.draw(m_title);
 
 	for (auto button : m_buttons)
 		window.draw(button);
@@ -158,6 +166,13 @@ bool MenuState::handleEvent(const sf::Event& event)
 		return true;
 	}
 	return false;
+}
+
+void MenuState::centerOrigin(sf::Text& text)
+{
+	sf::FloatRect bounds = text.getLocalBounds();
+	text.setOrigin(std::floor(bounds.left + bounds.width / 2.f),
+		std::floor(bounds.top + bounds.height / 2.f));
 }
 
 void MenuState::updateColorButton()

@@ -25,7 +25,8 @@ PauseState::PauseState(StateStack& stack, Context context)
 
 	mPausedText.setFont(font);
 	mPausedText.setString("Game Paused");
-	mPausedText.setCharacterSize(70);
+	mPausedText.setCharacterSize(100);
+	mPausedText.setFillColor(sf::Color(76, 0, 153));
 	centerOrigin(mPausedText);
 	mPausedText.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
 
@@ -50,14 +51,10 @@ PauseState::PauseState(StateStack& stack, Context context)
 	m_soundState.setBuffer(context.sounds->get(SoundEffect::Menu));
 	m_soundState.setLoop(true);
 	m_soundState.play();
-	// mPausedText.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
-
-	// getContext().music->setPaused(true);
 }
 
 PauseState::~PauseState()
 {
-	// getContext().music->setPaused(false);
 	m_soundState.stop();
 }
 

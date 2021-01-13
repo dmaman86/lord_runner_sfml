@@ -28,11 +28,11 @@ Application::Application()
 	mWindow.setVerticalSyncEnabled(true);
 	mWindow.setFramerateLimit(60);
 
-	mFonts.load(Fonts::Main, "arial.ttf");
+	mFonts.load(Fonts::Main, "SuperMario256.ttf");
 
 	mTextures.load(Textures::TitleScreen, "splash-background.png");
 	mTextures.load(Textures::Game, "background.png");
-	mTextures.load(Textures::Menu, "background_menu.png");
+	mTextures.load(Textures::Menu, "background_menu_origin.png");
 	mTextures.load(Textures::Player, "hero.png");
 	mTextures.load(Textures::Coin, "coin.png");
 	mTextures.load(Textures::Monster, "monster.png");
@@ -57,7 +57,7 @@ Application::Application()
 
 void Application::run()
 {
-	sf::Clock clock;
+	/*sf::Clock clock;
 	double timeSinceLastUpdate = 0.0f;
 
 	while (mWindow.isOpen())
@@ -77,6 +77,31 @@ void Application::run()
 		}
 
 		updateStatistics(dt);
+		render();
+	}*/
+	float newTime, frameTime, interpolation;
+	float currentTime = this->m_clock.getElapsedTime().asSeconds();
+	float accumulator = 0.0f;
+
+	while (mWindow.isOpen())
+	{
+		newTime = this->m_clock.getElapsedTime().asSeconds();
+		frameTime = newTime - currentTime;
+		if (frameTime > 0.25f)
+			frameTime = 0.25f;
+
+		currentTime = newTime;
+		accumulator += frameTime;
+
+		while (accumulator >= TimePerFrame)
+		{
+			processInput();
+			update(TimePerFrame);
+
+			accumulator -= TimePerFrame;
+		}
+
+		updateStatistics(TimePerFrame);
 		render();
 	}
 }

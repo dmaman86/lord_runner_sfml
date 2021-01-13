@@ -40,4 +40,5 @@ private:
 	sf::Text				mStatisticsText;
 	double			        mStatisticsUpdateTime;
 	std::size_t				mStatisticsNumFrames;
+	sf::Clock m_clock;
 };
