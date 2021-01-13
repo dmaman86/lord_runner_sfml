@@ -33,6 +33,7 @@ public:
 	void renderMonster(sf::RenderWindow* window);
 	void renderStaticObj(sf::RenderWindow* window);
 	void renderPlayer(sf::RenderWindow* window);
+	void renderStatus(sf::RenderWindow* window);
 
 
 private:

@@ -11,7 +11,7 @@ public:
 
 	StaticObject(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt);
 	void virtual render(sf::RenderWindow* window)override;
-	
+	void resetExist();
 	bool virtual collisionWithStand(DynamicObject& obj, sf::Vector2f size) = 0;
 	
 	void virtual handleColision(Floor& obj) {};

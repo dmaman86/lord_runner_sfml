@@ -7,12 +7,15 @@
 #else
 #include <unistd.h>
 #endif
+#include "GameState.h"
+#include "./Resources/ResourceHolder.h"
 
 Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
 	DynamicObject(pos, size, 250,txt) ,
-	m_life(0),m_score(0),m_is_injured(false), m_coin_collected(0)
+	m_life(3),m_score(0),m_is_injured(false), m_coin_collected(0)
 {
-	
+	m_sbuffer.loadFromFile("player_coin.wav");
+	m_sound.setBuffer(m_sbuffer);
 }
 
 void Player::updateDirection()
@@ -35,10 +38,13 @@ void Player::handleColision(Coin& obj)
 {
 	if (obj.isExsist())
 	{
+
+
 		obj.handleColision(*this);
 		m_coin_collected++;
-		// m_sound.play();
-		this->m_score++;
+		m_sound.play();
+		//Sleep(500);
+		this->m_score ++;
 	}
 }
 
@@ -73,6 +79,7 @@ bool Player::isInjured()
 	if (m_is_injured)
 	{
 		m_is_injured = false;
+		this->m_coin_collected = 0;
 		return true;
 	}
 	return false;
@@ -81,6 +88,11 @@ bool Player::isInjured()
 int Player::getCoinCollected()
 {
 	return  this->m_coin_collected;
+}
+
+int Player::getLife()
+{
+	return m_life;
 }
 
 

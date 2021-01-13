@@ -76,6 +76,10 @@ void Board::playerCheckInjured()
 			{
 				m_monsters[i]->setFirstPos();
 			}
+			for (int i = 0;i < m_static_obj.size();i++)
+			{
+				m_static_obj[i]->resetExist();
+			}
 		}
 	}
 }
@@ -179,13 +183,35 @@ void Board::renderMonster(sf::RenderWindow* target)
 		m_monsters[i]->render(target);
 }
 
-void Board::renderStaticObj(sf::RenderWindow* target)
+void Board::renderStaticObj(sf::RenderWindow* window)
 {
 	for (int i = 0; i < m_static_obj.size();i++)
-		m_static_obj[i]->render(target);
+		m_static_obj[i]->render(window);
 }
 
-void Board::renderPlayer(sf::RenderWindow* target)
+void Board::renderPlayer(sf::RenderWindow* window)
 {
-	m_player->render(target);
+	m_player->render(window);
+}
+
+void Board::renderStatus(sf::RenderWindow* window)
+{
+	sf::Texture txt;
+	txt.loadFromFile("heart.png");
+	sf::Sprite heart;
+	heart.setTexture(txt);
+
+	heart.setScale(0.15,0.15);
+
+	heart.setPosition(0 , ROW_GAME_SCREEN + (m_avgPix.y / 2u));
+
+	Player* p = dynamic_cast <Player*> (&*this->m_player);
+	if (p) {
+
+		for (int i = 0; i < p->getLife();i++)
+		{
+			heart.setPosition(i * 100, ROW_GAME_SCREEN + (m_avgPix.y / 2u) );
+			window->draw(heart);
+		}
+	}
 }

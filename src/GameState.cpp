@@ -32,13 +32,15 @@ void GameState::draw()
     m_board.renderMonster(&window);
 
     m_board.renderPlayer(&window);
+
+	m_board.renderStatus(&window);
 }
 
 bool GameState::update(double dt)
 {
     m_board.update(dt); 
 
-	// NEW 
+	// NEW - GAMESTATE.CPP
 	if (Coin::getCount() == this->m_board.getCoinCount())
 	{
 		// next level

@@ -53,4 +53,9 @@ void StaticObject::render(sf::RenderWindow* window)
 		this->Object::render(window);
 }
 
+void StaticObject::resetExist()
+{
+	this->m_isExist = true;
+}
+
 

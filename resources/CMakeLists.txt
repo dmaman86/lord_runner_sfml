@@ -9,6 +9,8 @@ configure_file ("./img/monster.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("./img/ropes.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("./img/splash-background.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("./img/wall.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("./img/heart.png" ${CMAKE_BINARY_DIR} COPYONLY)
+
 
 configure_file ("./fonts/arial.ttf" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("./fonts/FlappyFont.ttf" ${CMAKE_BINARY_DIR} COPYONLY)

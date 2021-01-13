@@ -16,6 +16,7 @@ public:
 	void virtual handleColision(DynamicObject& obj) {};
 	bool isInjured();
 	int getCoinCollected();
+	int getLife();
 
 	void newData(sf::Vector2f pos, sf::Vector2f size);
 
@@ -26,6 +27,9 @@ private:
 	bool m_is_injured;
 	
 	int m_coin_collected;
+	
+	sf::Sound m_sound;
+	sf::SoundBuffer m_sbuffer;
 
-	// sf::Sound m_sound;
+
 };

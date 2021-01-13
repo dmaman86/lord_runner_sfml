@@ -22,8 +22,8 @@ private:
 	sf::Sound m_sound;
 	sf::Sound m_soundState;
 	Board m_board;
-
 	std::string getPath();
+
 	void read_data(std::ifstream&);
 	int m_numLevel = 1;
 	bool m_isPause;
