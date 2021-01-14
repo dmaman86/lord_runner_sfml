@@ -39,7 +39,7 @@ public:
 	void initAvg(size_t, size_t);
 	// void createObject(sf::Vector2f pos, ObjectType type, TextureHolder& textures );
 	void createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& textures);
-	void update(const float& dt);
+	void update(const float& dt, Player* player);
 	void newLevel();
 
 	void startLevelAgain();

@@ -56,12 +56,13 @@ void Board::initAvg(size_t y, size_t x )
 
 void Board::createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& textures)
 {
-	if (type == ObjectType::PlayerChar)
+	/*if (type == ObjectType::PlayerChar)
 	{
 		// to do - level one only!
 		m_player = createDynamicObject(type, pos, m_avgPix, textures);
 		return;
-	}
+	}*/
+
 	std::unique_ptr<DynamicObject> movable = createDynamicObject(type,pos, m_avgPix, textures);
 	if (movable)
 	{
@@ -133,27 +134,17 @@ void Board::startLevelAgain()
 	}
 }
 
-void Board::update(const float& dt)
+void Board::update(const float& dt,Player* player)
 {
-	this->updateCreature(dt,*this->m_player);
-	this->collisionsDynamic(*this->m_player);
+	this->updateCreature(dt, *player);
 	this->updateMonsters(dt);
-//	this->playerCheckInjured();
-
-	//this->collisionsDynamic(*this->m_player);
+	this->collisionsDynamic(*player);
 }
 
 void Board::newLevel()
 {
 	this->m_monsters.clear();
 	this->m_static_obj.clear();
-	m_level_one = false;
-//	m_player2 = nullptr;
-}
-
-Player* Board::getpPlayer()
-{
-	return (Player*)(m_player.get());
 }
 
 sf::Vector2f Board::getSize()
@@ -182,23 +173,21 @@ void Board::collisionsDynamic(DynamicObject& creature)
 
 bool Board::HaveSomthingToStand(DynamicObject& creacure)
 {
-	bool b = false;
 	for (int i = 0; i < m_static_obj.size();i++)
 	{
 		if (m_static_obj[i]->collisionWithStand(creacure,m_avgPix))
-			b = true;
+			return true;
 	}
 		
-	return b;
+	return false;
 }
 
 bool Board::isInRange(DynamicObject& dynObj)
 {
-	if (m_avgPix.x / 2u - 4.5 < dynObj.getSprite().getPosition().x
-		&&m_avgPix.y / 2u  - 4.5 < dynObj.getSprite().getPosition().y
-		&& 
-		COLL_GAME_SCREEN - (m_avgPix.x / 2u) > dynObj.getSprite().getPosition().x
-		&& ROW_GAME_SCREEN - (m_avgPix.y / 2u) > dynObj.getSprite().getPosition().y)
+	if ( m_avgPix.x / 2u - 4.5 < dynObj.getSprite().getPosition().x
+	  && m_avgPix.y / 2u  - 4.5 < dynObj.getSprite().getPosition().y
+	  && COLL_GAME_SCREEN - (m_avgPix.x / 2u) > dynObj.getSprite().getPosition().x
+	  && ROW_GAME_SCREEN - (m_avgPix.y / 2u) > dynObj.getSprite().getPosition().y )
 		return true;
 	return false;
 }
@@ -243,7 +232,7 @@ void Board::renderStaticObj(sf::RenderWindow* window)
 
 void Board::renderPlayer(sf::RenderWindow* window)
 {
-	m_player->render(window);
+	//m_player->render(window);
 }
 
 void Board::renderStatus(sf::RenderWindow* window)

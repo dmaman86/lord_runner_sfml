@@ -1,12 +1,14 @@
 #include "GameState.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
-
+#include "Resources/ResourceIdentifiers.h"
+#include "Resources/ResourceHolder.h"
 
 GameState::GameState(StateStack& stack, Context context)
 	: State(stack, context),
-	m_player(nullptr) //(std::make_unique< Player >((0, 0), (0, 0), context.textures->get(Textures::Player)))
+	m_player(new Player(sf::Vector2f(0,0), sf::Vector2f(0,0) ,&context.textures->get(Textures::Player))) //(std::make_unique< Player >((0, 0), (0, 0), context.textures->get(Textures::Player)))
 {
+
     m_isPause = false;
 	std::ifstream fd_readLevel(getPath());
 	if (fd_readLevel.is_open())
@@ -18,10 +20,6 @@ GameState::GameState(StateStack& stack, Context context)
     m_sound.setBuffer(context.sounds->get(SoundEffect::Button));
 
     m_soundState.play();
-
-
-	// daniel
-	//TODO your are Daniel
 
 }
 
@@ -37,18 +35,21 @@ void GameState::draw()
 
     m_board.renderMonster(&window);
 
-    m_board.renderPlayer(&window);
+   // m_board.renderPlayer(&window);
 
 	m_board.renderStatus(&window);
+	window.draw(m_player->getSprite());
 }
 
 bool GameState::update(double dt)
 {
-    m_board.update(dt); 
+    m_board.update(dt,m_player); 
 
 	// 1.moved to func later
 	if (m_player->isInjured())
 	{
+		// if(m_player->isDead())
+		// gameoverState(false = lose)
 		m_board.startLevelAgain();
 		m_player->setFirstPos();
 	}
@@ -58,7 +59,8 @@ bool GameState::update(double dt)
 	{
 		// next level
 		Coin::resetCollected();
-
+		// if(m_numLevel
+		// gameoverState(false = lose)
 		this->m_numLevel++;
 		this->m_board.newLevel();
 		std::ifstream fd_readLevel(this->getPath());
@@ -113,7 +115,7 @@ void GameState::read_data(std::ifstream& fd_readLevel)
 		{
 			fd_readLevel.get(c);
 
-			if (c == '@' && m_numLevel > 1)
+			if (c == '@')
 				m_player->newData(sf::Vector2f((float)j, (float)i), m_board.getSize() );
 			else 
 			{
@@ -124,8 +126,8 @@ void GameState::read_data(std::ifstream& fd_readLevel)
     }
 	
 	// new
-	if (m_numLevel == 1)
-		this->m_player = m_board.getpPlayer();
+//	if (m_numLevel == 1)
+	//	this->m_player = m_board.getpPlayer();
 
     fd_readLevel.close();
 }
