@@ -7,6 +7,7 @@
 #include <SFML/Audio.hpp>
 
 #include <vector>
+#include <cmath>
 
 class AboutOurState : public State
 {

@@ -6,7 +6,7 @@
 
 GameState::GameState(StateStack& stack, Context context)
 	: State(stack, context),
-	m_player(new Player(sf::Vector2f(0,0), sf::Vector2f(0,0) ,&context.textures->get(Textures::Player))) //(std::make_unique< Player >((0, 0), (0, 0), context.textures->get(Textures::Player)))
+	m_player(new Player(sf::Vector2f(0,0), sf::Vector2f(0,0) ,&context.textures->get(Textures::Player), &context.sounds->get(SoundEffect::PlayerCoin))) //(std::make_unique< Player >((0, 0), (0, 0), context.textures->get(Textures::Player)))
 {
 
     m_isPause = false;

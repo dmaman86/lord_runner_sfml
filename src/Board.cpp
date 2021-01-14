@@ -23,8 +23,8 @@ std::unique_ptr<DynamicObject> Board::createDynamicObject(ObjectType::ID type, s
 {
 	switch (type)
 	{
-	case ObjectType::PlayerChar:
-		return std::make_unique<Player>(pos, size, &textures.get(Textures::Player));
+	// case ObjectType::PlayerChar:
+		// return std::make_unique<Player>(pos, size, &textures.get(Textures::Player));
 	case ObjectType::MonsterChar:
 		return std::make_unique<Monster>(pos, size, &textures.get(Textures::Monster));
 	}

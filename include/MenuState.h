@@ -7,7 +7,7 @@
 #include <SFML/Audio.hpp>
 
 #include <vector>
-
+#include <cmath>
 
 class MenuState : public State
 {

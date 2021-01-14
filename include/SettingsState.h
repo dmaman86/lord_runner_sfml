@@ -7,7 +7,7 @@
 #include <SFML/Audio.hpp>
 
 #include <array>
-
+#include <cmath>
 
 class SettingsState : public State
 {

@@ -13,11 +13,11 @@
 int Player::m_life = 3;
 int Player::m_score = 0;
 
-Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
+Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, sf::SoundBuffer* sound) :
 	DynamicObject(pos, size, 250,txt) , m_is_injured(false)
 {
-	m_sbuffer.loadFromFile("player_coin.wav");
-	m_sound.setBuffer(m_sbuffer);
+	// m_sbuffer.loadFromFile("player_coin.wav");
+	m_sound.setBuffer(*sound);
 }
 
 void Player::updateDirection()

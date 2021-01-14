@@ -31,6 +31,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 								(float)windowSize.y / textureSize.y);
 
 	m_sound.setBuffer(context.sounds->get(SoundEffect::Button));
+	m_sound.setPlayingOffset(sf::seconds(2.f));
 	m_soundState.setBuffer(context.sounds->get(SoundEffect::Menu));
 	m_soundState.setLoop(true);
 
@@ -85,7 +86,7 @@ bool MenuState::update(double dt)
 	{
 		updateColorButton();
 		// m_clock.restart();
-		if (m_clock.getElapsedTime().asSeconds() > 2.0)
+		if (m_clock.getElapsedTime().asSeconds() > 3.0)
 		{
 			m_pressed = false;
 			if (m_isPlayButtonSelected)
