@@ -80,7 +80,12 @@ bool Player::isInjured()
 	}
 	return false;
 }
-int Player::getLife()
+const int Player::getScore() const
+{
+	return m_score;
+}
+
+const int Player::getLife() const
 {
 	return m_life;
 }

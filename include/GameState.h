@@ -2,6 +2,7 @@
 
 #include "./Machine/State.h"
 #include "Board.h"
+#include "ContainerStatus.h"
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -22,7 +23,7 @@ private:
 	sf::Sound m_sound;
 	sf::Sound m_soundState;
 	Board m_board;
-
+	ContainerStatus m_containerStatus;
 	Player* m_player;
 
 	std::string getPath();

@@ -6,7 +6,10 @@
 
 GameState::GameState(StateStack& stack, Context context)
 	: State(stack, context),
-	m_player(new Player(sf::Vector2f(0,0), sf::Vector2f(0,0) ,&context.textures->get(Textures::Player), &context.sounds->get(SoundEffect::PlayerCoin))) //(std::make_unique< Player >((0, 0), (0, 0), context.textures->get(Textures::Player)))
+	m_player( new Player(sf::Vector2f(0,0), sf::Vector2f(0,0) ,
+	&context.textures->get(Textures::Player), &context.sounds->get(SoundEffect::PlayerCoin)) )
+	, m_containerStatus(&context.textures->get(Textures::Heart), 
+						&context.fonts->get(Fonts::Main))
 {
 
     m_isPause = false;
@@ -37,7 +40,8 @@ void GameState::draw()
 
    // m_board.renderPlayer(&window);
 
-	m_board.renderStatus(&window);
+	//m_board.renderStatus(&window);
+	this->m_containerStatus.renderStatus(*m_player, &window, m_numLevel);
 	window.draw(m_player->getSprite());
 }
 

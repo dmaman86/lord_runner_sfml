@@ -36,7 +36,8 @@ namespace Textures
 		Coin,
 		Ladder,
 		Ropes,
-		Wall
+		Wall,
+		Heart
 	};
 }
 

@@ -45,7 +45,6 @@ public:
 	void startLevelAgain();
 
 
-	Player* getpPlayer();
 	sf::Vector2f getSize();
 
 

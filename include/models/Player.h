@@ -19,8 +19,9 @@ public:
 	void virtual handleColision(Player& obj) {};
 
 	bool isInjured();
-	int getCoinCollected();
-	int getLife();
+	const int getLife() const;
+	const int getScore() const;
+
 
 	void newData(sf::Vector2f pos, sf::Vector2f size);
 
