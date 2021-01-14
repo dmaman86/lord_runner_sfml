@@ -6,7 +6,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 
-enum ObjectType;
+// enum ObjectType;
 
 
 class GameState : public State

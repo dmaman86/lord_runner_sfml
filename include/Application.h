@@ -15,30 +15,33 @@ class Application
 {
 public:
 	Application();
-	void					run();
+	void run();
 
 
 private:
-	void					processInput();
-	void					update(double dt);
-	void					render();
+	void loadFonts();
+	void loadTextures();
+	void loadSounds();
+	void processInput();
+	void update(double dt);
+	void render();
 
-	void					updateStatistics(double dt);
-	void					registerStates();
+	void updateStatistics(double dt);
+	void registerStates();
 
 
 private:
-	const double	TimePerFrame = 1.0f/60.0f;
+	const double TimePerFrame = 1.0f/60.0f;
 
-	sf::RenderWindow		mWindow;
-	TextureHolder			mTextures;
-	FontHolder				mFonts;
-	SoundBufferHolder       mSounds;
-	InputManager			mInput;
-	StateStack				mStateStack;
+	sf::RenderWindow mWindow;
+	TextureHolder mTextures;
+	FontHolder mFonts;
+	SoundBufferHolder mSounds;
+	InputManager mInput;
+	StateStack mStateStack;
 
-	sf::Text				mStatisticsText;
-	double			        mStatisticsUpdateTime;
-	std::size_t				mStatisticsNumFrames;
+	sf::Text mStatisticsText;
+	double mStatisticsUpdateTime;
+	std::size_t mStatisticsNumFrames;
 	sf::Clock m_clock;
 };

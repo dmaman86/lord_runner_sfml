@@ -60,7 +60,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 	m_buttons[0].setString("Play Game");
 	m_buttons[1].setString("Settings Game");
 	m_buttons[2].setString("About Our");
-	m_buttons[3].setString("Records Game");
+	m_buttons[3].setString("Top Scores");
 
 	m_soundState.play();
 }
@@ -84,10 +84,10 @@ bool MenuState::update(double dt)
 	if (m_pressed)
 	{
 		updateColorButton();
-		m_pressed = false;
 		// m_clock.restart();
 		if (m_clock.getElapsedTime().asSeconds() > 2.0)
 		{
+			m_pressed = false;
 			if (m_isPlayButtonSelected)
 			{
 				requestStackPop();
@@ -95,15 +95,18 @@ bool MenuState::update(double dt)
 			}
 			else if (m_isSettingsButtonSelected)
 			{
-				std::cout << "Go to Setting Screen" << std::endl;
+				requestStackPop();
+				requestStackPush(States::Settings);
 			}
 			else if (m_isAboutOurSelected)
 			{
-				std::cout << "Go to About Out Screen" << std::endl;
+				requestStackPop();
+				requestStackPush(States::AboutOur);
 			}
 			else if (m_isRecordsSelected)
 			{
-				std::cout << "Go to Records Screen" << std::endl;
+				requestStackPop();
+				requestStackPush(States::Records);
 			}
 		}
 	}

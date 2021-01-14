@@ -79,10 +79,11 @@ bool PauseState::update(double dt)
 	if (m_pressed)
 	{
 		updateColorButton();
-		m_pressed = false;
 		// m_clock.restart();
 		if (m_clock.getElapsedTime().asSeconds() > 2.0)
 		{
+			m_pressed = false;
+			m_sound.pause();
 			if (m_backToGameSelected)
 			{
 				requestStackPop();
@@ -114,7 +115,6 @@ bool PauseState::handleEvent(const sf::Event& event)
 
 	if (event.MouseButtonPressed)
 	{
-
 		if (m_backToGamePressed = input->isSpriteClicked(m_buttons[0], sf::Mouse::Left, window))
 		{
 			m_backToGameSelected = true;

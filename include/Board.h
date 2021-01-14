@@ -19,7 +19,7 @@
 #include "Resources/ResourceHolder.h"
 #include "Resources/ResourceIdentifiers.h"
 
-enum ObjectType
+/*enum ObjectType
 {
 	PlayerChar = '@',
 	MonsterChar = '%',
@@ -27,7 +27,7 @@ enum ObjectType
 	RopesChar = '-',
 	LadderChar = 'H',
 	CoinChar = '*'
-};
+};*/
 
 
 class Board
@@ -37,7 +37,8 @@ public:
 	Board();
 	~Board();
 	void initAvg(size_t, size_t);
-	void createObject(sf::Vector2f pos, ObjectType type, TextureHolder& textures );
+	// void createObject(sf::Vector2f pos, ObjectType type, TextureHolder& textures );
+	void createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& textures);
 	void update(const float& dt);
 	void newLevel();
 
@@ -71,9 +72,11 @@ private:
 	sf::Vector2f m_avgPix;
 
 
-	std::unique_ptr<StaticObject> createStaticObject(ObjectType type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures);
+	// std::unique_ptr<StaticObject> createStaticObject(ObjectType type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures);
+	std::unique_ptr<StaticObject> createStaticObject(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures);
 
-	std::unique_ptr<DynamicObject> createDynamicObject(ObjectType type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures);
+	// std::unique_ptr<DynamicObject> createDynamicObject(ObjectType type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures);
+	std::unique_ptr<DynamicObject> createDynamicObject(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures);
 
 	void updateMonsters(const float& dt);
 	void updateCreature(const float& dt, DynamicObject& creacure);

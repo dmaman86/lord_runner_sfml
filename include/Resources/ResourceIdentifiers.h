@@ -10,6 +10,20 @@ namespace sf
 	class SoundBuffer;
 }
 
+
+namespace ObjectType
+{
+	enum ID
+	{
+		PlayerChar = '@',
+		MonsterChar = '%',
+		FloorChar = '#',
+		RopesChar = '-',
+		LadderChar = 'H',
+		CoinChar = '*'
+	};
+}
+
 namespace Textures
 {
 	enum ID

@@ -13,16 +13,12 @@ class SettingsState : public State
 public:
 	SettingsState(StateStack& stack, Context context);
 
-	virtual void					draw();
-	virtual bool					update(double dt);
-	virtual bool					handleEvent(const sf::Event& event);
-
-
-private:
-	void							updateLabels();
-	void							addButtonLabel(float y, const std::string& text, Context context);
-
+	virtual void draw();
+	virtual bool update(double dt);
+	virtual bool handleEvent(const sf::Event& event);
 
 private:
-	sf::Sprite											mBackgroundSprite;
+	sf::Sprite mBackgroundSprite;
+
+	bool m_backToMenu;
 };

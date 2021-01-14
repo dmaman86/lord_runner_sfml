@@ -19,7 +19,7 @@ Board::~Board()
 }
 
 
-std::unique_ptr<DynamicObject> Board::createDynamicObject(ObjectType type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures)
+std::unique_ptr<DynamicObject> Board::createDynamicObject(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures)
 {
 	switch (type)
 	{
@@ -31,7 +31,7 @@ std::unique_ptr<DynamicObject> Board::createDynamicObject(ObjectType type, sf::V
 	return nullptr;
 }
 
-std::unique_ptr<StaticObject> Board::createStaticObject(ObjectType type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures)
+std::unique_ptr<StaticObject> Board::createStaticObject(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures)
 {
 	switch (type)
 	{
@@ -54,9 +54,9 @@ void Board::initAvg(size_t y, size_t x )
 	m_avgPix.y = (ROW_GAME_SCREEN / (float)y);
 }
 
-void Board::createObject(sf::Vector2f pos, ObjectType type, TextureHolder& textures)
+void Board::createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& textures)
 {
-	if (type == PlayerChar)
+	if (type == ObjectType::PlayerChar)
 	{
 		// to do - level one only!
 		m_player = createDynamicObject(type, pos, m_avgPix, textures);

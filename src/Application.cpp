@@ -7,6 +7,8 @@
 #include "PauseState.h"
 #include "SettingsState.h"
 #include "GameOverState.h"
+#include "AboutOurState.h"
+#include "RecordsState.h"
 
 #include <iostream>
 #include <string>
@@ -28,22 +30,9 @@ Application::Application()
 	mWindow.setVerticalSyncEnabled(true);
 	mWindow.setFramerateLimit(60);
 
-	mFonts.load(Fonts::Main, "SuperMario256.ttf");
-
-	mTextures.load(Textures::TitleScreen, "splash-background.png");
-	mTextures.load(Textures::Game, "background.png");
-	mTextures.load(Textures::Menu, "background_menu_origin.png");
-	mTextures.load(Textures::Player, "hero.png");
-	mTextures.load(Textures::Coin, "coin.png");
-	mTextures.load(Textures::Monster, "monster.png");
-	mTextures.load(Textures::Ladder, "ladder.png");
-	mTextures.load(Textures::Ropes, "ropes.png");
-	mTextures.load(Textures::Wall, "wall.png");
-
-	mSounds.load(SoundEffect::Open, "open.wav");
-	mSounds.load(SoundEffect::Game, "gamesound.wav");
-	mSounds.load(SoundEffect::Menu, "menusound.wav");
-	mSounds.load(SoundEffect::Button, "new_move_next_state.wav");
+	loadFonts();
+	loadTextures();
+	loadSounds();
 
 	mStatisticsText.setFont(mFonts.get(Fonts::Main));
 	mStatisticsText.setPosition(5.f, 5.f);
@@ -51,8 +40,6 @@ Application::Application()
 
 	registerStates();
 	mStateStack.pushState(States::Title);
-
-	// mMusic.setVolume(25.f);
 }
 
 void Application::run()
@@ -79,7 +66,7 @@ void Application::run()
 			accumulator -= TimePerFrame;
 		}
 
-		updateStatistics(TimePerFrame);
+		// updateStatistics(TimePerFrame);
 		render();
 	}
 }
@@ -134,4 +121,33 @@ void Application::registerStates()
 	mStateStack.registerState<PauseState>(States::Pause);
 	mStateStack.registerState<SettingsState>(States::Settings);
 	mStateStack.registerState<GameOverState>(States::GameOver);
+	mStateStack.registerState<AboutOurState>(States::AboutOur);
+	mStateStack.registerState<RecordsState>(States::Records);
 }
+
+void Application::loadFonts()
+{
+	this->mFonts.load(Fonts::Main, "SuperMario256.ttf");
+}
+
+void Application::loadTextures()
+{
+	this->mTextures.load(Textures::TitleScreen, "splash-background.png");
+	this->mTextures.load(Textures::Game, "background.png");
+	this->mTextures.load(Textures::Menu, "background_menu_origin.png");
+	this->mTextures.load(Textures::Player, "hero.png");
+	this->mTextures.load(Textures::Coin, "coin.png");
+	this->mTextures.load(Textures::Monster, "monster.png");
+	this->mTextures.load(Textures::Ladder, "ladder.png");
+	this->mTextures.load(Textures::Ropes, "ropes.png");
+	this->mTextures.load(Textures::Wall, "wall.png");
+}
+
+void Application::loadSounds()
+{
+	this->mSounds.load(SoundEffect::Open, "open.wav");
+	this->mSounds.load(SoundEffect::Game, "gamesound.wav");
+	this->mSounds.load(SoundEffect::Menu, "menusound.wav");
+	this->mSounds.load(SoundEffect::Button, "new_move_next_state.wav");
+}
+

@@ -12,6 +12,8 @@ namespace States
 		Loading,
 		Pause,
 		Settings,
-		GameOver
+		GameOver,
+		AboutOur,
+		Records
 	};
 }
