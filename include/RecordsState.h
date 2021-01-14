@@ -19,9 +19,11 @@ public:
 
 private:
 	sf::Sprite mBackgroundSprite;
-	sf::Texture m_title;
+	sf::Text m_title;
 
 	sf::Sound m_soundState;
 
 	bool m_backToMenu;
+
+	void centerOrigin(sf::Text&);
 };

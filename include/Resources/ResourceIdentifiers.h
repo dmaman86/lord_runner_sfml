@@ -55,7 +55,8 @@ namespace SoundEffect
 		Open,
 		Menu,
 		Game,
-		Button
+		Button,
+		PlayerCoin
 	};
 }
 

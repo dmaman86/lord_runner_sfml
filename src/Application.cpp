@@ -149,5 +149,6 @@ void Application::loadSounds()
 	this->mSounds.load(SoundEffect::Game, "gamesound.wav");
 	this->mSounds.load(SoundEffect::Menu, "menusound.wav");
 	this->mSounds.load(SoundEffect::Button, "new_move_next_state.wav");
+	this->mSounds.load(SoundEffect::PlayerCoin, "player_coin.wav");
 }
 

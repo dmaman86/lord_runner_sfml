@@ -4,6 +4,7 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Audio.hpp>
 
 #include <array>
 
@@ -19,6 +20,10 @@ public:
 
 private:
 	sf::Sprite mBackgroundSprite;
+	sf::Sound m_soundState;
+	sf::Text m_title;
 
 	bool m_backToMenu;
+
+	void centerOrigin(sf::Text&);
 };
