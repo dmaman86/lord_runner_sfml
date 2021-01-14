@@ -16,6 +16,11 @@ void Monster::updateDirection()
 	this->SaveLastPosition();
 }
 
+void Monster::handleColision(Player& obj)
+{
+	//this->m_rec->setPosition(m_first_position);
+}
+
 void Monster::handleColision(DynamicObject& obj)
 {
 	obj.handleColision(*this);

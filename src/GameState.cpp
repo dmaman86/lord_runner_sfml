@@ -4,7 +4,8 @@
 
 
 GameState::GameState(StateStack& stack, Context context)
-	: State(stack, context)
+	: State(stack, context),
+	m_player(nullptr) //(std::make_unique< Player >((0, 0), (0, 0), context.textures->get(Textures::Player)))
 {
     m_isPause = false;
 	std::ifstream fd_readLevel(getPath());
@@ -17,6 +18,10 @@ GameState::GameState(StateStack& stack, Context context)
     m_sound.setBuffer(context.sounds->get(SoundEffect::Button));
 
     m_soundState.play();
+
+
+	// daniel
+
 }
 
 void GameState::draw()
@@ -40,10 +45,18 @@ bool GameState::update(double dt)
 {
     m_board.update(dt); 
 
-	// NEW - GAMESTATE.CPP
-	if (Coin::getCount() == this->m_board.getCoinCount())
+	// 1.moved to func later
+	if (m_player->isInjured())
+	{
+		m_board.startLevelAgain();
+		m_player->setFirstPos();
+	}
+
+	// 2.moved to func later
+	if (Coin::getCount() == Coin::getCollected())
 	{
 		// next level
+		Coin::resetCollected();
 
 		this->m_numLevel++;
 		this->m_board.newLevel();
@@ -95,13 +108,23 @@ void GameState::read_data(std::ifstream& fd_readLevel)
     fd_readLevel.get(c);	//eat '\n'
     for (size_t i = 0; i < height; i++)
     {
-        for (size_t j = 0; j < weidth; j++)
-        {
-            fd_readLevel.get(c);
-            m_board.initData(sf::Vector2f((float)j, (float)i), c, *getContext().textures);
-        }
-        fd_readLevel.get(c);	//eat '\n'
+		for (size_t j = 0; j < weidth; j++)
+		{
+			fd_readLevel.get(c);
+
+			if (c == '@' && m_numLevel > 1)
+				m_player->newData(sf::Vector2f((float)j, (float)i), m_board.getSize() );
+			else 
+			{
+				m_board.createObject(sf::Vector2f((float)j, (float)i), (ObjectType)c, *getContext().textures);
+			}
+		}
+		fd_readLevel.get(c);	//eat '\n'
     }
+	
+	// new
+	if (m_numLevel == 1)
+		this->m_player = m_board.getpPlayer();
 
     fd_readLevel.close();
 }

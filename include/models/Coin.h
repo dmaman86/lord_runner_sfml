@@ -22,10 +22,14 @@ public:
 
 	// static member function
 	static int getCount();  // return # objects instantiated
+	static int getCollected();
+	static void resetCollected();
+
 
 	//void virtual handleColision(Monster& obj) override;
 	//void virtual handleColision(Player& obj) override;
 private:
 	static int m_num_coins;
+	static int m_num_collected;
 
 };

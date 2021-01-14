@@ -14,6 +14,8 @@ public:
 	void virtual handleColision(Coin& obj);
 	void virtual handleColision(Monster& obj) override;
 	void virtual handleColision(DynamicObject& obj) {};
+	void virtual handleColision(Player& obj) {};
+
 	bool isInjured();
 	int getCoinCollected();
 	int getLife();
@@ -22,11 +24,10 @@ public:
 
 
 private:
-	int m_life;
-	int m_score;
+	static int m_life;
+	static int m_score;
 	bool m_is_injured;
 	
-	int m_coin_collected;
 	
 	sf::Sound m_sound;
 	sf::SoundBuffer m_sbuffer;

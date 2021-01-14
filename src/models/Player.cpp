@@ -10,9 +10,11 @@
 #include "GameState.h"
 #include "./Resources/ResourceHolder.h"
 
+int Player::m_life = 3;
+int Player::m_score = 0;
+
 Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
-	DynamicObject(pos, size, 250,txt) ,
-	m_life(3),m_score(0),m_is_injured(false), m_coin_collected(0)
+	DynamicObject(pos, size, 250,txt) , m_is_injured(false)
 {
 	m_sbuffer.loadFromFile("player_coin.wav");
 	m_sound.setBuffer(m_sbuffer);
@@ -38,10 +40,7 @@ void Player::handleColision(Coin& obj)
 {
 	if (obj.isExsist())
 	{
-
-
 		obj.handleColision(*this);
-		m_coin_collected++;
 		m_sound.play();
 		//Sleep(500);
 		this->m_score ++;
@@ -53,8 +52,7 @@ void Player::handleColision(Monster& obj)
 	m_life--;
 	// sound
 	m_is_injured = true;
-
-	//std::this_thread::sleep_for(std::chrono::seconds(10));
+	Coin::resetCollected();
 }
 
 void Player::newData(sf::Vector2f pos, sf::Vector2f avgPix)
@@ -69,7 +67,6 @@ void Player::newData(sf::Vector2f pos, sf::Vector2f avgPix)
 	//(sf::Vector2f((pos.x * avgPix.x) + avgPix.x / 2u, (pos.y * avgPix.y) + avgPix.y / 2u));
 
 	this->m_first_position = m_rec->getPosition();
-	this->m_coin_collected = 0;
 
 }
 
@@ -79,17 +76,10 @@ bool Player::isInjured()
 	if (m_is_injured)
 	{
 		m_is_injured = false;
-		this->m_coin_collected = 0;
 		return true;
 	}
 	return false;
 }
-
-int Player::getCoinCollected()
-{
-	return  this->m_coin_collected;
-}
-
 int Player::getLife()
 {
 	return m_life;

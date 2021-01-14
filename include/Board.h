@@ -1,7 +1,9 @@
 #pragma once
 
 #include <fstream>
-#include <vector>
+//#include <vector>
+#include <experimental/vector>
+
 #include <string>
 #include <memory>
 
@@ -17,6 +19,17 @@
 #include "Resources/ResourceHolder.h"
 #include "Resources/ResourceIdentifiers.h"
 
+enum ObjectType
+{
+	PlayerChar = '@',
+	MonsterChar = '%',
+	FloorChar = '#',
+	RopesChar = '-',
+	LadderChar = 'H',
+	CoinChar = '*'
+};
+
+
 class Board
 {
 
@@ -24,12 +37,17 @@ public:
 	Board();
 	~Board();
 	void initAvg(size_t, size_t);
-	void initData(sf::Vector2f pos, char c, TextureHolder& textures );
+	void createObject(sf::Vector2f pos, ObjectType type, TextureHolder& textures );
 	void update(const float& dt);
-	int getCoinCount();
 	void newLevel();
 
-	
+	void startLevelAgain();
+
+
+	Player* getpPlayer();
+	sf::Vector2f getSize();
+
+
 	void renderMonster(sf::RenderWindow* window);
 	void renderStaticObj(sf::RenderWindow* window);
 	void renderPlayer(sf::RenderWindow* window);
@@ -40,21 +58,28 @@ private:
 	//std::vector<Monster*> m_monsters;
 	std::vector<std::unique_ptr<DynamicObject>> m_monsters;
 
-	
+	bool m_level_one;
+
+
 	//std::vector<StaticObj*> m_static_obj;
 	std::vector<std::unique_ptr<StaticObject>> m_static_obj;
 
 	
-	//Player m_player;
+	//Player* m_player2;
+
 	std::unique_ptr<DynamicObject> m_player;
 	sf::Vector2f m_avgPix;
+
+
+	std::unique_ptr<StaticObject> createStaticObject(ObjectType type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures);
+
+	std::unique_ptr<DynamicObject> createDynamicObject(ObjectType type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures);
 
 	void updateMonsters(const float& dt);
 	void updateCreature(const float& dt, DynamicObject& creacure);
 	//bool collisionFlor(sf::RectangleShape rec);
 	void collisionsStatic(DynamicObject& rec);
 	void collisionsDynamic(DynamicObject& rec);
-	void playerCheckInjured();
 
 	bool HaveSomthingToStand(DynamicObject& creacure);
 	bool isInRange(DynamicObject& creacure);
@@ -64,3 +89,6 @@ private:
 
 
 };
+
+
+

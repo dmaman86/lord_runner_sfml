@@ -1,10 +1,10 @@
 #include "Board.h"
-
 #include <ctype.h>
 
-Board::Board()
+Board::Board() : m_level_one(true)
 {
     // initTextures();
+	m_player = nullptr;
 }
 
 Board::~Board() 
@@ -19,14 +19,70 @@ Board::~Board()
 }
 
 
+std::unique_ptr<DynamicObject> Board::createDynamicObject(ObjectType type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures)
+{
+	switch (type)
+	{
+	case ObjectType::PlayerChar:
+		return std::make_unique<Player>(pos, size, &textures.get(Textures::Player));
+	case ObjectType::MonsterChar:
+		return std::make_unique<Monster>(pos, size, &textures.get(Textures::Monster));
+	}
+	return nullptr;
+}
+
+std::unique_ptr<StaticObject> Board::createStaticObject(ObjectType type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures)
+{
+	switch (type)
+	{
+	case ObjectType::FloorChar:
+		return std::make_unique<Floor>(pos, size, &textures.get(Textures::Wall));
+	case ObjectType::RopesChar:
+		return std::make_unique<Ropes>(pos, size, &textures.get(Textures::Ropes));
+	case ObjectType::LadderChar:
+		return std::make_unique<Ladder>(pos, size, &textures.get(Textures::Ladder));
+	case ObjectType::CoinChar:
+		return std::make_unique<Coin>(pos, size, &textures.get(Textures::Coin));
+	}
+	return nullptr;
+}
+
+
 void Board::initAvg(size_t y, size_t x )
 {
 	m_avgPix.x = (COLL_GAME_SCREEN / (float)x);
 	m_avgPix.y = (ROW_GAME_SCREEN / (float)y);
 }
 
-void Board::initData(sf::Vector2f pos, char c, TextureHolder& textures)
+void Board::createObject(sf::Vector2f pos, ObjectType type, TextureHolder& textures)
 {
+	if (type == PlayerChar)
+	{
+		// to do - level one only!
+		m_player = createDynamicObject(type, pos, m_avgPix, textures);
+		return;
+	}
+	std::unique_ptr<DynamicObject> movable = createDynamicObject(type,pos, m_avgPix, textures);
+	if (movable)
+	{
+		m_monsters.push_back(std::move(movable));
+	//	if (!m_player2 )
+	//		m_player2 = (Player*)m_monsters[m_monsters.size() - 1].get();
+		
+		return;
+	}
+
+	std::unique_ptr<StaticObject> unmovable = createStaticObject(type, pos, m_avgPix, textures);
+	if (unmovable)
+	{
+		m_static_obj.push_back(std::move(unmovable));
+		return;
+	}
+
+//	std::cerr << "Unrecognized char in the file: " << type << std::endl;
+//	exit(EXIT_FAILURE);
+
+	/*
 	if( isspace( c ) || iscntrl( c ) || c == '\0' )
 	    return;
 	if (c == '@')
@@ -62,25 +118,18 @@ void Board::initData(sf::Vector2f pos, char c, TextureHolder& textures)
 	{
 		m_static_obj.push_back(std::make_unique< Coin >(pos, m_avgPix, &textures.get(Textures::Coin)));
 	}
+	*/
 }
 
-
-void Board::playerCheckInjured()
+void Board::startLevelAgain()
 {
-	Player* p = dynamic_cast <Player*> (&*this->m_player);
-	if (p) {
-		if (p->isInjured())
-		{
-			m_player->setFirstPos();
-			for (int i = 0; i < m_monsters.size();i++)
-			{
-				m_monsters[i]->setFirstPos();
-			}
-			for (int i = 0;i < m_static_obj.size();i++)
-			{
-				m_static_obj[i]->resetExist();
-			}
-		}
+	for (int i = 0; i < m_monsters.size();i++)
+	{
+		m_monsters[i]->setFirstPos();
+	}
+	for (int i = 0;i < m_static_obj.size();i++)
+	{
+		m_static_obj[i]->resetExist();
 	}
 }
 
@@ -88,27 +137,28 @@ void Board::update(const float& dt)
 {
 	this->updateCreature(dt,*this->m_player);
 	this->collisionsDynamic(*this->m_player);
-	this->playerCheckInjured();
 	this->updateMonsters(dt);
+//	this->playerCheckInjured();
+
 	//this->collisionsDynamic(*this->m_player);
 }
 
-int Board::getCoinCount()
-{
-	Player* p = dynamic_cast <Player*> (&*this->m_player);
-	if (p) {
-		return p->getCoinCollected();
-	}
-	return 0;
-}
 void Board::newLevel()
 {
 	this->m_monsters.clear();
 	this->m_static_obj.clear();
-//	Player* p = dynamic_cast <Player*> (&*this->m_player);
-//	if (p) {
-//		p->newLevel();
-//	}
+	m_level_one = false;
+//	m_player2 = nullptr;
+}
+
+Player* Board::getpPlayer()
+{
+	return (Player*)(m_player.get());
+}
+
+sf::Vector2f Board::getSize()
+{
+	return this->m_avgPix;
 }
 
 void Board::collisionsStatic(DynamicObject& creature)
@@ -167,6 +217,8 @@ void Board::updateCreature(const float& dt, DynamicObject& creacure)
 		creacure.goBack();
 
 	collisionsStatic(creacure);
+//	collisionsDynamic(creacure);
+
 }
 
 void Board::updateMonsters(const float& dt)
@@ -196,6 +248,7 @@ void Board::renderPlayer(sf::RenderWindow* window)
 
 void Board::renderStatus(sf::RenderWindow* window)
 {
+	/*
 	sf::Texture txt;
 	txt.loadFromFile("heart.png");
 	sf::Sprite heart;
@@ -205,13 +258,10 @@ void Board::renderStatus(sf::RenderWindow* window)
 
 	heart.setPosition(0 , ROW_GAME_SCREEN + (m_avgPix.y / 2u));
 
-	Player* p = dynamic_cast <Player*> (&*this->m_player);
-	if (p) {
-
-		for (int i = 0; i < p->getLife();i++)
+		for (int i = 0; i < m_player2->getLife();i++)
 		{
 			heart.setPosition(i * 100, ROW_GAME_SCREEN + (m_avgPix.y / 2u) );
 			window->draw(heart);
 		}
-	}
+		*/
 }

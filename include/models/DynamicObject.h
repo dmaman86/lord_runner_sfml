@@ -31,12 +31,14 @@ public:
 	// ============= pure virtual functions ===============
 	void virtual updateDirection() = 0;
 	void virtual handleColision(DynamicObject& obj) = 0;
+	void virtual handleColision(Player& obj) = 0;
+	void virtual handleColision(Monster& obj) = 0;
+	void virtual handleColision(Coin& obj) = 0;
+
 	// ============= virual functions =====================
 	void virtual handleColision(Floor& obj);
-	void virtual handleColision(Coin& obj) {};
 	void virtual handleColision(Ladder& obj);
 	void virtual handleColision(Ropes& obj);
-	void virtual handleColision(Monster& obj) {};
 
 protected:
 	// members
