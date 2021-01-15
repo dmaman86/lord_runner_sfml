@@ -20,7 +20,19 @@ namespace ObjectType
 		FloorChar = '#',
 		RopesChar = '-',
 		LadderChar = 'H',
-		CoinChar = '*'
+		CoinChar = '*',
+		GiftChar = '+'
+	};
+}
+
+
+namespace GiftType
+{
+	enum ID
+	{
+		addLife,
+		addTime,
+		addMonster
 	};
 }
 
@@ -37,7 +49,8 @@ namespace Textures
 		Ladder,
 		Ropes,
 		Wall,
-		Heart
+		Heart,
+		Gifts
 	};
 }
 

@@ -145,6 +145,8 @@ void Application::loadTextures()
 	this->mTextures.load(Textures::Ropes, "ropes.png");
 	this->mTextures.load(Textures::Wall, "wall.png");
 	this->mTextures.load(Textures::Heart, "heart.png");
+	this->mTextures.load(Textures::Gifts, "gift.png");
+
 
 }
 
