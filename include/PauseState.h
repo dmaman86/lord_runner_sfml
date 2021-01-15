@@ -19,6 +19,9 @@ public:
 	virtual bool		update(double dt);
 	virtual bool		handleEvent(const sf::Event& event);
 
+	virtual void pause() {}
+	virtual void start() {}
+
 
 private:
 	sf::Sprite			mBackgroundSprite;

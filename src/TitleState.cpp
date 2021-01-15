@@ -34,14 +34,8 @@ void TitleState::draw()
 
 bool TitleState::update(double dt)
 {
-	/*mTextEffectTime += dt;
-
-	if (mTextEffectTime >= 0.5f)
-	{
-		mShowText = !mShowText;
-		mTextEffectTime = 0.0f;
-	}*/
-	if (mClock.getElapsedTime().asSeconds() > 3.0)
+	mTextEffectTime += dt;
+	if (mTextEffectTime >= 3.0f)
 	{
 		mSound.stop();
 		requestStackPop();

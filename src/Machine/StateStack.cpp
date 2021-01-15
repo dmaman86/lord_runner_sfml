@@ -82,6 +82,10 @@ void StateStack::applyPendingChanges()
 
 		case Pop:
 			mStack.pop_back();
+
+			if(!mStack.empty())
+				mStack.back()->start();
+			
 			break;
 
 		case Clear:

@@ -9,7 +9,7 @@
 
 
 MenuState::MenuState(StateStack& stack, Context context)
-	: State(stack, context)
+	: State(stack, context), mEffectTime(0.0f)
 {
 	m_isPlayButtonSelected = false;
 	m_isPlayButtonPressed = false;
@@ -84,11 +84,12 @@ bool MenuState::update(double dt)
 {
 	if (m_pressed)
 	{
+		mEffectTime += dt;
 		updateColorButton();
-		// m_clock.restart();
-		if (m_clock.getElapsedTime().asSeconds() > 3.0)
+		if (mEffectTime >= 3.0f)
 		{
 			m_pressed = false;
+			mEffectTime = 0.0f;
 			if (m_isPlayButtonSelected)
 			{
 				requestStackPop();
