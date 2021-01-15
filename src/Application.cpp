@@ -98,7 +98,7 @@ void Application::render()
 	mStateStack.draw();
 
 	mWindow.setView(mWindow.getDefaultView());
-	mWindow.draw(mStatisticsText);
+	// mWindow.draw(mStatisticsText);
 
 	mWindow.display();
 }

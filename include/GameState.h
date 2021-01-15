@@ -18,7 +18,10 @@ public:
 	virtual bool update(double dt);
 	virtual bool handleEvent(const sf::Event& event);
 
-	static const int getNumLevel() ;
+	static const int getNumLevel();
+
+	virtual void pause();
+	virtual void start();
 private:
 	sf::Sprite	mBackgroundSprite;
 	sf::Sound m_sound;

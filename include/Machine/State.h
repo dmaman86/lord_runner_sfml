@@ -43,6 +43,9 @@ public:
 	virtual bool		update(double dt) = 0;
 	virtual bool		handleEvent(const sf::Event& event) = 0;
 
+	virtual void pause(){}
+	virtual void start(){}
+
 
 protected:
 	void				requestStackPush(States::ID stateID);

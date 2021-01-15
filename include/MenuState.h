@@ -14,13 +14,15 @@ class MenuState : public State
 public:
 	MenuState(StateStack& stack, Context context);
 
-	virtual void			draw();
-	virtual bool			update(double dt);
-	virtual bool			handleEvent(const sf::Event& event);
+	virtual void draw();
+	virtual bool update(double dt);
+	virtual bool handleEvent(const sf::Event& event);
 
+    virtual void pause() {}
+    virtual void start() {}
 
 private:
-	sf::Sprite				mBackgroundSprite;
+	sf::Sprite mBackgroundSprite;
     sf::Text m_title;
 	std::vector< sf::Text > m_buttons;
 
@@ -44,6 +46,6 @@ private:
     void updateColorButton();
     void centerOrigin(sf::Text&);
 
-    sf::Clock m_clock;
+    float mEffectTime;
 };
 

@@ -12,17 +12,17 @@ class TitleState : public State
 public:
 	TitleState(StateStack& stack, Context context);
 
-	virtual void		draw();
-	virtual bool		update(double dt);
-	virtual bool		handleEvent(const sf::Event& event);
-
+	virtual void draw();
+	virtual bool update(double dt);
+	virtual bool handleEvent(const sf::Event& event);
+	virtual void pause() {}
+	virtual void start() {}
 
 private:
-	sf::Sprite			mBackgroundSprite;
-	sf::Text			mText;
+	sf::Sprite mBackgroundSprite;
+	sf::Text mText;
 	sf::Sound mSound;
-	sf::Clock mClock;
 
-	bool				mShowText;
-	double			mTextEffectTime;
+	bool mShowText;
+	double mTextEffectTime;
 };

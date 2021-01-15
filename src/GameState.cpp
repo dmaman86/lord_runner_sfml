@@ -68,63 +68,60 @@ void GameState::draw()
 
 bool GameState::update(double dt)
 {
-    m_board.update(dt,m_player); 
-
-	
-
-	if (this->m_is_race_time)
+	if (!m_isPause)
 	{
-		if (this->m_level_clock.getElapsedTime().asSeconds() > m_time_of_level.asSeconds())
-		{
-			m_sEndLevClock.play();
+		m_board.update(dt, m_player);
 
-			m_player->injured();
+
+
+		if (this->m_is_race_time)
+		{
+			if (this->m_level_clock.getElapsedTime().asSeconds() > m_time_of_level.asSeconds())
+			{
+				m_sEndLevClock.play();
+
+				m_player->injured();
+				this->m_level_clock.restart();
+				Sleep(2000);
+
+			}
+		}
+
+		// 1.moved to func later
+		if (m_player->isInjured())
+		{
+			// if(m_player->isDead())
+			// gameoverState(false = lose)
+			if (!m_player->getLife())
+			{
+				requestStackPush(States::GameOver);
+			}
+			m_board.startLevelAgain();
+			m_player->setFirstPos();
+			m_PmeetM.play();
 			this->m_level_clock.restart();
-			Sleep(2000);
+
 
 		}
-	}
 
-	// 1.moved to func later
-	if (m_player->isInjured())
-	{
-		// if(m_player->isDead())
-		// gameoverState(false = lose)
-		if (!m_player->getLife())
+		// 2.moved to func later
+		if (Coin::getCount() == Coin::getCollected())
 		{
-			requestStackPush(States::GameOver);
+			// next level
+			Coin::resetCollected();
+			// if(m_numLevel
+			// gameoverState(false = lose)
+			this->m_numLevel++;
+			this->m_board.newLevel();
+			std::ifstream fd_readLevel(this->getPath());
+			if (fd_readLevel.is_open())
+				read_data(fd_readLevel);
+
+			this->m_level_clock.restart();
+
 		}
-		m_board.startLevelAgain();
-		m_player->setFirstPos();
-		m_PmeetM.play();
-		this->m_level_clock.restart();
-
 
 	}
-
-	// 2.moved to func later
-	if (Coin::getCount() == Coin::getCollected())
-	{
-		// next level
-		Coin::resetCollected();
-		// if(m_numLevel
-		// gameoverState(false = lose)
-		this->m_numLevel++;
-		this->m_board.newLevel();
-		std::ifstream fd_readLevel(this->getPath());
-		if (fd_readLevel.is_open())
-			read_data(fd_readLevel);
-
-		this->m_level_clock.restart();
-
-	}
-
-    if (m_isPause)
-    {
-        m_isPause = false;
-        m_soundState.pause();
-        requestStackPush(States::Pause);
-    }
 
 	return true;
 }
@@ -137,10 +134,26 @@ bool GameState::handleEvent(const sf::Event& event)
         getContext().window->close();
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-        m_isPause = true;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	{
+		pause();
+		m_soundState.pause();
+		requestStackPush(States::Pause);
+	}
+        
 
 	return true;
+}
+
+void GameState::pause()
+{
+	m_isPause = true;
+}
+
+void GameState::start()
+{
+	m_isPause = false;
+	m_soundState.play();
 }
 
 const int GameState::getNumLevel() 
