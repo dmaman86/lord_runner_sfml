@@ -10,11 +10,9 @@
 #include "GameState.h"
 #include "./Resources/ResourceHolder.h"
 
-int Player::m_life = 3;
-int Player::m_score = 0;
-
 Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, sf::SoundBuffer* sound) :
-	DynamicObject(pos, size, 250,txt) , m_is_injured(false)
+	DynamicObject(pos, size, 250,txt) , m_is_injured(false), m_life(6), m_score(0)
+
 {
 	// m_sbuffer.loadFromFile("player_coin.wav");
 	m_sound.setBuffer(*sound);
@@ -43,16 +41,14 @@ void Player::handleColision(Coin& obj)
 		obj.handleColision(*this);
 		m_sound.play();
 		//Sleep(500);
-		this->m_score ++;
+		this->m_score += GameState::getNumLevel() * 2;
 	}
 }
 
 void Player::handleColision(Monster& obj)
 {
-	m_life--;
-	// sound
-	m_is_injured = true;
-	Coin::resetCollected();
+	this->injured();
+
 }
 
 void Player::newData(sf::Vector2f pos, sf::Vector2f avgPix)
@@ -67,6 +63,7 @@ void Player::newData(sf::Vector2f pos, sf::Vector2f avgPix)
 	//(sf::Vector2f((pos.x * avgPix.x) + avgPix.x / 2u, (pos.y * avgPix.y) + avgPix.y / 2u));
 
 	this->m_first_position = m_rec->getPosition();
+	this->m_score += (GameState::getNumLevel() - 1) * 50;
 
 }
 
@@ -80,9 +77,18 @@ bool Player::isInjured()
 	}
 	return false;
 }
+
 const int Player::getScore() const
 {
 	return m_score;
+}
+
+void Player::injured() 
+{
+	m_life--;
+	// sound
+	m_is_injured = true;
+	Coin::resetCollected();
 }
 
 const int Player::getLife() const

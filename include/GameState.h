@@ -17,20 +17,33 @@ public:
 	virtual bool update(double dt);
 	virtual bool handleEvent(const sf::Event& event);
 
-
+	static const int getNumLevel() ;
 private:
 	sf::Sprite	mBackgroundSprite;
 	sf::Sound m_sound;
 	sf::Sound m_soundState;
+
+	// new sound
+	sf::Sound m_sStartLevClock;
+	sf::Sound m_sEndLevClock;
+	sf::Sound m_PmeetM;
+
+
 	Board m_board;
 	ContainerStatus m_containerStatus;
 	Player* m_player;
 
+	// new daniel 15/1 9:15
+	sf::Time m_time_of_level;
+	sf::Clock m_level_clock;
+	bool m_is_race_time;
+
+
 	std::string getPath();
 
 	void read_data(std::ifstream&);
-	int m_numLevel = 1;
+	static int m_numLevel;
 	bool m_isPause;
 
-	sf::Clock m_clock;
+	//sf::Clock m_clock;
 };

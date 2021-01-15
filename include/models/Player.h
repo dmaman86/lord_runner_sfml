@@ -21,14 +21,15 @@ public:
 	bool isInjured();
 	const int getLife() const;
 	const int getScore() const;
+	void injured();
 
 
 	void newData(sf::Vector2f pos, sf::Vector2f size);
 
 
 private:
-	static int m_life;
-	static int m_score;
+	int m_life;
+	int m_score;
 	bool m_is_injured;
 	
 	

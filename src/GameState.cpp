@@ -1,17 +1,21 @@
 #include "GameState.h"
+#include <Windows.h>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "Resources/ResourceIdentifiers.h"
 #include "Resources/ResourceHolder.h"
+
+int GameState::m_numLevel = 1;
+
 
 GameState::GameState(StateStack& stack, Context context)
 	: State(stack, context),
 	m_player( new Player(sf::Vector2f(0,0), sf::Vector2f(0,0) ,
 	&context.textures->get(Textures::Player), &context.sounds->get(SoundEffect::PlayerCoin)) )
 	, m_containerStatus(&context.textures->get(Textures::Heart), 
-						&context.fonts->get(Fonts::Main))
+						&context.fonts->get(Fonts::Main)),
+	m_is_race_time(true)
 {
-
     m_isPause = false;
 	std::ifstream fd_readLevel(getPath());
 	if (fd_readLevel.is_open())
@@ -24,6 +28,9 @@ GameState::GameState(StateStack& stack, Context context)
 
     m_soundState.play();
 
+	m_sStartLevClock.setBuffer(context.sounds->get(SoundEffect::StartLevelClock));
+	m_sEndLevClock.setBuffer(context.sounds->get(SoundEffect::EndTime));
+	m_PmeetM.setBuffer(context.sounds->get(SoundEffect::PlayerDead));
 }
 
 void GameState::draw()
@@ -41,13 +48,32 @@ void GameState::draw()
    // m_board.renderPlayer(&window);
 
 	//m_board.renderStatus(&window);
-	this->m_containerStatus.renderStatus(*m_player, &window, m_numLevel);
+	this->m_containerStatus.renderStatus
+	(*m_player, &window, m_numLevel, m_is_race_time,
+		m_time_of_level.asSeconds() - m_level_clock.getElapsedTime().asSeconds());
+	
+	
 	window.draw(m_player->getSprite());
 }
 
 bool GameState::update(double dt)
 {
     m_board.update(dt,m_player); 
+
+	
+
+	if (this->m_is_race_time)
+	{
+		if (this->m_level_clock.getElapsedTime().asSeconds() > m_time_of_level.asSeconds())
+		{
+			m_sEndLevClock.play();
+
+			m_player->injured();
+			this->m_level_clock.restart();
+			Sleep(2000);
+
+		}
+	}
 
 	// 1.moved to func later
 	if (m_player->isInjured())
@@ -56,6 +82,10 @@ bool GameState::update(double dt)
 		// gameoverState(false = lose)
 		m_board.startLevelAgain();
 		m_player->setFirstPos();
+		m_PmeetM.play();
+		this->m_level_clock.restart();
+
+
 	}
 
 	// 2.moved to func later
@@ -70,6 +100,9 @@ bool GameState::update(double dt)
 		std::ifstream fd_readLevel(this->getPath());
 		if (fd_readLevel.is_open())
 			read_data(fd_readLevel);
+
+		this->m_level_clock.restart();
+
 	}
 
     if (m_isPause)
@@ -96,6 +129,11 @@ bool GameState::handleEvent(const sf::Event& event)
 	return true;
 }
 
+const int GameState::getNumLevel() 
+{
+	return m_numLevel;
+}
+
 //Private function
 std::string GameState::getPath()
 {
@@ -105,12 +143,23 @@ std::string GameState::getPath()
 
 void GameState::read_data(std::ifstream& fd_readLevel)
 {
-    size_t height, weidth;
+    size_t height, weidth,time;
     char c;
 
     fd_readLevel >> height;
     fd_readLevel >> weidth;
-    this->m_board.initAvg(height, weidth);
+	fd_readLevel >> time;
+
+	if (time != -1)
+	{
+		m_time_of_level = sf::seconds(time) + sf::seconds(0.5);
+		m_is_race_time = true;
+		m_sStartLevClock.play();
+	}
+	else
+		m_is_race_time = false;
+
+	this->m_board.initAvg(height, weidth);
 
     fd_readLevel.get(c);	//eat '\n'
     for (size_t i = 0; i < height; i++)
@@ -129,9 +178,5 @@ void GameState::read_data(std::ifstream& fd_readLevel)
 		fd_readLevel.get(c);	//eat '\n'
     }
 	
-	// new
-//	if (m_numLevel == 1)
-	//	this->m_player = m_board.getpPlayer();
-
     fd_readLevel.close();
 }

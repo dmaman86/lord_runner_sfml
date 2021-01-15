@@ -57,7 +57,11 @@ namespace SoundEffect
 		Menu,
 		Game,
 		Button,
-		PlayerCoin
+		PlayerCoin,
+		PlayerDead,
+		PlayerInjured,
+		StartLevelClock,
+		EndTime
 	};
 }
 

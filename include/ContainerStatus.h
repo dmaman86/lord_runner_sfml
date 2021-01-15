@@ -12,10 +12,13 @@ public:
 	ContainerStatus(sf::Texture *,sf::Font *);
 	~ContainerStatus();
 
-	void renderStatus( Player & ,sf::RenderWindow* window,int m_level);
+	void renderStatus
+	( Player & ,sf::RenderWindow* ,int , bool , float);
 private:
 	sf::Sprite m_heart;
 	sf::Text m_textLevel;
 	sf::Text m_textScore;
+	sf::Text m_textTime;
+
 
 }; // end ContainerStatus 

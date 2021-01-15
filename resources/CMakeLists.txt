@@ -32,6 +32,10 @@ configure_file ("./sounds/open.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file("./sounds/move_next_state.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file("./sounds/new_move_next_state.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file("./sounds/player_coin.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file("./sounds/player_dead.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file("./sounds/start_level_clock.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file("./sounds/end_of_time.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+
 
 
 configure_file("./records/Records.txt" ${CMAKE_BINARY_DIR} COPYONLY)

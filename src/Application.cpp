@@ -16,7 +16,7 @@
 
 
 Application::Application()
-	: mWindow(sf::VideoMode(1920, 1080), "Lord Runner Game")
+	: mWindow(sf::VideoMode(1920, 1080), "Lord Runner Game",sf::Style::Fullscreen)
 	, mTextures()
 	, mFonts()
 	, mSounds()
@@ -152,5 +152,9 @@ void Application::loadSounds()
 	this->mSounds.load(SoundEffect::Menu, "menusound.wav");
 	this->mSounds.load(SoundEffect::Button, "new_move_next_state.wav");
 	this->mSounds.load(SoundEffect::PlayerCoin, "player_coin.wav");
+	this->mSounds.load(SoundEffect::PlayerDead, "player_dead.wav");
+	this->mSounds.load(SoundEffect::StartLevelClock, "start_level_clock.wav");
+	this->mSounds.load(SoundEffect::EndTime, "end_of_time.wav");
+
 }
 
