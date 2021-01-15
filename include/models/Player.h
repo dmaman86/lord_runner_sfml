@@ -21,7 +21,10 @@ public:
 	bool isInjured();
 	const int getLife() const;
 	const int getScore() const;
+	const int getLevel() const;
+
 	void injured();
+	void newLevel();
 
 
 	void newData(sf::Vector2f pos, sf::Vector2f size);
@@ -31,7 +34,8 @@ private:
 	int m_life;
 	int m_score;
 	bool m_is_injured;
-	
+	int m_numLevel;
+
 	
 	sf::Sound m_sound;
 	// sf::SoundBuffer m_sbuffer;

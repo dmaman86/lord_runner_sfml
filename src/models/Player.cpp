@@ -11,7 +11,7 @@
 #include "./Resources/ResourceHolder.h"
 
 Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, sf::SoundBuffer* sound) :
-	DynamicObject(pos, size, 250,txt) , m_is_injured(false), m_life(6), m_score(0)
+	DynamicObject(pos, size, 250,txt) , m_is_injured(false), m_life(6), m_score(0),m_numLevel(1)
 
 {
 	// m_sbuffer.loadFromFile("player_coin.wav");
@@ -42,7 +42,7 @@ void Player::handleColision(Coin& obj)
 		obj.handleColision(*this);
 		m_sound.play();
 		//Sleep(500);
-		this->m_score += GameState::getNumLevel() * 2;
+		this->m_score += m_numLevel * 2;
 	}
 }
 
@@ -64,7 +64,8 @@ void Player::newData(sf::Vector2f pos, sf::Vector2f avgPix)
 	//(sf::Vector2f((pos.x * avgPix.x) + avgPix.x / 2u, (pos.y * avgPix.y) + avgPix.y / 2u));
 
 	this->m_first_position = m_rec->getPosition();
-	this->m_score += (GameState::getNumLevel() - 1) * 50;
+	//this->m_numLevel++;
+	this->m_score += (m_numLevel - 1) * 50;
 
 }
 
@@ -79,9 +80,20 @@ bool Player::isInjured()
 	return false;
 }
 
+void Player::newLevel() 
+{
+	m_numLevel++;
+}
+
+
 const int Player::getScore() const
 {
 	return m_score;
+}
+
+const int Player::getLevel() const
+{
+	return m_numLevel;
 }
 
 void Player::injured() 

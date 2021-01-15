@@ -5,7 +5,6 @@
 #include "Resources/ResourceIdentifiers.h"
 #include "Resources/ResourceHolder.h"
 
-int GameState::m_numLevel = 1;
 
 
 GameState::GameState(StateStack& stack, Context context)
@@ -40,7 +39,6 @@ GameState::GameState(StateStack& stack, Context context)
 GameState::~GameState()
 {
 	delete m_player;
-	GameState::m_numLevel = 1;
 }
 
 void GameState::draw()
@@ -59,7 +57,7 @@ void GameState::draw()
 
 	//m_board.renderStatus(&window);
 	this->m_containerStatus.renderStatus
-	(*m_player, &window, m_numLevel, m_is_race_time,
+	(*m_player, &window, m_is_race_time,
 		m_time_of_level.asSeconds() - m_level_clock.getElapsedTime().asSeconds());
 	
 	
@@ -111,7 +109,7 @@ bool GameState::update(double dt)
 			Coin::resetCollected();
 			// if(m_numLevel
 			// gameoverState(false = lose)
-			this->m_numLevel++;
+			this->m_player->newLevel();
 			this->m_board.newLevel();
 			std::ifstream fd_readLevel(this->getPath());
 			if (fd_readLevel.is_open())
@@ -156,15 +154,10 @@ void GameState::start()
 	m_soundState.play();
 }
 
-const int GameState::getNumLevel() 
-{
-	return m_numLevel;
-}
-
 //Private function
 std::string GameState::getPath()
 {
-    std::string path = "Board" + std::to_string(m_numLevel) + ".txt";
+    std::string path = "Board" + std::to_string(m_player->getLevel()) + ".txt";
     return path;
 }
 

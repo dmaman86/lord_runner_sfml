@@ -31,10 +31,10 @@ ContainerStatus::~ContainerStatus()
 }
 
 void ContainerStatus::renderStatus
-(Player& p, sf::RenderWindow* window, int m_level, bool is_on_time, float t_in_s)
+(Player& p, sf::RenderWindow* window, bool is_on_time, float t_in_s)
 {
 	m_textScore.setString("Score : " + std::to_string(p.getScore()));
-	m_textLevel.setString("Level : " + std::to_string(m_level));
+	m_textLevel.setString("Level : " + std::to_string(p.getLevel()));
 
 
 	for (int i = 0; i < p.getLife();i++)

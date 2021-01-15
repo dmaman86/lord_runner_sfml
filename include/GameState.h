@@ -18,7 +18,6 @@ public:
 	virtual bool update(double dt);
 	virtual bool handleEvent(const sf::Event& event);
 
-	static const int getNumLevel();
 
 	virtual void pause();
 	virtual void start();
@@ -46,7 +45,6 @@ private:
 	std::string getPath();
 
 	void read_data(std::ifstream&);
-	static int m_numLevel;
 	bool m_isPause;
 
 	//sf::Clock m_clock;

@@ -13,7 +13,7 @@ public:
 	~ContainerStatus();
 
 	void renderStatus
-	( Player & ,sf::RenderWindow* ,int , bool , float);
+	( Player & ,sf::RenderWindow* , bool , float);
 private:
 	sf::Sprite m_heart;
 	sf::Text m_textLevel;
