@@ -24,13 +24,23 @@ GameState::GameState(StateStack& stack, Context context)
     mBackgroundSprite.setTexture(context.textures->get(Textures::Game));
     m_soundState.setBuffer(context.sounds->get(SoundEffect::Game));
     m_soundState.setLoop(true);
+	m_soundState.setVolume(100.0f);
     m_sound.setBuffer(context.sounds->get(SoundEffect::Button));
 
     m_soundState.play();
 
 	m_sStartLevClock.setBuffer(context.sounds->get(SoundEffect::StartLevelClock));
+	m_sStartLevClock.setVolume(40.0f);
 	m_sEndLevClock.setBuffer(context.sounds->get(SoundEffect::EndTime));
+	m_sEndLevClock.setVolume(40.0f);
 	m_PmeetM.setBuffer(context.sounds->get(SoundEffect::PlayerDead));
+	m_PmeetM.setVolume(40.0f);
+}
+
+GameState::~GameState()
+{
+	delete m_player;
+	GameState::m_numLevel = 1;
 }
 
 void GameState::draw()
@@ -80,6 +90,10 @@ bool GameState::update(double dt)
 	{
 		// if(m_player->isDead())
 		// gameoverState(false = lose)
+		if (!m_player->getLife())
+		{
+			requestStackPush(States::GameOver);
+		}
 		m_board.startLevelAgain();
 		m_player->setFirstPos();
 		m_PmeetM.play();

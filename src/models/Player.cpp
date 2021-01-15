@@ -16,6 +16,7 @@ Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, sf::SoundB
 {
 	// m_sbuffer.loadFromFile("player_coin.wav");
 	m_sound.setBuffer(*sound);
+	m_sound.setVolume(30.0f);
 }
 
 void Player::updateDirection()

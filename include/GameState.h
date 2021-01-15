@@ -12,6 +12,7 @@ class GameState : public State
 {
 public:
 	GameState(StateStack& stack, Context context);
+	~GameState();
 
 	virtual void draw();
 	virtual bool update(double dt);

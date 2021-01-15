@@ -121,7 +121,8 @@ bool MenuState::handleEvent(const sf::Event& event)
 	if (sf::Event::Closed == event.type || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 	{
 		m_soundState.stop();
-		requestStackPop();
+		// requestStackPop();
+		requestStateClear();
 	}
 
 	if (event.MouseButtonPressed)

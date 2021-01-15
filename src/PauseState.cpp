@@ -95,7 +95,8 @@ bool PauseState::update(double dt)
 			}
 			else if (m_isResetGameSelected)
 			{
-				requestStackPop();
+				// requestStackPop();
+				requestStateClear();
 				requestStackPush(States::Game);
 			}
 		}

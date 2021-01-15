@@ -16,7 +16,7 @@
 
 
 Application::Application()
-	: mWindow(sf::VideoMode(1920, 1080), "Lord Runner Game",sf::Style::Fullscreen)
+	: mWindow(sf::VideoMode(1920, 1080), "Lord Runner Game")
 	, mTextures()
 	, mFonts()
 	, mSounds()
@@ -64,6 +64,9 @@ void Application::run()
 			update(TimePerFrame);
 
 			accumulator -= TimePerFrame;
+
+			if (mStateStack.isEmpty())
+				mWindow.close();
 		}
 
 		// updateStatistics(TimePerFrame);

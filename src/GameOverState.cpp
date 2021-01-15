@@ -8,17 +8,30 @@
 
 
 GameOverState::GameOverState(StateStack& stack, Context context)
-	: State(stack, context)
-	, mGameOverText()
-	, mElapsedTime(0.0f)
+	: State(stack, context), mElapsedTime(0.0f)
 {
+	sf::Vector2u textureSize, windowSize;
+
+	windowSize = context.window->getSize();
+	textureSize = context.textures->get(Textures::Menu).getSize();
+
+	sf::Texture& texture = context.textures->get(Textures::Menu);
+	mBackgroundSprite.setTexture(texture);
+	mBackgroundSprite.setScale((float)windowSize.x / textureSize.x,
+		(float)windowSize.y / textureSize.y);
+
+	m_soundState.setBuffer(context.sounds->get(SoundEffect::Menu));
+	m_soundState.setLoop(true);
+
 	sf::Font& font = context.fonts->get(Fonts::Main);
-	sf::Vector2f windowSize(context.window->getSize());
+	m_title.setFont(font);
+	m_title.setString("Game Over!...You Lose.");
+	m_title.setFillColor(sf::Color(76, 0, 153));
+	m_title.setCharacterSize(100);
+	centerOrigin(m_title);
+	m_title.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
 
-	mGameOverText.setFont(font);
-
-	mGameOverText.setCharacterSize(70);
-	mGameOverText.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
+	m_soundState.play();
 }
 
 void GameOverState::draw()
@@ -32,7 +45,7 @@ void GameOverState::draw()
 	backgroundShape.setSize(window.getView().getSize());
 
 	window.draw(backgroundShape);
-	window.draw(mGameOverText);
+	window.draw(m_title);
 }
 
 bool GameOverState::update(double dt)
@@ -50,4 +63,11 @@ bool GameOverState::update(double dt)
 bool GameOverState::handleEvent(const sf::Event&)
 {
 	return false;
+}
+
+void GameOverState::centerOrigin(sf::Text& text)
+{
+	sf::FloatRect bounds = text.getLocalBounds();
+	text.setOrigin(std::floor(bounds.left + bounds.width / 2.f),
+		std::floor(bounds.top + bounds.height / 2.f));
 }
