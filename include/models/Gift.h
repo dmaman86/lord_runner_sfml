@@ -11,7 +11,7 @@ class Gift : public Trophy
 {
 public:
 
-	Gift(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, GiftType::ID );
+	Gift(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt);
 	virtual ~Gift();
 
 	void resetExist() override;
@@ -22,15 +22,13 @@ public:
 
 	void virtual update() = 0;
 
-	static bool isActive(GiftType::ID);
 
 	// static member function
 //	static int getCount();  // return # objects instantiated
 //	static int getCollected();
 //	static void resetCollected();
 protected:
-	static bool m_is_active;
-	static GiftType::ID m_type;
+
 private:
 
 };

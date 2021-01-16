@@ -58,4 +58,9 @@ void StaticObject::resetExist()
 	this->m_isExist = true;
 }
 
+bool StaticObject::collisionWithDig(sf::Sprite& spr)
+{
+	return false;
+}
+
 

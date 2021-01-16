@@ -1,12 +1,12 @@
-#include "..\..\include\models\GiftLife.h"
+#include "..\..\include\models\GiftScore.h"
 
 
-GiftLife::GiftLife(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
+GiftScore::GiftScore(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
 	Gift(pos, size, txt)
 {
 }
 
-GiftLife::~GiftLife()
+GiftScore::~GiftScore()
 {
 }
 /*
@@ -15,10 +15,10 @@ bool GiftLife::isActive()
 }
 */
 
-void GiftLife::update()
+void GiftScore::update()
 {
 }
-void GiftLife::handleColision(DynamicObject& obj)
+void GiftScore::handleColision(DynamicObject& obj)
 {
 	obj.handleColision(*this);
 }
@@ -28,7 +28,7 @@ void GiftLife::handleColision(DynamicObject& obj)
 	obj.handleColision(*this);
 }
 */
-void GiftLife::handleColision(Player& obj)
+void GiftScore::handleColision(Player& obj)
 {
 	this->m_isExist = false;
 }

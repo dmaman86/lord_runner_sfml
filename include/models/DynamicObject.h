@@ -10,7 +10,9 @@ class Monster;
 class Gift;
 class GiftLife;
 class GiftTime;
-
+class GiftScore;
+class GiftMonster;
+class GiftStain;
 
 
 const float COLL_GAME_SCREEN = 1920.f;
@@ -41,8 +43,9 @@ public:
 	void virtual handleColision(Coin& obj) = 0;
 	void virtual handleColision(GiftLife& obj) = 0;
 	void virtual handleColision(GiftTime& obj) = 0;
-
-
+	void virtual handleColision(GiftScore& obj) = 0;
+	void virtual handleColision(GiftMonster& obj) = 0;
+	void virtual handleColision(GiftStain& obj) = 0;
 
 	// ============= virual functions =====================
 	void virtual handleColision(Floor& obj);

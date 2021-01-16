@@ -12,6 +12,7 @@ public:
 	~Coin();
 
 	void virtual handleColision(DynamicObject& obj) override;
+	void resetExist() override;
 
 	void virtual handleColision(Player& obj) override;// needed override
 

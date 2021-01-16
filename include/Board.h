@@ -41,8 +41,13 @@ public:
 	void createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& textures);
 	void update(const float& dt, Player* player);
 	void newLevel();
-
+	
 	void startLevelAgain();
+
+	void digIn(sf::Time time,sf::Vector2f pos, const  sf::Sprite&);
+	void releaseDisappears(sf::Time time);
+
+	sf::Vector2f getPlaceToAddMon();
 
 
 	sf::Vector2f getSize();
@@ -60,6 +65,7 @@ private:
 
 	bool m_level_one;
 
+	sf::Vector2f m_location_add_monster;
 
 	//std::vector<StaticObj*> m_static_obj;
 	std::vector<std::unique_ptr<StaticObject>> m_static_obj;
@@ -82,6 +88,7 @@ private:
 	//bool collisionFlor(sf::RectangleShape rec);
 	void collisionsStatic(DynamicObject& rec);
 	void collisionsDynamic(DynamicObject& rec);
+
 
 	bool HaveSomthingToStand(DynamicObject& creacure);
 	bool isInRange(DynamicObject& creacure);

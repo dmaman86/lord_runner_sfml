@@ -2,17 +2,18 @@
 
 
 #include "../models/Gift.h"
+#include <SFML/System.hpp>
 
-class GiftTime : public Gift
+class GiftStain : public Gift
 {
 public:
-	GiftTime(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt);
-	~GiftTime();
+	GiftStain(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt);
+	~GiftStain();
 
 	void virtual update() override;
 
 
-	void virtual handleColision(DynamicObject& obj) ;
+	void virtual handleColision(DynamicObject& obj);
 
 	void virtual handleColision(Player& obj);// needed override
 
@@ -20,5 +21,5 @@ public:
 
 private:
 	static bool m_is_active;
-
+	static sf::Clock m_clock;
 };

@@ -7,11 +7,12 @@
 #else
 #include <unistd.h>
 #endif
-#include "GameState.h"
+//#include "GameState.h"
 #include "./Resources/ResourceHolder.h"
 
 Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, sf::SoundBuffer* sound) :
-	DynamicObject(pos, size, 250,txt) , m_is_injured(false), m_life(3), m_score(0),m_numLevel(1)
+	DynamicObject(pos, size, 250,txt), 
+	m_is_injured(false), m_life(3), m_score(0),m_numLevel(1), m_direction_dig(0)
 
 {
 	// m_sbuffer.loadFromFile("player_coin.wav");
@@ -33,6 +34,38 @@ void Player::updateDirection()
 	this->SaveLastPosition();
 
 	//std::cout << m_score << std::endl;
+}
+
+bool Player::dig()
+{
+	sf::Vector2f vec2f;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+	{
+		this->m_direction_dig = 1;
+		return true;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
+	{
+		this->m_direction_dig = 2;
+		return true;
+	}
+	return false;
+
+}
+
+const sf::Vector2f& Player::getMovementDig(sf::Vector2f size) const
+{
+	switch (m_direction_dig)
+	{
+	case 1:
+		return (sf::Vector2f(this->m_rec->getPosition().x - 1 * size.x,
+			this->m_rec->getPosition().y + 1 * size.y));
+	case 2:
+		return (sf::Vector2f(this->m_rec->getPosition().x + 1 * size.x,
+			this->m_rec->getPosition().y + 1 * size.y));
+	default:
+		return (sf::Vector2f(0.f, 0.f));
+	}
 }
 
 void Player::handleColision(Coin& obj)
@@ -76,9 +109,36 @@ void Player::handleColision(GiftLife& obj)
 	if (obj.isExsist())
 	{
 		obj.handleColision(*this);
-		this->m_life++;
+		if(m_life < 6)
+			this->m_life++;
 	}
 }
+
+void Player::handleColision(GiftScore& obj)
+{
+	if (obj.isExsist())
+	{
+		obj.handleColision(*this);
+		this->m_score += 150;
+	}
+}
+
+void Player::handleColision(GiftMonster& obj)
+{
+	if (obj.isExsist())
+	{
+		obj.handleColision(*this);
+	}
+}
+
+void Player::handleColision(GiftStain& obj)
+{
+	if (obj.isExsist())
+	{
+		obj.handleColision(*this);
+	}
+}
+
 
 void Player::handleColision(GiftTime& obj)
 {
@@ -87,6 +147,7 @@ void Player::handleColision(GiftTime& obj)
 		obj.handleColision(*this);
 	}
 }
+
 
 bool Player::isInjured()
 {

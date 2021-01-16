@@ -25,4 +25,7 @@ target_sources (final_sfml PRIVATE "main.cpp"
 								   "models/Trophy.cpp"
 								   "models/Gift.cpp"
 								   "models/GiftLife.cpp"
-								   "models/GiftTime.cpp")
+								   "models/GiftTime.cpp"
+								   "models/GiftScore.cpp"
+								   "models/GiftMonster.cpp"
+								   "models/GiftStain.cpp")

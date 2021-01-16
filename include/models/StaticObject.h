@@ -13,7 +13,10 @@ public:
 	void virtual render(sf::RenderWindow* window)override;
 	void virtual resetExist();
 	bool virtual collisionWithStand(DynamicObject& obj, sf::Vector2f size) = 0;
-	
+	bool virtual collisionWithDig(sf::Sprite& spr);
+	void virtual digMe(sf::Time time) {};
+	void virtual digMeFree(sf::Time time) {};
+
 	void virtual handleColision(Floor& obj) {};
 	void virtual handleColision(Coin& obj) {};
 	void virtual handleColision(Ladder& obj) {};

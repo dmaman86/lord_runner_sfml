@@ -29,6 +29,11 @@ void Coin::resetCollected()
 {
 	m_num_collected = 0;
 }
+void Coin::resetExist()
+{
+	this->m_isExist = true;
+}
+
 
 void Coin::handleColision(DynamicObject& obj)
 {

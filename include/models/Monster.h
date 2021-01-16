@@ -17,8 +17,9 @@ public:
 	void virtual handleColision(Coin& obj) {};
 	void virtual handleColision(GiftLife& obj) {};
 	void virtual handleColision(GiftTime& obj) {};
-
-
+	void virtual handleColision(GiftScore& obj) {};
+	void virtual handleColision(GiftMonster& obj) {};
+	void virtual handleColision(GiftStain& obj) {};
 
 private:
 

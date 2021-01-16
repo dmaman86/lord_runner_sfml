@@ -24,6 +24,8 @@ public:
 	virtual void start();
 private:
 	sf::Sprite	mBackgroundSprite;
+	sf::Sprite	m_stain;
+
 	sf::Sound m_sound;
 	sf::Sound m_soundState;
 
@@ -47,6 +49,13 @@ private:
 
 	void read_data(std::ifstream&);
 	bool m_isPause;
+
+	void handeleDig();
+	void handleRace();
+	void handleInjured();
+	void handleNewLevel();
+
+
 
 	//sf::Clock m_clock;
 };

@@ -44,15 +44,22 @@ std::unique_ptr<StaticObject> Board::createStaticObject(ObjectType::ID type, sf:
 	case ObjectType::LadderChar:
 		return std::make_unique<Ladder>(pos, size, &textures.get(Textures::Ladder));
 	case ObjectType::CoinChar:
+		m_location_add_monster = pos;
 		return std::make_unique<Coin>(pos, size, &textures.get(Textures::Coin));
 	case ObjectType::GiftChar:
-		int r = rand() % 2;
+		int r = rand() % 5;
 		switch (r)
 		{
 		case 0:
 			return std::make_unique<GiftLife>(pos, size, &textures.get(Textures::Gifts));
 		case 1:
 			return std::make_unique<GiftTime>(pos, size, &textures.get(Textures::Gifts));
+		case 2:
+			return std::make_unique<GiftScore>(pos, size, &textures.get(Textures::Gifts));
+		case 3:
+			return std::make_unique<GiftMonster>(pos, size, &textures.get(Textures::Gifts));
+		case 4:
+			return std::make_unique<GiftStain>(pos, size, &textures.get(Textures::Gifts));
 		}
 	}
 	return nullptr;
@@ -145,6 +152,31 @@ void Board::startLevelAgain()
 	}
 }
 
+void Board::digIn(sf::Time time, sf::Vector2f pos,const sf::Sprite & spr)
+{
+	sf::Sprite sHelper(spr);
+	sHelper.setPosition(pos);
+	sHelper.setScale(0.05,0.05);
+
+
+	for (int i = 0;i < m_static_obj.size();i++)
+	{
+		if (m_static_obj[i]->collisionWithDig(sHelper))
+		{
+			m_static_obj[i]->digMe(time);
+		}
+	}
+	
+}
+
+void Board::releaseDisappears(sf::Time time)
+{	
+	for (int i = 0;i < m_static_obj.size();i++)
+	{
+		m_static_obj[i]->digMeFree(time);
+	}
+}
+
 void Board::update(const float& dt,Player* player)
 {
 	this->updateCreature(dt, *player);
@@ -179,6 +211,11 @@ void Board::collisionsDynamic(DynamicObject& creature)
 		if (m_monsters[i]->collisionWith(creature))
 			m_monsters[i]->handleColision(creature);
 	}
+}
+
+sf::Vector2f Board::getPlaceToAddMon()
+{
+	return m_location_add_monster;
 }
 
 

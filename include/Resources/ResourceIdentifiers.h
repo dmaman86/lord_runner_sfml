@@ -50,7 +50,8 @@ namespace Textures
 		Ropes,
 		Wall,
 		Heart,
-		Gifts
+		Gifts,
+		Stain
 	};
 }
 
