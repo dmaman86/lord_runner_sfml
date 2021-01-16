@@ -1,0 +1,83 @@
+#include "GameWinState.h"
+#include "./Resources/ResourceHolder.h"
+#include "./Resources/ResourceIdentifiers.h"
+
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/View.hpp>
+
+
+GameWinState::GameWinState(StateStack& stack, Context context)
+	: State(stack, context), mElapsedTime(0.0f)
+{
+	sf::Vector2u textureSize, windowSize;
+
+	windowSize = context.window->getSize();
+	textureSize = context.textures->get(Textures::Menu).getSize();
+
+	sf::Texture& texture = context.textures->get(Textures::Menu);
+	mBackgroundSprite.setTexture(texture);
+	mBackgroundSprite.setScale((float)windowSize.x / textureSize.x,
+		(float)windowSize.y / textureSize.y);
+
+	m_soundState.setBuffer(context.sounds->get(SoundEffect::Menu));
+	m_soundState.setLoop(true);
+
+	sf::Font& font = context.fonts->get(Fonts::Main);
+	m_title.setFont(font);
+	m_title.setString("Congratulations!....You Win!!");
+	m_title.setFillColor(sf::Color(76, 0, 153));
+	m_title.setCharacterSize(100);
+	centerOrigin(m_title);
+	m_title.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
+
+	m_message.setFont(font);
+	m_message.setString("Please enter your name");
+	m_message.setFillColor(sf::Color::White);
+	m_message.setCharacterSize(50);
+	m_message.setOrigin(m_message.getLocalBounds().width / 2,
+		m_message.getLocalBounds().height / 2);
+	m_message.setPosition(sf::Vector2f(windowSize.x / 2.5,
+		(windowSize.y / 2) + 100));
+
+	m_soundState.play();
+}
+
+void GameWinState::draw()
+{
+	sf::RenderWindow& window = *getContext().window;
+	window.setView(window.getDefaultView());
+
+	// Create dark, semitransparent background
+	sf::RectangleShape backgroundShape;
+	backgroundShape.setFillColor(sf::Color(0, 0, 0, 150));
+	backgroundShape.setSize(window.getView().getSize());
+
+	window.draw(backgroundShape);
+	window.draw(m_title);
+	window.draw(m_message);
+}
+
+bool GameWinState::update(double dt)
+{
+	// Show state for 3 seconds, after return to menu
+	/*mElapsedTime += dt;
+	if (mElapsedTime > 3.0f)
+	{
+		requestStateClear();
+		requestStackPush(States::Menu);
+	}*/
+	return false;
+}
+
+bool GameWinState::handleEvent(const sf::Event&)
+{
+	return false;
+}
+
+void GameWinState::centerOrigin(sf::Text& text)
+{
+	sf::FloatRect bounds = text.getLocalBounds();
+	text.setOrigin(std::floor(bounds.left + bounds.width / 2.f),
+		std::floor(bounds.top + bounds.height / 2.f));
+}

@@ -16,19 +16,19 @@ GameState::GameState(StateStack& stack, Context context)
 	m_is_race_time(true)
 {
     m_isPause = false;
-	std::ifstream fd_readLevel(getPath());
-	if (fd_readLevel.is_open())
-		read_data(fd_readLevel);
+	m_gameover = false;
+	m_gamewin = false;
+	m_error = initLevel();
 
 	m_stain.setTexture(context.textures->get(Textures::Stain));
 
-    mBackgroundSprite.setTexture(context.textures->get(Textures::Game));
-    m_soundState.setBuffer(context.sounds->get(SoundEffect::Game));
-    m_soundState.setLoop(true);
+	mBackgroundSprite.setTexture(context.textures->get(Textures::Game));
+	m_soundState.setBuffer(context.sounds->get(SoundEffect::Game));
+	m_soundState.setLoop(true);
 	m_soundState.setVolume(100.0f);
-    m_sound.setBuffer(context.sounds->get(SoundEffect::Button));
+	m_sound.setBuffer(context.sounds->get(SoundEffect::Button));
 
-    m_soundState.play();
+	m_soundState.play();
 
 	m_sStartLevClock.setBuffer(context.sounds->get(SoundEffect::StartLevelClock));
 	m_sStartLevClock.setVolume(40.0f);
@@ -36,6 +36,7 @@ GameState::GameState(StateStack& stack, Context context)
 	m_sEndLevClock.setVolume(40.0f);
 	m_PmeetM.setBuffer(context.sounds->get(SoundEffect::PlayerDead));
 	m_PmeetM.setVolume(40.0f);
+	
 }
 
 GameState::~GameState()
@@ -108,18 +109,17 @@ void GameState::handleInjured()
 	// 1.moved to func later
 	if (m_player->isInjured())
 	{
-		// if(m_player->isDead())
-		// gameoverState(false = lose)
 		if (!m_player->getLife())
 		{
-			requestStackPush(States::GameOver);
+			m_gameover = true;
 		}
-		m_board.startLevelAgain();
-		m_player->setFirstPos();
-		m_PmeetM.play();
-		this->m_level_clock.restart();
-
-
+		else
+		{
+			m_board.startLevelAgain();
+			m_player->setFirstPos();
+			m_PmeetM.play();
+			this->m_level_clock.restart();
+		}
 	}
 }
 
@@ -129,22 +129,44 @@ void GameState::handleNewLevel()
 	{
 		// next level
 		Coin::resetCollected();
-		// if(m_numLevel
-		// gameoverState(false = lose)
 		this->m_player->newLevel();
 		this->m_board.newLevel();
-		std::ifstream fd_readLevel(this->getPath());
-		if (fd_readLevel.is_open())
-			read_data(fd_readLevel);
 
-		this->m_level_clock.restart();
+		if (!initLevel())
+		{
+			m_error = false;
+		}
+		else if (this->m_player->getLevel() > 6)
+		{
+			m_gamewin = true;
+		}
+		else
+			this->m_level_clock.restart();
 
 	}
 }
 
 bool GameState::update(double dt)
 {
-	if (!m_isPause)
+	if (!m_error)
+	{
+		// if something wrong with levels
+		requestStackPop();
+		requestStackPush(States::ErrorState);
+	}
+	else if (m_gamewin)
+	{
+		// if player win
+		requestStackPop();
+		requestStackPush(States::GameWin);
+	}
+	else if (m_gameover)
+	{
+		// if player lose
+		requestStackPop();
+		requestStackPush(States::GameOver);
+	}
+	else if (!m_isPause)
 	{
 		this->m_board.update(dt, m_player);
 		this->handeleDig();
@@ -166,6 +188,7 @@ bool GameState::handleEvent(const sf::Event& event)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
+		// if game pause
 		pause();
 		m_soundState.pause();
 		requestStackPush(States::Pause);
@@ -184,6 +207,17 @@ void GameState::start()
 {
 	m_isPause = false;
 	m_soundState.play();
+}
+
+bool GameState::initLevel()
+{
+	std::ifstream fd_readLevel(getPath());
+
+	if (!fd_readLevel.is_open())
+		return false;
+	read_data(fd_readLevel);
+
+	return true;
 }
 
 //Private function

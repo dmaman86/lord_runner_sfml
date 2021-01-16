@@ -14,6 +14,8 @@ namespace States
 		Settings,
 		GameOver,
 		AboutOur,
-		Records
+		Records,
+		GameWin,
+		ErrorState
 	};
 }

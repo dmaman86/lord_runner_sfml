@@ -47,8 +47,12 @@ private:
 
 	std::string getPath();
 
+	bool initLevel();
 	void read_data(std::ifstream&);
 	bool m_isPause;
+	bool m_error;
+	bool m_gameover;
+	bool m_gamewin;
 
 	void handeleDig();
 	void handleRace();

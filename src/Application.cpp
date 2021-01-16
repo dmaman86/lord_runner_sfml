@@ -9,6 +9,8 @@
 #include "GameOverState.h"
 #include "AboutOurState.h"
 #include "RecordsState.h"
+#include "GameWinState.h"
+#include "ErrorState.h"
 
 #include <iostream>
 #include <string>
@@ -126,6 +128,8 @@ void Application::registerStates()
 	mStateStack.registerState<GameOverState>(States::GameOver);
 	mStateStack.registerState<AboutOurState>(States::AboutOur);
 	mStateStack.registerState<RecordsState>(States::Records);
+	mStateStack.registerState<GameWinState>(States::GameWin);
+	mStateStack.registerState<ErrorState>(States::ErrorState);
 }
 
 void Application::loadFonts()
