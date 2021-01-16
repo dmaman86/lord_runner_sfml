@@ -12,10 +12,9 @@ namespace States
 		Loading,
 		Pause,
 		Settings,
-		GameOver,
 		AboutOur,
 		Records,
-		GameWin,
-		ErrorState
+		ErrorState,
+		FinalState
 	};
 }

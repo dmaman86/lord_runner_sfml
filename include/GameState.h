@@ -51,8 +51,7 @@ private:
 	void read_data(std::ifstream&);
 	bool m_isPause;
 	bool m_error;
-	bool m_gameover;
-	bool m_gamewin;
+	bool m_finishGame;
 
 	void handeleDig();
 	void handleRace();

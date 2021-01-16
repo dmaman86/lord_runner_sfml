@@ -3,6 +3,7 @@
 #include "./Resources/ResourceHolder.h"
 #include "./Resources/ResourceIdentifiers.h"
 #include "./Machine/StateStack.h"
+#include "PlayerInput.h"
 
 
 #include <SFML/System/Time.hpp>
@@ -38,6 +39,7 @@ private:
 	FontHolder mFonts;
 	SoundBufferHolder mSounds;
 	InputManager mInput;
+	PlayerInput mPlayerInput;
 	StateStack mStateStack;
 
 	sf::Text mStatisticsText;

@@ -16,8 +16,7 @@ GameState::GameState(StateStack& stack, Context context)
 	m_is_race_time(true)
 {
     m_isPause = false;
-	m_gameover = false;
-	m_gamewin = false;
+	m_finishGame = false;
 	m_error = initLevel();
 
 	m_stain.setTexture(context.textures->get(Textures::Stain));
@@ -111,7 +110,8 @@ void GameState::handleInjured()
 	{
 		if (!m_player->getLife())
 		{
-			m_gameover = true;
+			m_finishGame = true;
+			getContext().playerInput->setSuccess(false);
 		}
 		else
 		{
@@ -136,9 +136,11 @@ void GameState::handleNewLevel()
 		{
 			m_error = false;
 		}
-		else if (this->m_player->getLevel() > 6)
+		else if (this->m_player->getLevel() > 1)
 		{
-			m_gamewin = true;
+			m_finishGame = true;
+			getContext().playerInput->setSuccess(true);
+			getContext().playerInput->setScore(this->m_player->getScore());
 		}
 		else
 			this->m_level_clock.restart();
@@ -154,17 +156,10 @@ bool GameState::update(double dt)
 		requestStackPop();
 		requestStackPush(States::ErrorState);
 	}
-	else if (m_gamewin)
+	else if (m_finishGame)
 	{
-		// if player win
 		requestStackPop();
-		requestStackPush(States::GameWin);
-	}
-	else if (m_gameover)
-	{
-		// if player lose
-		requestStackPop();
-		requestStackPush(States::GameOver);
+		requestStackPush(States::FinalState);
 	}
 	else if (!m_isPause)
 	{

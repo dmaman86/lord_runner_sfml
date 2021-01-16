@@ -4,6 +4,7 @@
 #include "../Resources/ResourceHolder.h"
 #include "../Resources/ResourceIdentifiers.h"
 #include "../InputManager.h"
+#include "../PlayerInput.h"
 
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Event.hpp>
@@ -25,13 +26,14 @@ public:
 
 	struct Context
 	{
-		Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, SoundBufferHolder& sounds, InputManager& input);
+		Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, SoundBufferHolder& sounds, InputManager& input, PlayerInput& playerInput);
 
 		sf::RenderWindow* window;
 		TextureHolder* textures;
 		FontHolder* fonts;
 		SoundBufferHolder* sounds;
 		InputManager* input;
+		PlayerInput* playerInput;
 	};
 
 

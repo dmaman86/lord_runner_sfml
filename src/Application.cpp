@@ -6,11 +6,10 @@
 #include "MenuState.h"
 #include "PauseState.h"
 #include "SettingsState.h"
-#include "GameOverState.h"
 #include "AboutOurState.h"
 #include "RecordsState.h"
-#include "GameWinState.h"
 #include "ErrorState.h"
+#include "FinalState.h"
 
 #include <iostream>
 #include <string>
@@ -23,7 +22,8 @@ Application::Application()
 	, mFonts()
 	, mSounds()
 	, mInput()
-	, mStateStack(State::Context(mWindow, mTextures, mFonts, mSounds, mInput))
+	, mPlayerInput()
+	, mStateStack(State::Context(mWindow, mTextures, mFonts, mSounds, mInput, mPlayerInput))
 	, mStatisticsText()
 	, mStatisticsUpdateTime()
 	, mStatisticsNumFrames(0)
@@ -125,11 +125,10 @@ void Application::registerStates()
 	mStateStack.registerState<GameState>(States::Game);
 	mStateStack.registerState<PauseState>(States::Pause);
 	mStateStack.registerState<SettingsState>(States::Settings);
-	mStateStack.registerState<GameOverState>(States::GameOver);
 	mStateStack.registerState<AboutOurState>(States::AboutOur);
 	mStateStack.registerState<RecordsState>(States::Records);
-	mStateStack.registerState<GameWinState>(States::GameWin);
 	mStateStack.registerState<ErrorState>(States::ErrorState);
+	mStateStack.registerState<FinalState>(States::FinalState);
 }
 
 void Application::loadFonts()

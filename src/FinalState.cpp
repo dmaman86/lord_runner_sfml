@@ -1,4 +1,4 @@
-#include "GameWinState.h"
+#include "FinalState.h"
 #include "./Resources/ResourceHolder.h"
 #include "./Resources/ResourceIdentifiers.h"
 
@@ -7,8 +7,8 @@
 #include <SFML/Graphics/View.hpp>
 
 
-GameWinState::GameWinState(StateStack& stack, Context context)
-	: State(stack, context), mElapsedTime(0.0f)
+FinalState::FinalState(StateStack& stack, Context context)
+	: State(stack, context), mElapsedTime(0.0f), m_backToMenu(false)
 {
 	sf::Vector2u textureSize, windowSize;
 
@@ -25,7 +25,10 @@ GameWinState::GameWinState(StateStack& stack, Context context)
 
 	sf::Font& font = context.fonts->get(Fonts::Main);
 	m_title.setFont(font);
-	m_title.setString("Congratulations!....You Win!!");
+	if (context.playerInput->getSuccess())
+		m_title.setString("Congratulations!....You Win!!");
+	else
+		m_title.setString("Sorry, You Lose!");
 	m_title.setFillColor(sf::Color(76, 0, 153));
 	m_title.setCharacterSize(100);
 	centerOrigin(m_title);
@@ -43,7 +46,7 @@ GameWinState::GameWinState(StateStack& stack, Context context)
 	m_soundState.play();
 }
 
-void GameWinState::draw()
+void FinalState::draw()
 {
 	sf::RenderWindow& window = *getContext().window;
 	window.setView(window.getDefaultView());
@@ -58,24 +61,27 @@ void GameWinState::draw()
 	window.draw(m_message);
 }
 
-bool GameWinState::update(double dt)
+bool FinalState::update(double dt)
 {
-	// Show state for 3 seconds, after return to menu
-	/*mElapsedTime += dt;
-	if (mElapsedTime > 3.0f)
+	if (m_backToMenu)
 	{
-		requestStateClear();
+		requestStackPop();
 		requestStackPush(States::Menu);
-	}*/
-	return false;
+	}
+
+	return true;
 }
 
-bool GameWinState::handleEvent(const sf::Event&)
+bool FinalState::handleEvent(const sf::Event& event)
 {
-	return false;
+	if (sf::Event::Closed == event.type || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+	{
+		m_backToMenu = true;
+	}
+	return true;
 }
 
-void GameWinState::centerOrigin(sf::Text& text)
+void FinalState::centerOrigin(sf::Text& text)
 {
 	sf::FloatRect bounds = text.getLocalBounds();
 	text.setOrigin(std::floor(bounds.left + bounds.width / 2.f),

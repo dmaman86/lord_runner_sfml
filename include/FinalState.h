@@ -7,10 +7,10 @@
 #include <SFML/Audio.hpp>
 
 
-class GameWinState : public State
+class FinalState : public State
 {
 public:
-	GameWinState(StateStack& stack, Context context);
+	FinalState(StateStack& stack, Context context);
 
 	virtual void draw();
 	virtual bool update(double dt);
