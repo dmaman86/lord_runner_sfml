@@ -5,7 +5,7 @@
 #include "Resources/ResourceIdentifiers.h"
 #include "Resources/ResourceHolder.h"
 
-
+#include <stdlib.h> 
 
 GameState::GameState(StateStack& stack, Context context)
 	: State(stack, context),
@@ -36,6 +36,7 @@ GameState::GameState(StateStack& stack, Context context)
 	m_PmeetM.setBuffer(context.sounds->get(SoundEffect::PlayerDead));
 	m_PmeetM.setVolume(40.0f);
 	
+	m_time_pause = sf::seconds(0);
 }
 
 GameState::~GameState()
@@ -55,17 +56,24 @@ void GameState::draw()
 
     m_board.renderMonster(&window);
 
-   // m_board.renderPlayer(&window);
+	if(m_isPause)
+		this->m_containerStatus.renderStatus
+		(*m_player, &window, m_is_race_time,
+			m_time_of_level.asSeconds() - std::abs(m_time_pause.asSeconds()) );
+	else
+	{
+		this->m_containerStatus.renderStatus
+		(*m_player, &window, m_is_race_time,
+		m_time_of_level.asSeconds() - (m_level_clock.getElapsedTime().asSeconds() - m_time_pause.asSeconds()) );
+	}
 
-	//m_board.renderStatus(&window);
-	this->m_containerStatus.renderStatus
-	(*m_player, &window, m_is_race_time,
-		m_time_of_level.asSeconds() - m_level_clock.getElapsedTime().asSeconds());
-	
+
+
 	window.draw(m_player->getSprite());
 
 	if (GiftStain::isActive())
 		window.draw(this->m_stain);
+	
 }
 
 void GameState::handeleDig()
@@ -78,27 +86,29 @@ void GameState::handeleDig()
 	m_board.releaseDisappears(this->m_level_clock.getElapsedTime());
 }
 
+void GameState::handleGift()
+{
+	// if get present that give player more time
+	if (GiftTime::isActive())
+		m_time_of_level += sf::seconds(5);
+	else if (GiftMonster::isActive())
+	{
+		m_board.createObject(m_board.getPlaceToAddMon(), ObjectType::MonsterChar, *getContext().textures);
+	}
+
+}
+
 void GameState::handleRace()
 {
 	if (this->m_is_race_time)
 	{
-		// if get present that give player more time
-		if (GiftTime::isActive())
-			m_time_of_level += sf::seconds(5);
-		else if (GiftMonster::isActive())
-		{
-			m_board.createObject(m_board.getPlaceToAddMon(), ObjectType::MonsterChar, *getContext().textures);
-		}
-
 		// if time end
-		if (this->m_level_clock.getElapsedTime().asSeconds() > m_time_of_level.asSeconds())
+		if (this->m_level_clock.getElapsedTime().asSeconds() >  m_time_of_level.asSeconds() + m_time_pause.asSeconds())
 		{
 			m_sEndLevClock.play();
-
 			m_player->injured();
 			this->m_level_clock.restart();
 			Sleep(2000);
-
 		}
 	}
 }
@@ -108,6 +118,7 @@ void GameState::handleInjured()
 	// 1.moved to func later
 	if (m_player->isInjured())
 	{
+		m_time_pause = sf::seconds(0);
 		if (!m_player->getLife())
 		{
 			m_finishGame = true;
@@ -128,6 +139,7 @@ void GameState::handleNewLevel()
 	if (Coin::getCount() == Coin::getCollected())
 	{
 		// next level
+		m_time_pause = sf::seconds(0);
 		Coin::resetCollected();
 		this->m_player->newLevel();
 		this->m_board.newLevel();
@@ -136,7 +148,7 @@ void GameState::handleNewLevel()
 		{
 			m_error = false;
 		}
-		else if (this->m_player->getLevel() > 1)
+		else if (this->m_player->getLevel() > 5)
 		{
 			m_finishGame = true;
 			getContext().playerInput->setSuccess(true);
@@ -166,6 +178,7 @@ bool GameState::update(double dt)
 		this->m_board.update(dt, m_player);
 		this->handeleDig();
 		this->handleRace();
+		this->handleGift();
 		this->handleInjured();
 		this->handleNewLevel();
 	}
@@ -184,11 +197,23 @@ bool GameState::handleEvent(const sf::Event& event)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
 		// if game pause
-		pause();
-		m_soundState.pause();
-		requestStackPush(States::Pause);
+		if (!m_isPause) {
+			pause();
+			m_soundState.pause();
+
+
+			if (m_time_pause.asSeconds() != 0)
+			{
+				m_time_pause =  sf::seconds(m_time_pause.asSeconds() - m_level_clock.getElapsedTime().asSeconds()) ;
+			}
+			else
+			{
+				m_time_pause = sf::seconds(m_level_clock.getElapsedTime().asSeconds());
+			}
+			
+			requestStackPush(States::Pause);
+		}
 	}
-        
 
 	return true;
 }
@@ -200,6 +225,10 @@ void GameState::pause()
 
 void GameState::start()
 {
+	if (m_isPause)
+		m_time_pause = sf::seconds(((m_level_clock.getElapsedTime().asSeconds() - std::abs(m_time_pause.asSeconds()))));
+	else
+		m_time_pause = sf::seconds(0);
 	m_isPause = false;
 	m_soundState.play();
 }

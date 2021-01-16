@@ -39,7 +39,8 @@ private:
 	ContainerStatus m_containerStatus;
 	Player* m_player;
 
-	// new daniel 15/1 9:15
+	sf::Time m_time_pause;
+
 	sf::Time m_time_of_level;
 	sf::Clock m_level_clock;
 	bool m_is_race_time;
@@ -54,11 +55,12 @@ private:
 	bool m_finishGame;
 
 	void handeleDig();
+	void handleGift();
 	void handleRace();
 	void handleInjured();
 	void handleNewLevel();
 
-
+//sf::Time getTimePassed();
 
 	//sf::Clock m_clock;
 };
