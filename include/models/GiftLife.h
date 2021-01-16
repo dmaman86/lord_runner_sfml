@@ -12,7 +12,7 @@ public:
 	void virtual update() override;
 
 
-	//void virtual handleColision(DynamicObject& obj) override;
+	void virtual handleColision(DynamicObject& obj) ;
 
 	void virtual handleColision(Player& obj);// needed override
 

@@ -70,10 +70,13 @@ bool GameState::update(double dt)
 	{
 		m_board.update(dt, m_player);
 
-
-
 		if (this->m_is_race_time)
 		{
+			// if get present that give player more time
+			if (Gift::isActive(GiftType::addTime))
+				m_time_of_level += sf::seconds(5);
+
+			// if time end
 			if (this->m_level_clock.getElapsedTime().asSeconds() > m_time_of_level.asSeconds())
 			{
 				m_sEndLevClock.play();

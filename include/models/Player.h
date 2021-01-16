@@ -5,6 +5,10 @@
 
 #include <SFML/Audio.hpp>
 
+#include "GiftLife.h"
+#include "GiftTime.h"
+
+
 class Monster;
 
 class Player : public DynamicObject
@@ -17,6 +21,12 @@ public:
 	void virtual handleColision(Monster& obj) override;
 	void virtual handleColision(DynamicObject& obj) {};
 	void virtual handleColision(Player& obj) {};
+	void virtual handleColision(GiftLife& obj);
+	void virtual handleColision(GiftTime& obj) override;
+
+	//void virtual handleColision(GiftTime& obj);
+	//void virtual handleColision(Gift& obj) ;
+
 
 	bool isInjured();
 	const int getLife() const;

@@ -16,13 +16,13 @@ public:
 
 	void resetExist() override;
 
-//	void virtual handleColision(DynamicObject& obj) override;
+	void virtual handleColision(DynamicObject& obj) = 0;
 
-	void virtual handleColision(Player& obj);// needed override
+	void virtual handleColision(Player& obj) = 0;// needed override
 
 	void virtual update() = 0;
 
-	bool isActive(GiftType::ID);
+	static bool isActive(GiftType::ID);
 
 	// static member function
 //	static int getCount();  // return # objects instantiated
@@ -30,7 +30,7 @@ public:
 //	static void resetCollected();
 protected:
 	static bool m_is_active;
-	GiftType::ID m_type;
+	static GiftType::ID m_type;
 private:
 
 };

@@ -7,6 +7,11 @@ class Ladder;
 class Ropes;
 class Player;
 class Monster;
+class Gift;
+class GiftLife;
+class GiftTime;
+
+
 
 const float COLL_GAME_SCREEN = 1920.f;
 const float ROW_GAME_SCREEN = 930.f;
@@ -34,6 +39,10 @@ public:
 	void virtual handleColision(Player& obj) = 0;
 	void virtual handleColision(Monster& obj) = 0;
 	void virtual handleColision(Coin& obj) = 0;
+	void virtual handleColision(GiftLife& obj) = 0;
+	void virtual handleColision(GiftTime& obj) = 0;
+
+
 
 	// ============= virual functions =====================
 	void virtual handleColision(Floor& obj);

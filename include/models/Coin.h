@@ -1,35 +1,26 @@
 #pragma once
 
 
-#include "StaticObject.h"
+#include "Trophy.h"
 
 class DynamicObject;
-//class Player;
-//#include "Player.h"
 
-class Coin : public StaticObject
+class Coin : public Trophy
 {
-
 public:
 	Coin(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt);
 	~Coin();
 
 	void virtual handleColision(DynamicObject& obj) override;
 
-	void virtual handleColision(Player& obj) ;// needed override
-
-	bool collisionWithStand(DynamicObject& obj, const sf::Vector2f) override ;
+	void virtual handleColision(Player& obj) override;// needed override
 
 	// static member function
 	static int getCount();  // return # objects instantiated
 	static int getCollected();
 	static void resetCollected();
 
-
-	//void virtual handleColision(Monster& obj) override;
-	//void virtual handleColision(Player& obj) override;
 private:
 	static int m_num_coins;
 	static int m_num_collected;
-
 };

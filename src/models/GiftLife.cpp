@@ -12,6 +12,10 @@ GiftLife::~GiftLife()
 void GiftLife::update()
 {
 }
+void GiftLife::handleColision(DynamicObject& obj)
+{
+	obj.handleColision(*this);
+}
 /*
 void GiftLife::handleColision(DynamicObject& obj)
 {

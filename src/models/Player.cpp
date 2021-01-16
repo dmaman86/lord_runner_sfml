@@ -11,7 +11,7 @@
 #include "./Resources/ResourceHolder.h"
 
 Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, sf::SoundBuffer* sound) :
-	DynamicObject(pos, size, 250,txt) , m_is_injured(false), m_life(6), m_score(0),m_numLevel(1)
+	DynamicObject(pos, size, 250,txt) , m_is_injured(false), m_life(3), m_score(0),m_numLevel(1)
 
 {
 	// m_sbuffer.loadFromFile("player_coin.wav");
@@ -46,6 +46,7 @@ void Player::handleColision(Coin& obj)
 	}
 }
 
+
 void Player::handleColision(Monster& obj)
 {
 	this->injured();
@@ -69,6 +70,23 @@ void Player::newData(sf::Vector2f pos, sf::Vector2f avgPix)
 
 }
 
+
+void Player::handleColision(GiftLife& obj)
+{
+	if (obj.isExsist())
+	{
+		obj.handleColision(*this);
+		this->m_life++;
+	}
+}
+
+void Player::handleColision(GiftTime& obj)
+{
+	if (obj.isExsist())
+	{
+		obj.handleColision(*this);
+	}
+}
 
 bool Player::isInjured()
 {

@@ -5,7 +5,7 @@ int Coin::m_num_collected = 0;
 
 
 Coin::Coin(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
-	StaticObject(pos, size, txt)
+	Trophy(pos, size, txt)
 {
 	++m_num_coins;
 }
@@ -39,9 +39,4 @@ void Coin::handleColision(Player& obj)
 {
 	this->m_isExist = false;
 	this->m_num_collected++;
-}
-
-bool Coin::collisionWithStand(DynamicObject& obj, sf::Vector2f size)
-{
-	return false;
 }

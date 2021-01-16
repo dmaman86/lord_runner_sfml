@@ -21,4 +21,8 @@ target_sources (final_sfml PRIVATE "main.cpp"
 								   "models/Coin.cpp"
 								   "models/Ladder.cpp"
 								   "models/Ropes.cpp"
-								   "ContainerStatus.cpp")
+								   "ContainerStatus.cpp"
+								   "models/Trophy.cpp"
+								   "models/Gift.cpp"
+								   "models/GiftLife.cpp"
+								   "models/GiftTime.cpp")

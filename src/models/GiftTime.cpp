@@ -12,6 +12,12 @@ GiftTime::~GiftTime()
 void GiftTime::update()
 {
 }
+
+void GiftTime::handleColision(DynamicObject& obj)
+{
+	obj.handleColision(*this);
+}
+
 /*
 void GiftTime::handleColision(DynamicObject& obj)
 {

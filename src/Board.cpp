@@ -5,6 +5,8 @@ Board::Board() : m_level_one(true)
 {
     // initTextures();
 	m_player = nullptr;
+	srand((unsigned int)time(NULL));
+
 }
 
 Board::~Board() 
@@ -43,6 +45,15 @@ std::unique_ptr<StaticObject> Board::createStaticObject(ObjectType::ID type, sf:
 		return std::make_unique<Ladder>(pos, size, &textures.get(Textures::Ladder));
 	case ObjectType::CoinChar:
 		return std::make_unique<Coin>(pos, size, &textures.get(Textures::Coin));
+	case ObjectType::GiftChar:
+		int r = rand() % 2;
+		switch (r)
+		{
+		case 0:
+			return std::make_unique<GiftLife>(pos, size, &textures.get(Textures::Gifts));
+		case 1:
+			return std::make_unique<GiftTime>(pos, size, &textures.get(Textures::Gifts));
+		}
 	}
 	return nullptr;
 }

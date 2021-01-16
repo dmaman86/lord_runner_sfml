@@ -1,6 +1,8 @@
 #include "models\Gift.h"
 
 bool Gift::m_is_active = false;
+GiftType::ID Gift::m_type;
+
 
 Gift::Gift(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, GiftType::ID type):
 	Trophy(pos, size, txt)

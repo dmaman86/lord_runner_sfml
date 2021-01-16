@@ -15,6 +15,9 @@ public:
 	void virtual handleColision(DynamicObject& obj);
 	void virtual handleColision(Monster& obj) {};
 	void virtual handleColision(Coin& obj) {};
+	void virtual handleColision(GiftLife& obj) {};
+	void virtual handleColision(GiftTime& obj) {};
+
 
 
 private:
