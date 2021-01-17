@@ -13,9 +13,11 @@ public:
 
 	void setScore(const int&);
 	void setSuccess(const bool&);
+	void setUserSound(const bool&);
 
 	int getScore() const;
 	bool getSuccess() const;
+	bool getUserSound() const;
 
 	void updateScore(std::string nameUser, const int& score);
 

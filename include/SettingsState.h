@@ -23,9 +23,21 @@ public:
 private:
 	sf::Sprite mBackgroundSprite;
 	sf::Sound m_soundState;
+	sf::Sound m_sound;
 	sf::Text m_title;
+	std::vector< sf::Text > m_buttons;
 
 	bool m_backToMenu;
+	bool m_pressed;
+
+	bool m_avaibleMusicSelected;
+	bool m_avaibleMusicPressed;
+
+	bool m_no_avaibleMusicSelected;
+	bool m_no_avaibleMusicPressed;
+
+	float mEffectTime;
 
 	void centerOrigin(sf::Text&);
+	void updateColorButton();
 };

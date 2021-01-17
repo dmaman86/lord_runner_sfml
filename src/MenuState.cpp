@@ -63,7 +63,15 @@ MenuState::MenuState(StateStack& stack, Context context)
 	m_buttons[2].setString("About Our");
 	m_buttons[3].setString("Top Scores");
 
-	m_soundState.play();
+	aload_music = context.playerInput->getUserSound();
+
+	if (aload_music)
+		m_soundState.play();
+	else
+	{
+		m_soundState.stop();
+		m_sound.stop();
+	}
 
 }
 
@@ -144,7 +152,8 @@ bool MenuState::handleEvent(const sf::Event& event)
 			m_isAboutOurSelected = false;
 			m_isRecordsSelected = false;
 			m_pressed = true;
-			m_sound.play();
+			if(aload_music)
+				m_sound.play();
 		}
 
 		if (m_isSettingsButtonPressed = input->isSpriteClicked(m_buttons[1], sf::Mouse::Left, window))
@@ -154,7 +163,8 @@ bool MenuState::handleEvent(const sf::Event& event)
 			m_isAboutOurSelected = false;
 			m_isRecordsSelected = false;
 			m_pressed = true;
-			m_sound.play();
+			if (aload_music)
+				m_sound.play();
 		}
 
 
@@ -165,7 +175,8 @@ bool MenuState::handleEvent(const sf::Event& event)
 			m_isSettingsButtonSelected = false;
 			m_isRecordsSelected = false;
 			m_pressed = true;
-			m_sound.play();
+			if (aload_music)
+				m_sound.play();
 		}
 
 		if (m_isRecordsPressed = input->isSpriteClicked(m_buttons[3], sf::Mouse::Left, window))
@@ -175,7 +186,8 @@ bool MenuState::handleEvent(const sf::Event& event)
 			m_isSettingsButtonSelected = false;
 			m_isRecordsSelected = true;
 			m_pressed = true;
-			m_sound.play();
+			if (aload_music)
+				m_sound.play();
 		}
 		return true;
 	}

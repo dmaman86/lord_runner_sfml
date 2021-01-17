@@ -47,6 +47,16 @@ std::multimap<std::string, int>& PlayerInput::getSorted()
     return this->m_multimap;
 }
 
+void PlayerInput::setUserSound(const bool& sound)
+{
+    this->m_userSound = sound;
+}
+
+bool PlayerInput::getUserSound() const
+{
+    return this->m_userSound;
+}
+
 void PlayerInput::printBySort(sf::RenderWindow* window)
 {
     sf::Text userName;

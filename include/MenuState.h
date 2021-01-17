@@ -43,11 +43,11 @@ private:
 
     bool m_pressed = false;
 
+    bool aload_music;
+
     void updateColorButton();
     void centerOrigin(sf::Text&);
 
     float mEffectTime;
-
-
 };
 
