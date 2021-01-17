@@ -23,21 +23,28 @@ RecordsState::RecordsState(StateStack& stack, Context context)
 
 	sf::Font& font = context.fonts->get(Fonts::Main);
 	m_title.setFont(font);
-	m_title.setString("Top Scores");
-	m_title.setFillColor(sf::Color(76, 0, 153));
+	m_title.setString("Hall of Fame");
+	m_title.setFillColor(sf::Color::Black);
+	m_title.setOutlineColor(sf::Color::Yellow);
+	m_title.setOutlineThickness(4.f);
 	m_title.setCharacterSize(100);
 	centerOrigin(m_title);
-	m_title.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
+	m_title.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y - 200);
 
 	m_multimap = context.playerInput->getSorted();
 
 	m_userName.setCharacterSize(50);
-	m_userName.setColor(sf::Color::Green);
+	m_userName.setColor(sf::Color::Yellow);
+	m_userName.setOutlineColor(sf::Color::Black);
+	m_userName.setOutlineThickness(4.f);
 	m_userName.setFont(font);
 	m_userName.setOrigin(m_userName.getLocalBounds().width / 2,
 		m_userName.getLocalBounds().height / 2);
 	m_userScore.setCharacterSize(50);
-	m_userScore.setColor(sf::Color::Green);
+	m_userScore.setColor(sf::Color::Yellow);
+	m_userScore.setOutlineColor(sf::Color::Black);
+	m_userScore.setOutlineThickness(4.f);
+
 	m_userScore.setFont(font);
 	m_userScore.setOrigin(m_userScore.getLocalBounds().width / 2,
 		m_userScore.getLocalBounds().height / 2);
@@ -49,6 +56,8 @@ void RecordsState::draw()
 {
 	sf::RenderWindow& window = *getContext().window;
 	int i = 1;
+
+	window.clear();
 
 	window.setView(window.getDefaultView());
 
@@ -67,8 +76,11 @@ void RecordsState::draw()
 		
 		m_userScore.setString(std::to_string(score));
 
-		m_userName.setPosition(100, 5 * ( i * 100 ));
-		m_userScore.setPosition(500, 5 * (i * 100));
+		m_userName.setPosition(sf::Vector2f(window.getSize().x / 2.5 - 250,
+			(window.getSize().y / 2) + (i * 100) - 200 ));
+
+		m_userScore.setPosition(sf::Vector2f(window.getSize().x / 2.5 + 600,
+			(window.getSize().y / 2) + (i * 100) - 200 ));
 
 		window.draw(m_userName);
 		window.draw(m_userScore);
