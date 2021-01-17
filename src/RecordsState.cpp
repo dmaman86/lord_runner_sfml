@@ -41,6 +41,9 @@ void RecordsState::draw()
 	window.draw(mBackgroundSprite);
 
 	window.draw(m_title);
+
+	window.draw(mousePicture);
+
 }
 
 bool RecordsState::update(double dt)
@@ -51,6 +54,9 @@ bool RecordsState::update(double dt)
 		requestStackPop();
 		requestStackPush(States::Menu);
 	}
+
+	this->updateCursor();
+
 	return true;
 }
 

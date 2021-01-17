@@ -16,10 +16,22 @@ State::State(StateStack& stack, Context context)
 	: mStack(&stack)
 	, mContext(context)
 {
+	mousePicture.setTexture(context.textures->get(Textures::MouseC));
+	mousePicture.setOrigin(sf::Vector2f(mousePicture.getTexture()->getSize() / 4u));
+//	mousePicture.setColor(sf::Color(255, 255, 255, 255));
+
+
+	mContext.window->setMouseCursorVisible(false);
 }
 
 State::~State()
 {
+}
+
+void State::updateCursor()
+{
+	mousePicture.setPosition
+	(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*getContext().window)));
 }
 
 void State::requestStackPush(States::ID stateID)

@@ -79,6 +79,8 @@ void GameState::draw()
 	if (GiftStain::isActive())
 		window.draw(this->m_stain);
 	
+	window.draw(mousePicture);
+
 }
 
 void GameState::handeleDig()
@@ -212,6 +214,8 @@ bool GameState::update(double dt)
 		this->handleInjured();
 		this->handleNewLevel();
 	}
+
+	this->updateCursor();
 
 	return true;
 }

@@ -64,6 +64,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 	m_buttons[3].setString("Top Scores");
 
 	m_soundState.play();
+
 }
 
 void MenuState::draw()
@@ -78,6 +79,10 @@ void MenuState::draw()
 
 	for (auto button : m_buttons)
 		window.draw(button);
+	
+	window.draw(mousePicture);
+
+
 }
 
 bool MenuState::update(double dt)
@@ -112,6 +117,9 @@ bool MenuState::update(double dt)
 			}
 		}
 	}
+
+	this->updateCursor();
+
 	return true;
 }
 

@@ -12,8 +12,7 @@ configure_file ("./img/wall.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("./img/heart.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("./img/gift.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("./img/black_stain.png" ${CMAKE_BINARY_DIR} COPYONLY)
-
-
+configure_file ("./img/mouse_cursor.png" ${CMAKE_BINARY_DIR} COPYONLY)
 
 configure_file ("./fonts/arial.ttf" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("./fonts/FlappyFont.ttf" ${CMAKE_BINARY_DIR} COPYONLY)

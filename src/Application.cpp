@@ -150,6 +150,9 @@ void Application::loadTextures()
 	this->mTextures.load(Textures::Heart, "heart.png");
 	this->mTextures.load(Textures::Gifts, "gift.png");
 	this->mTextures.load(Textures::Stain, "black_stain.png");
+	this->mTextures.load(Textures::MouseC, "mouse_cursor.png");
+
+	
 
 
 

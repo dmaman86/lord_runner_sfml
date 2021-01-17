@@ -41,6 +41,9 @@ void SettingsState::draw()
 	window.draw(mBackgroundSprite);
 
 	window.draw(m_title);
+
+	window.draw(mousePicture);
+
 }
 
 bool SettingsState::update(double dt)
@@ -50,7 +53,9 @@ bool SettingsState::update(double dt)
 		requestStackPop();
 		requestStackPush(States::Menu);
 	}
-		
+	
+	this->updateCursor();
+
 	return true;
 }
 

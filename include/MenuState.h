@@ -47,5 +47,7 @@ private:
     void centerOrigin(sf::Text&);
 
     float mEffectTime;
+
+
 };
 

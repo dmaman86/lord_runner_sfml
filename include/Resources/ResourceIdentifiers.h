@@ -51,7 +51,8 @@ namespace Textures
 		Wall,
 		Heart,
 		Gifts,
-		Stain
+		Stain,
+		MouseC
 	};
 }
 

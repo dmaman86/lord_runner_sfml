@@ -45,6 +45,8 @@ public:
 	virtual bool		update(double dt) = 0;
 	virtual bool		handleEvent(const sf::Event& event) = 0;
 
+	void updateCursor();
+
 	virtual void pause(){}
 	virtual void start(){}
 
@@ -55,6 +57,8 @@ protected:
 	void				requestStateClear();
 
 	Context				getContext() const;
+
+	sf::Sprite mousePicture;
 
 
 private:

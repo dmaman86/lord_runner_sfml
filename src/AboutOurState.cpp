@@ -44,6 +44,8 @@ void AboutOurState::draw()
 	window.draw(mBackgroundSprite);
 
 	window.draw(m_title);
+
+	window.draw(mousePicture);
 }
 
 bool AboutOurState::update(double dt)
@@ -55,6 +57,8 @@ bool AboutOurState::update(double dt)
 		requestStackPop();
 		requestStackPush(States::Menu);
 	}
+
+	this->updateCursor();
 
 	return true;
 }

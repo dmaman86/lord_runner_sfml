@@ -63,6 +63,9 @@ void FinalState::draw()
 	window.draw(m_title);
 	window.draw(m_message);
 	window.draw(playerText);
+
+	window.draw(mousePicture);
+
 }
 
 bool FinalState::update(double dt)
@@ -72,6 +75,7 @@ bool FinalState::update(double dt)
 		requestStackPop();
 		requestStackPush(States::Menu);
 	}
+	this->updateCursor();
 
 	return true;
 }

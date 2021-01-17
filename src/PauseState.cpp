@@ -73,6 +73,9 @@ void PauseState::draw()
 
 	for (auto button : m_buttons)
 		window.draw(button);
+
+	window.draw(mousePicture);
+
 }
 
 bool PauseState::update(double dt)
@@ -103,6 +106,9 @@ bool PauseState::update(double dt)
 			}
 		}
 	}
+	this->updateCursor();
+
+
 	return true;
 }
 
