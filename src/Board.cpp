@@ -154,19 +154,18 @@ void Board::startLevelAgain()
 
 void Board::digIn(sf::Time time, sf::Vector2f pos,const sf::Sprite & spr)
 {
+	/*
 	sf::Sprite sHelper(spr);
 	sHelper.setPosition(pos);
 	sHelper.setScale(0.05,0.05);
-
-
+	*/
 	for (int i = 0;i < m_static_obj.size();i++)
 	{
-		if (m_static_obj[i]->collisionWithDig(sHelper))
+		if (m_static_obj[i]->collisionWithDig(pos))
 		{
 			m_static_obj[i]->digMe(time);
 		}
 	}
-	
 }
 
 void Board::releaseDisappears(sf::Time time)

@@ -22,6 +22,7 @@ Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, sf::SoundB
 
 void Player::updateDirection()
 {
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		m_dircetion = 1;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
@@ -58,11 +59,11 @@ const sf::Vector2f& Player::getMovementDig(sf::Vector2f size) const
 	switch (m_direction_dig)
 	{
 	case 1:
-		return (sf::Vector2f(this->m_rec->getPosition().x - 1 * size.x,
-			this->m_rec->getPosition().y + 1 * size.y));
+		return (sf::Vector2f(this->m_rec->getPosition().x - (1 * (size.x )),
+			this->m_rec->getPosition().y + 1 * size.y ));
 	case 2:
-		return (sf::Vector2f(this->m_rec->getPosition().x + 1 * size.x,
-			this->m_rec->getPosition().y + 1 * size.y));
+		return (sf::Vector2f(this->m_rec->getPosition().x + (1 * (size.x )),
+			this->m_rec->getPosition().y + 1 * size.y ));
 	default:
 		return (sf::Vector2f(0.f, 0.f));
 	}
@@ -82,8 +83,8 @@ void Player::handleColision(Coin& obj)
 
 void Player::handleColision(Monster& obj)
 {
-	this->injured();
-
+	if(!m_is_injured)
+		this->injured();
 }
 
 void Player::newData(sf::Vector2f pos, sf::Vector2f avgPix)

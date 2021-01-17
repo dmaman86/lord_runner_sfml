@@ -10,7 +10,7 @@ public:
 	void virtual handleColision(DynamicObject& obj) override;
 	//bool collisionWithStand(const sf::Vector2f, const sf::Vector2f) override;
 	bool collisionWithStand(DynamicObject& obj, sf::Vector2f size) override;
-	bool collisionWithDig(sf::Sprite& spr) override;
+	bool collisionWithDig(sf::Vector2f) override;
 	void virtual digMe(sf::Time time) override;
 	void virtual digMeFree(sf::Time time) override;
 

@@ -53,7 +53,9 @@ private:
 	bool m_isPause;
 	bool m_error;
 	bool m_finishGame;
+	bool m_start;
 
+	void gameFreezeStarting();
 	void handeleDig();
 	void handleGift();
 	void handleRace();

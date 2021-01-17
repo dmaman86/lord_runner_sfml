@@ -31,9 +31,9 @@ bool Floor::collisionWithStand(DynamicObject& obj, sf::Vector2f size)
 	}
 }
 
-bool Floor::collisionWithDig(sf::Sprite& spr)
+bool Floor::collisionWithDig(sf::Vector2f point)
 {
-	return this->m_rec->getGlobalBounds().intersects(spr.getGlobalBounds());
+	return this->m_rec->getGlobalBounds().contains(point);
 }
 
 void Floor::digMe(sf::Time time)

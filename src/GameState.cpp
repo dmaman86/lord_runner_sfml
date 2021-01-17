@@ -13,7 +13,7 @@ GameState::GameState(StateStack& stack, Context context)
 	&context.textures->get(Textures::Player), &context.sounds->get(SoundEffect::PlayerCoin)) )
 	, m_containerStatus(&context.textures->get(Textures::Heart), 
 						&context.fonts->get(Fonts::Main)),
-	m_is_race_time(true)
+	m_is_race_time(true), m_start(true)
 {
     m_isPause = false;
 	m_finishGame = false;
@@ -56,12 +56,17 @@ void GameState::draw()
 
     m_board.renderMonster(&window);
 
+
+
 	if(m_isPause)
 		this->m_containerStatus.renderStatus
 		(*m_player, &window, m_is_race_time,
 			m_time_of_level.asSeconds() - std::abs(m_time_pause.asSeconds()) );
 	else
 	{
+		if (m_start)
+			m_level_clock.restart();
+
 		this->m_containerStatus.renderStatus
 		(*m_player, &window, m_is_race_time,
 		m_time_of_level.asSeconds() - (m_level_clock.getElapsedTime().asSeconds() - m_time_pause.asSeconds()) );
@@ -118,6 +123,7 @@ void GameState::handleInjured()
 	// 1.moved to func later
 	if (m_player->isInjured())
 	{
+		m_start = true;
 		m_time_pause = sf::seconds(0);
 		if (!m_player->getLife())
 		{
@@ -160,9 +166,33 @@ void GameState::handleNewLevel()
 	}
 }
 
+void GameState::gameFreezeStarting()
+{
+	if (m_start)
+	{
+		//sf::Event event;
+		while (1)
+			//this->getContext().window->waitEvent(event)
+		{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) )//||
+			//	sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ||
+			//	sf::Keyboard::isKeyPressed(sf::Keyboard::Up) ||
+			//	sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+			{
+				m_level_clock.restart();
+				m_start = false;
+				break;
+			}
+		}
+	}
+
+}
+
 bool GameState::update(double dt)
 {
-	if (!m_error)
+	gameFreezeStarting();
+
+		if (!m_error)
 	{
 		// if something wrong with levels
 		requestStackPop();
@@ -225,6 +255,7 @@ void GameState::pause()
 
 void GameState::start()
 {
+
 	if (m_isPause)
 		m_time_pause = sf::seconds(((m_level_clock.getElapsedTime().asSeconds() - std::abs(m_time_pause.asSeconds()))));
 	else
@@ -262,7 +293,7 @@ void GameState::read_data(std::ifstream& fd_readLevel)
 
 	if (time != -1)
 	{
-		m_time_of_level = sf::seconds(time) + sf::seconds(0.5);
+		m_time_of_level = sf::seconds(time);
 		m_is_race_time = true;
 		m_sStartLevClock.play();
 	}
@@ -289,6 +320,7 @@ void GameState::read_data(std::ifstream& fd_readLevel)
     }
 	
     fd_readLevel.close();
+	m_start = true;
 }
 
 
