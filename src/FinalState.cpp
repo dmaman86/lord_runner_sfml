@@ -26,10 +26,10 @@ FinalState::FinalState(StateStack& stack, Context context)
 	sf::Font& font = context.fonts->get(Fonts::Main);
 	m_title.setFont(font);
 	if (context.playerInput->getSuccess())
-		m_title.setString("Congratulations!....You Win!!");
+		m_title.setString("Congratulations!You Win!!\n\tYour score is: " + std::to_string(context.playerInput->getScore()));
 	else
-		m_title.setString("Sorry, You Lose!");
-	m_title.setFillColor(sf::Color(76, 0, 153));
+		m_title.setString("Sorry, You Lose!\n\tYour score is: " + std::to_string(context.playerInput->getScore()));
+	m_title.setFillColor(sf::Color::Cyan);
 	m_title.setCharacterSize(100);
 	centerOrigin(m_title);
 	m_title.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
@@ -49,9 +49,15 @@ FinalState::FinalState(StateStack& stack, Context context)
 	centerOrigin(playerText);
 	playerText.setPosition(sf::Vector2f(windowSize.x / 2.5, (windowSize.y / 2) + 200));
 
-	m_score_player = std::to_string(context.playerInput->getScore());
+	m_score_player = new std::string(std::to_string(context.playerInput->getScore()));
 
 	m_soundState.play();
+}
+
+FinalState::~FinalState()
+{
+	delete m_score_player;
+	delete m_name;
 }
 
 void FinalState::draw()
@@ -72,7 +78,7 @@ bool FinalState::update(double dt)
 {
 	if (m_backToMenu)
 	{
-		requestStackPop();
+		requestStateClear();
 		requestStackPush(States::Menu);
 	}
 	this->updateCursor();
@@ -86,15 +92,16 @@ bool FinalState::handleEvent(const sf::Event& event)
 	{
 		m_backToMenu = true;
 	}
-	if (event.type == sf::Event::TextEntered)
+	else if (event.type == sf::Event::TextEntered)
 	{
 		if (event.text.unicode < 128)
 			inputLogic(event.text.unicode);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 	{
 		//TODO: save name into scores.txt
 		saveString();
+		foo();
 		m_backToMenu = true;
 	}
 	return true;
@@ -137,7 +144,10 @@ void FinalState::deleteLastChar()
 void FinalState::saveString()
 {
 	std::ofstream scores_file;
-	std::string s_temp;
+
+	m_name = new std::string(playerInput.toAnsiString());
+	std::cout << *m_name << " " << m_name->length() << std::endl;
+	std::cout << *m_score_player << " " << m_score_player->length() << std::endl;
 
 	scores_file.open("Records.txt");
 	if (!scores_file.is_open())
@@ -145,9 +155,33 @@ void FinalState::saveString()
 		requestStackPop();
 		requestStackPush(States::ErrorState);
 	}
-	s_temp = playerInput.toAnsiString();
-	scores_file << s_temp << ' ' << m_score_player << std::endl;
-	scores_file.flush();
+	else
+	{
+		scores_file.seekp(0, std::ios::end);
 
-	scores_file.close();
+		scores_file << (*m_name) << " " << (*m_score_player) << std::endl;
+
+		scores_file.close();
+	}
+}
+
+void FinalState::foo()
+{
+	std::string line;
+	std::ifstream myfile("Records.txt", std::ios::in);
+
+	if (!myfile.is_open())
+	{
+		std::cout << "Can not open file" << std::endl;
+	}
+	else
+	{
+		std::cout << "Read file:\n";
+		while (!myfile.eof())
+		{
+			myfile >> line;
+			std::cout << line << std::endl;
+		}
+		myfile.close();
+	}
 }

@@ -2,7 +2,7 @@
 
 PlayerInput::PlayerInput()
 {
-	
+	this->m_score = 0;
 }
 
 PlayerInput::~PlayerInput()

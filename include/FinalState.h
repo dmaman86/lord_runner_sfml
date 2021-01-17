@@ -17,6 +17,7 @@ class FinalState : public State
 {
 public:
 	FinalState(StateStack& stack, Context context);
+	~FinalState();
 
 	virtual void draw();
 	virtual bool update(double dt);
@@ -32,7 +33,8 @@ private:
 
 	sf::String playerInput;
 	sf::Text playerText;
-	std::string m_score_player;
+	std::string *m_score_player;
+	std::string* m_name;
 
 	double mElapsedTime;
 
@@ -42,4 +44,6 @@ private:
 	void inputLogic(int charTyped);
 	void deleteLastChar();
 	void saveString();
+
+	void foo();
 };
