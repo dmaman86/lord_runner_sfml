@@ -174,10 +174,10 @@ void GameState::gameFreezeStarting()
 		while (1)
 			//this->getContext().window->waitEvent(event)
 		{
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) )//||
-			//	sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ||
-			//	sf::Keyboard::isKeyPressed(sf::Keyboard::Up) ||
-			//	sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)  ||
+				sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ||
+				sf::Keyboard::isKeyPressed(sf::Keyboard::Up)    ||
+				sf::Keyboard::isKeyPressed(sf::Keyboard::Down) )
 			{
 				m_level_clock.restart();
 				m_start = false;
@@ -192,7 +192,7 @@ bool GameState::update(double dt)
 {
 	gameFreezeStarting();
 
-		if (!m_error)
+	if (!m_error)
 	{
 		// if something wrong with levels
 		requestStackPop();

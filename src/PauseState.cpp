@@ -6,6 +6,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>
 
+#include "./models/Coin.h"
 
 PauseState::PauseState(StateStack& stack, Context context)
 	: State(stack, context)
@@ -90,6 +91,7 @@ bool PauseState::update(double dt)
 			}
 			else if (m_isBackMenuSelected)
 			{
+				Coin::resetCollected();
 				requestStateClear();
 				requestStackPush(States::Menu);
 			}
