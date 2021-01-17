@@ -1,5 +1,7 @@
 #include "models/Object.h"
 
+
+// contructor
 Object::Object(sf::Vector2f position, sf::Vector2f size, sf::Texture* txt)
 	: m_isExist(true)
 {
@@ -7,6 +9,7 @@ Object::Object(sf::Vector2f position, sf::Vector2f size, sf::Texture* txt)
 
 	m_rec->setTexture(*txt);
 	
+	// set size by average cell
 	m_rec->setScale(sf::Vector2f(size.x / txt->getSize().x, size.y / txt->getSize().y));//15 / size.x, 25 / size.y);
 
 	m_rec->setOrigin(sf::Vector2f(txt->getSize() / 2u));

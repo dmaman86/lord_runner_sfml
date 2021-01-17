@@ -23,10 +23,16 @@ public:
 private:
 	sf::Sprite mBackgroundSprite;
 	sf::Text m_title;
-
 	sf::Sound m_soundState;
 
+	sf::Text m_userName;
+	sf::Text m_userScore;
+	std::string str;
+	int score;
+
 	bool m_backToMenu;
+
+	std::multimap<std::string, int> m_multimap;
 
 	void centerOrigin(sf::Text&);
 };

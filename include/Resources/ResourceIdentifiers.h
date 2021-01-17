@@ -52,7 +52,8 @@ namespace Textures
 		Heart,
 		Gifts,
 		Stain,
-		MouseC
+		MouseC,
+		Scores
 	};
 }
 
@@ -76,16 +77,10 @@ namespace SoundEffect
 		PlayerDead,
 		PlayerInjured,
 		StartLevelClock,
-		EndTime
-	};
-}
-
-namespace Music
-{
-	enum ID
-	{
-		MenuTheme,
-		MissionTheme,
+		EndTime,
+		Lose,
+		Scores,
+		Win
 	};
 }
 

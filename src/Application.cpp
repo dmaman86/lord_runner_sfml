@@ -151,11 +151,7 @@ void Application::loadTextures()
 	this->mTextures.load(Textures::Gifts, "gift.png");
 	this->mTextures.load(Textures::Stain, "black_stain.png");
 	this->mTextures.load(Textures::MouseC, "mouse_cursor.png");
-
-	
-
-
-
+	this->mTextures.load(Textures::Scores, "score_background.png");
 }
 
 void Application::loadSounds()
@@ -168,6 +164,8 @@ void Application::loadSounds()
 	this->mSounds.load(SoundEffect::PlayerDead, "player_dead.wav");
 	this->mSounds.load(SoundEffect::StartLevelClock, "start_level_clock.wav");
 	this->mSounds.load(SoundEffect::EndTime, "end_of_time.wav");
-
+	this->mSounds.load(SoundEffect::Lose, "lose_state.wav");
+	this->mSounds.load(SoundEffect::Win, "win_state.wav");
+	this->mSounds.load(SoundEffect::Scores, "scores_sound.wav");
 }
 

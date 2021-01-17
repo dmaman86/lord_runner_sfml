@@ -53,11 +53,13 @@ void StaticObject::render(sf::RenderWindow* window)
 		this->Object::render(window);
 }
 
+// for reset level
 void StaticObject::resetExist()
 {
 	this->m_isExist = true;
 }
 
+// digger, floor is override
 bool StaticObject::collisionWithDig(sf::Vector2f)
 {
 	return false;

@@ -33,6 +33,9 @@ private:
 
 	sf::String playerInput;
 	sf::Text playerText;
+
+	int m_score;
+
 	std::string *m_score_player;
 	std::string* m_name;
 
@@ -43,7 +46,5 @@ private:
 	void centerOrigin(sf::Text&);
 	void inputLogic(int charTyped);
 	void deleteLastChar();
-	void saveString();
 
-	void foo();
 };

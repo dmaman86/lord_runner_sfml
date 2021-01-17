@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <map>
 #include <SFML/Graphics.hpp>
 
 class PlayerInput
@@ -16,9 +17,21 @@ public:
 	int getScore() const;
 	bool getSuccess() const;
 
+	void updateScore(std::string nameUser, const int& score);
+
+	void printBySort(sf::RenderWindow* window);
+
+	std::multimap<std::string, int>& getSorted();
+
 private:
 	bool m_success;
 	int m_score;
 	sf::String m_playerInput;
 	sf::Text m_playerText;
+
+	// TODO -> settings state
+	bool m_userSound;
+
+	std::map<int, std::string> m_scores;
+	std::multimap<std::string, int> m_multimap;
 };

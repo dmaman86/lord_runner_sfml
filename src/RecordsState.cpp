@@ -13,12 +13,12 @@ RecordsState::RecordsState(StateStack& stack, Context context)
 	windowSize = context.window->getSize();
 	textureSize = context.textures->get(Textures::Menu).getSize();
 
-	sf::Texture& texture = context.textures->get(Textures::Menu);
+	sf::Texture& texture = context.textures->get(Textures::Scores);
 	mBackgroundSprite.setTexture(texture);
 	mBackgroundSprite.setScale((float)windowSize.x / textureSize.x,
 		(float)windowSize.y / textureSize.y);
 
-	m_soundState.setBuffer(context.sounds->get(SoundEffect::Menu));
+	m_soundState.setBuffer(context.sounds->get(SoundEffect::Scores));
 	m_soundState.setLoop(true);
 
 	sf::Font& font = context.fonts->get(Fonts::Main);
@@ -29,12 +29,26 @@ RecordsState::RecordsState(StateStack& stack, Context context)
 	centerOrigin(m_title);
 	m_title.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
 
+	m_multimap = context.playerInput->getSorted();
+
+	m_userName.setCharacterSize(50);
+	m_userName.setColor(sf::Color::Green);
+	m_userName.setFont(font);
+	m_userName.setOrigin(m_userName.getLocalBounds().width / 2,
+		m_userName.getLocalBounds().height / 2);
+	m_userScore.setCharacterSize(50);
+	m_userScore.setColor(sf::Color::Green);
+	m_userScore.setFont(font);
+	m_userScore.setOrigin(m_userScore.getLocalBounds().width / 2,
+		m_userScore.getLocalBounds().height / 2);
+
 	m_soundState.play();
 }
 
 void RecordsState::draw()
 {
 	sf::RenderWindow& window = *getContext().window;
+	int i = 1;
 
 	window.setView(window.getDefaultView());
 
@@ -44,6 +58,23 @@ void RecordsState::draw()
 
 	window.draw(mousePicture);
 
+	// Print the multimap 
+	for (auto& it : m_multimap)
+	{
+		str = it.first;
+		score = it.second;
+		m_userName.setString(str);
+		
+		m_userScore.setString(std::to_string(score));
+
+		m_userName.setPosition(100, 5 * ( i * 100 ));
+		m_userScore.setPosition(500, 5 * (i * 100));
+
+		window.draw(m_userName);
+		window.draw(m_userScore);
+		i++;
+	}
+	i = 0;
 }
 
 bool RecordsState::update(double dt)

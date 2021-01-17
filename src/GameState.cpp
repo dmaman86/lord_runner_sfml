@@ -131,6 +131,7 @@ void GameState::handleInjured()
 		{
 			m_finishGame = true;
 			getContext().playerInput->setSuccess(false);
+			getContext().playerInput->setScore(this->m_player->getScore());
 		}
 		else
 		{
@@ -156,7 +157,7 @@ void GameState::handleNewLevel()
 		{
 			m_error = false;
 		}
-		else if (this->m_player->getLevel() > 5)
+		else if (this->m_player->getLevel() > 1)
 		{
 			m_finishGame = true;
 			getContext().playerInput->setSuccess(true);
