@@ -27,7 +27,6 @@ private:
 	void update(double dt);
 	void render();
 
-	void updateStatistics(double dt);
 	void registerStates();
 
 
@@ -42,8 +41,5 @@ private:
 	PlayerInput mPlayerInput;
 	StateStack mStateStack;
 
-	sf::Text mStatisticsText;
-	double mStatisticsUpdateTime;
-	std::size_t mStatisticsNumFrames;
 	sf::Clock m_clock;
 };

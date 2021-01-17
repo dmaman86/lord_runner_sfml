@@ -24,9 +24,6 @@ Application::Application()
 	, mInput()
 	, mPlayerInput()
 	, mStateStack(State::Context(mWindow, mTextures, mFonts, mSounds, mInput, mPlayerInput))
-	, mStatisticsText()
-	, mStatisticsUpdateTime()
-	, mStatisticsNumFrames(0)
 {
 	mWindow.setKeyRepeatEnabled(false);
 	mWindow.setVerticalSyncEnabled(true);
@@ -35,10 +32,6 @@ Application::Application()
 	loadFonts();
 	loadTextures();
 	loadSounds();
-
-	mStatisticsText.setFont(mFonts.get(Fonts::Main));
-	mStatisticsText.setPosition(5.f, 5.f);
-	mStatisticsText.setCharacterSize(10u);
 
 	registerStates();
 	mStateStack.pushState(States::Title);
@@ -70,8 +63,6 @@ void Application::run()
 			if (mStateStack.isEmpty())
 				mWindow.close();
 		}
-
-		// updateStatistics(TimePerFrame);
 		render();
 	}
 }
@@ -100,22 +91,8 @@ void Application::render()
 	mStateStack.draw();
 
 	mWindow.setView(mWindow.getDefaultView());
-	// mWindow.draw(mStatisticsText);
 
 	mWindow.display();
-}
-
-void Application::updateStatistics(double dt)
-{
-	mStatisticsUpdateTime += dt;
-	mStatisticsNumFrames += 1;
-	if (mStatisticsUpdateTime >= 1.0f)
-	{
-		mStatisticsText.setString("FPS: " + std::to_string(mStatisticsNumFrames));
-
-		mStatisticsUpdateTime -= 1.0f;
-		mStatisticsNumFrames = 0;
-	}
 }
 
 void Application::registerStates()
