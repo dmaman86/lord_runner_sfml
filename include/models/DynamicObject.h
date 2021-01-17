@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Object.h"
+
 class Floor;
 class Coin;
 class Ladder;
@@ -32,7 +33,7 @@ public:
 	void resetData();
 	void setDirectionDown();
 	void move(const float& dt);
-	void goBack();
+	void virtual goBack();
 	void setFirstPos();
 	 
 	// ============= pure virtual functions ===============
@@ -48,7 +49,7 @@ public:
 	void virtual handleColision(GiftStain& obj) = 0;
 
 	// ============= virual functions =====================
-	void virtual handleColision(Floor& obj);
+	void virtual handleColision(Floor& obj) = 0;
 	void virtual handleColision(Ladder& obj);
 	void virtual handleColision(Ropes& obj);
 

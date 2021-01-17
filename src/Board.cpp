@@ -233,8 +233,8 @@ bool Board::isInRange(DynamicObject& dynObj)
 {
 	if ( m_avgPix.x / 2u - 4.5 < dynObj.getSprite().getPosition().x
 	  && m_avgPix.y / 2u  - 4.5 < dynObj.getSprite().getPosition().y
-	  && COLL_GAME_SCREEN - (m_avgPix.x / 2u) > dynObj.getSprite().getPosition().x
-	  && ROW_GAME_SCREEN - (m_avgPix.y / 2u) > dynObj.getSprite().getPosition().y )
+	  && COLL_GAME_SCREEN - ( m_avgPix.y / 2u) > dynObj.getSprite().getPosition().x
+	  && ROW_GAME_SCREEN - (m_avgPix.x / 4u) > dynObj.getSprite().getPosition().y )
 		return true;
 	return false;
 }
@@ -252,9 +252,8 @@ void Board::updateCreature(const float& dt, DynamicObject& creacure)
 	if (!isInRange(creacure))
 		creacure.goBack();
 
-	collisionsStatic(creacure);
 //	collisionsDynamic(creacure);
-
+	collisionsStatic(creacure);
 }
 
 void Board::updateMonsters(const float& dt)

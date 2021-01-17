@@ -19,7 +19,8 @@ class Player : public DynamicObject
 public:
 	Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, sf::SoundBuffer * sound);
 	void virtual updateDirection() override;
-	
+	void virtual handleColision(Floor& obj)override;
+
 	void virtual handleColision(Coin& obj);
 	void virtual handleColision(Monster& obj) override;
 	void virtual handleColision(DynamicObject& obj) {};

@@ -57,10 +57,7 @@ void DynamicObject::setFirstPos()
 
 /* ######### Virual Functions ########## */
 
-void DynamicObject::handleColision(Floor& obj)
-{
-	this->goBack();
-}
+
 /*
 void DynamicObject::handleColision(Coin& obj)
 {

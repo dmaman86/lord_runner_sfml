@@ -9,7 +9,10 @@ class Monster : public DynamicObject
 {
 
 public:
+
+
 	Monster(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt);
+	void virtual handleColision(Floor& obj)override;
 	void virtual updateDirection() override;
 	void virtual handleColision(Player& obj) override;
 	void virtual handleColision(DynamicObject& obj);
@@ -21,6 +24,9 @@ public:
 	void virtual handleColision(GiftMonster& obj) {};
 	void virtual handleColision(GiftStain& obj) {};
 
-private:
+	void virtual goBack() override;
 
+
+private:
+	sf::Vector2f m_position_before_floor;
 };

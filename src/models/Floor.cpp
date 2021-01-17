@@ -1,7 +1,7 @@
 #include "models/Floor.h"
 
 Floor::Floor(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
-	StaticObject(pos, size, txt)
+	StaticObject(pos, size, txt), m_full(false)
 {
 	this->m_rec->setScale(m_rec->getScale().x * 1, m_rec->getScale().y * 0.8);
 	m_t_deleted = sf::seconds(0);
@@ -9,8 +9,13 @@ Floor::Floor(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
 
 void Floor::handleColision(DynamicObject& obj)
 {
-	if(m_isExist)
+	//if(m_isExist)
 		obj.handleColision(*this);
+}
+
+void Floor::handleColision(Monster& obj)
+{
+	m_full = true;
 }
 /*
 bool Flor::collisionWithStand(const sf::Vector2f v2f, const sf::Vector2f size)
@@ -21,7 +26,7 @@ bool Flor::collisionWithStand(const sf::Vector2f v2f, const sf::Vector2f size)
 */
 bool Floor::collisionWithStand(DynamicObject& obj, sf::Vector2f size)
 {
-	if (m_isExist)
+	if (m_isExist || m_full)
 	{
 		sf::Sprite helpRec(obj.getSprite());
 
@@ -29,6 +34,7 @@ bool Floor::collisionWithStand(DynamicObject& obj, sf::Vector2f size)
 
 		return this->m_rec->getGlobalBounds().intersects(helpRec.getGlobalBounds());
 	}
+	
 }
 
 bool Floor::collisionWithDig(sf::Vector2f point)
@@ -50,6 +56,8 @@ void Floor::digMeFree(sf::Time time)
 		{
 			this->m_isExist = true;
 			m_t_deleted = sf::seconds(0);
+			this->m_full = false;
+
 		}
 	}
 }
@@ -57,6 +65,12 @@ void Floor::digMeFree(sf::Time time)
 void Floor::resetExist()
 {
 	this->m_isExist = true;
+	this->m_full = false;
 	m_t_deleted = sf::seconds(0);
+}
+
+bool Floor::isFull()
+{
+	return m_full;
 }
 

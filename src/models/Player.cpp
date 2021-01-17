@@ -10,6 +10,10 @@
 //#include "GameState.h"
 #include "./Resources/ResourceHolder.h"
 
+#include "models/Floor.h"
+
+
+
 Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, sf::SoundBuffer* sound) :
 	DynamicObject(pos, size, 250,txt), 
 	m_is_injured(false), m_life(3), m_score(0),m_numLevel(1), m_direction_dig(0)
@@ -35,6 +39,13 @@ void Player::updateDirection()
 	this->SaveLastPosition();
 
 	//std::cout << m_score << std::endl;
+}
+
+void Player::handleColision(Floor& obj)
+{
+	if (obj.isExsist())
+		this->goBack();
+
 }
 
 bool Player::dig()
@@ -83,7 +94,7 @@ void Player::handleColision(Coin& obj)
 
 void Player::handleColision(Monster& obj)
 {
-	if(!m_is_injured)
+	if(!m_is_injured && obj.isExsist())
 		this->injured();
 }
 
