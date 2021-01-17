@@ -35,6 +35,7 @@ private:
 	sf::Text playerText;
 
 	int m_score;
+	int m_limit;
 
 	std::string *m_score_player;
 	std::string* m_name;
@@ -44,7 +45,7 @@ private:
 	bool m_backToMenu;
 
 	void centerOrigin(sf::Text&);
-	void inputLogic(int charTyped);
+	bool inputLogic(int charTyped);
 	void deleteLastChar();
 
 };

@@ -8,7 +8,7 @@
 
 
 FinalState::FinalState(StateStack& stack, Context context)
-	: State(stack, context), mElapsedTime(0.0f), m_backToMenu(false)
+	: State(stack, context), mElapsedTime(0.0f), m_backToMenu(false), m_limit(15)
 {
 	sf::Vector2u textureSize, windowSize;
 
@@ -103,7 +103,13 @@ bool FinalState::handleEvent(const sf::Event& event)
 	else if (event.type == sf::Event::TextEntered)
 	{
 		if (event.text.unicode < 128)
-			inputLogic(event.text.unicode);
+		{
+			if (!inputLogic(event.text.unicode))
+			{
+				m_name = new std::string(playerInput.toAnsiString());
+				m_backToMenu = true;
+			}
+		}
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 	{
@@ -123,11 +129,14 @@ void FinalState::centerOrigin(sf::Text& text)
 		std::floor(bounds.top + bounds.height / 2.f));
 }
 
-void FinalState::inputLogic(int charTyped)
+bool FinalState::inputLogic(int charTyped)
 {
 	if (charTyped != DELETE_KEY && charTyped != ENTER_KEY && charTyped != ESCAPE_KEY)
 	{
 		playerInput += static_cast<char>(charTyped);
+
+		if (playerInput.getSize() == m_limit)
+			return false;
 		playerText.setString(playerInput);
 	}
 	else if (charTyped == DELETE_KEY)
@@ -136,6 +145,7 @@ void FinalState::inputLogic(int charTyped)
 			deleteLastChar();
 		playerText.setString(playerInput + "_");
 	}
+	return true;
 }
 
 void FinalState::deleteLastChar()
