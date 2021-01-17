@@ -43,6 +43,14 @@ FinalState::FinalState(StateStack& stack, Context context)
 	m_message.setPosition(sf::Vector2f(windowSize.x / 2.5,
 		(windowSize.y / 2) + 100));
 
+	playerText.setFont(font);
+	playerText.setCharacterSize(50);
+	playerText.setFillColor(sf::Color::Red);
+	centerOrigin(playerText);
+	playerText.setPosition(sf::Vector2f(windowSize.x / 2.5, (windowSize.y / 2) + 200));
+
+	m_score_player = std::to_string(context.playerInput->getScore());
+
 	m_soundState.play();
 }
 
@@ -51,14 +59,10 @@ void FinalState::draw()
 	sf::RenderWindow& window = *getContext().window;
 	window.setView(window.getDefaultView());
 
-	// Create dark, semitransparent background
-	sf::RectangleShape backgroundShape;
-	backgroundShape.setFillColor(sf::Color(0, 0, 0, 150));
-	backgroundShape.setSize(window.getView().getSize());
-
-	window.draw(backgroundShape);
+	window.draw(mBackgroundSprite);
 	window.draw(m_title);
 	window.draw(m_message);
+	window.draw(playerText);
 }
 
 bool FinalState::update(double dt)
@@ -78,6 +82,17 @@ bool FinalState::handleEvent(const sf::Event& event)
 	{
 		m_backToMenu = true;
 	}
+	if (event.type == sf::Event::TextEntered)
+	{
+		if (event.text.unicode < 128)
+			inputLogic(event.text.unicode);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+	{
+		//TODO: save name into scores.txt
+		saveString();
+		m_backToMenu = true;
+	}
 	return true;
 }
 
@@ -86,4 +101,49 @@ void FinalState::centerOrigin(sf::Text& text)
 	sf::FloatRect bounds = text.getLocalBounds();
 	text.setOrigin(std::floor(bounds.left + bounds.width / 2.f),
 		std::floor(bounds.top + bounds.height / 2.f));
+}
+
+void FinalState::inputLogic(int charTyped)
+{
+	if (charTyped != DELETE_KEY && charTyped != ENTER_KEY && charTyped != ESCAPE_KEY)
+	{
+		playerInput += static_cast<char>(charTyped);
+		playerText.setString(playerInput);
+	}
+	else if (charTyped == DELETE_KEY)
+	{
+		if (playerInput.getSize() > 0)
+			deleteLastChar();
+		playerText.setString(playerInput + "_");
+	}
+}
+
+void FinalState::deleteLastChar()
+{
+	sf::String tempString = "";
+
+	for (int i = 0; i < playerInput.getSize() - 1; i++)
+		tempString += playerInput[i];
+
+	playerInput = tempString;
+	playerText.setString(playerInput);
+	
+}
+
+void FinalState::saveString()
+{
+	std::ofstream scores_file;
+	std::string s_temp;
+
+	scores_file.open("Records.txt");
+	if (!scores_file.is_open())
+	{
+		requestStackPop();
+		requestStackPush(States::ErrorState);
+	}
+	s_temp = playerInput.toAnsiString();
+	scores_file << s_temp << ' ' << m_score_player << std::endl;
+	scores_file.flush();
+
+	scores_file.close();
 }
