@@ -36,7 +36,7 @@ public:
 	void virtual goBack();
 	void setFirstPos();
 	const sf::Vector2f& getPosition() const;
-
+	void virtual setGrid(char**, int, int) {};
 
 
 	// ============= pure virtual functions ===============

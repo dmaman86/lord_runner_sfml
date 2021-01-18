@@ -158,7 +158,7 @@ void GameState::handleNewLevel()
 		{
 			m_error = false;
 		}
-		else if (this->m_player->getLevel() > 1)
+		else if (this->m_player->getLevel() > 2)
 		{
 			m_finishGame = true;
 			getContext().playerInput->setSuccess(true);
@@ -306,7 +306,7 @@ void GameState::read_data(std::ifstream& fd_readLevel)
 	else
 		m_is_race_time = false;
 
-	this->m_board.initAvg(height, weidth);
+	this->m_board.initSizeData(height, weidth);
 
     fd_readLevel.get(c);	//eat '\n'
     for (size_t i = 0; i < height; i++)
@@ -326,6 +326,8 @@ void GameState::read_data(std::ifstream& fd_readLevel)
 		fd_readLevel.get(c);	//eat '\n'
     }
 	
+	this->m_board.updateMonsterData();
+
     fd_readLevel.close();
 	m_start = true;
 }

@@ -8,6 +8,14 @@ MonsterSmart::MonsterSmart
 	m_copy_player = p ;
 }
 
+void MonsterSmart::setGrid(char** grid,int h,int w)
+{
+	m_grid = grid;
+	m_height = h;
+	m_weidth = w;
+}
+
+
 void MonsterSmart::updateDirection()
 {
 	// is in my row?
@@ -22,6 +30,7 @@ void MonsterSmart::updateDirection()
 
 	this->SaveLastPosition();
 }
+
 
 bool MonsterSmart::isInMyRow()
 {

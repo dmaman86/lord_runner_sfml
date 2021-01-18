@@ -39,12 +39,12 @@ class Board
 public:
 	Board();
 	~Board();
-	void initAvg(size_t, size_t);
+	void initSizeData(size_t, size_t);
 	// void createObject(sf::Vector2f pos, ObjectType type, TextureHolder& textures );
 	void createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& textures, Player* player);
 	void update(const float& dt, Player* player);
 	void newLevel();
-	
+	void updateMonsterData();
 	void startLevelAgain();
 
 	void digIn(sf::Time time,sf::Vector2f pos, const  sf::Sprite&);
@@ -73,6 +73,9 @@ private:
 	//std::vector<StaticObj*> m_static_obj;
 	std::vector<std::unique_ptr<StaticObject>> m_static_obj;
 
+	int m_height ;
+	int m_weidth ;
+	char** m_grid;
 	
 	//Player* m_player2;
 
@@ -97,6 +100,7 @@ private:
 	bool HaveSomthingToStand(DynamicObject& creacure);
 	bool isInRange(DynamicObject& creacure);
 
+	void deleteGrid();
 
 	// void initTextures();
 

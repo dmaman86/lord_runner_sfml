@@ -10,13 +10,15 @@ Board::Board() : m_level_one(true)
 
 Board::~Board() 
 {
-	// unice ptr :
-	// no new - no delete data 
+	this->deleteGrid();
+}
 
-	/*for (int i = 0; i < m_monsters.size();i++)
-	{
-		delete m_monsters[i];
-	}*/
+void Board::deleteGrid()
+{
+	for (int i = 0; i < m_height;i++)
+		delete m_grid[i];
+
+	delete m_grid;
 }
 
 
@@ -76,10 +78,22 @@ std::unique_ptr<StaticObject> Board::createStaticObject(ObjectType::ID type, sf:
 }
 
 
-void Board::initAvg(size_t y, size_t x )
+void Board::initSizeData(size_t y, size_t x )
 {
 	m_avgPix.x = (COLL_GAME_SCREEN / (float)x);
 	m_avgPix.y = (ROW_GAME_SCREEN / (float)y);
+	
+	m_height = y;
+	m_weidth = x;
+
+	m_grid = new char*[y];
+
+	for (int i = 0; i < y;i++)
+		m_grid[i] = new char[x];
+
+	for (int i = 0; i < y;i++)
+		for (int j = 0; j < x;j++)
+			m_grid[i][j] = ' ';
 }
 
 void Board::createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& textures, Player* player)
@@ -104,6 +118,7 @@ void Board::createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& t
 	std::unique_ptr<StaticObject> unmovable = createStaticObject(type, pos, m_avgPix, textures);
 	if (unmovable)
 	{
+		m_grid[(int)pos.y][(int)pos.x] = (char)type;
 		m_static_obj.push_back(std::move(unmovable));
 		return;
 	}
@@ -197,8 +212,16 @@ void Board::newLevel()
 {
 	this->m_monsters.clear();
 	this->m_static_obj.clear();
+	this->deleteGrid();
 }
 
+void Board::updateMonsterData()
+{
+	for (int i = 0; i < m_monsters.size();i++)
+	{
+		m_monsters[i]->setGrid(m_grid, m_height, m_weidth);
+	}
+}
 sf::Vector2f Board::getSize()
 {
 	return this->m_avgPix;
@@ -248,6 +271,7 @@ bool Board::isInRange(DynamicObject& dynObj)
 		return true;
 	return false;
 }
+
 
 void Board::updateCreature(const float& dt, DynamicObject& creacure)
 {
