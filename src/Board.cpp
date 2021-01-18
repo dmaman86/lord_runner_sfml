@@ -10,17 +10,7 @@ Board::Board() : m_level_one(true)
 
 Board::~Board() 
 {
-	this->deleteGrid();
 }
-
-void Board::deleteGrid()
-{
-	for (int i = 0; i < m_height;i++)
-		delete m_grid[i];
-
-	delete m_grid;
-}
-
 
 std::unique_ptr<DynamicObject> Board::createDynamicObject
 (ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures,Player * player)
@@ -86,14 +76,10 @@ void Board::initSizeData(size_t y, size_t x )
 	m_height = y;
 	m_weidth = x;
 
-	m_grid = new char*[y];
+	m_grid.resize(y);
 
 	for (int i = 0; i < y;i++)
-		m_grid[i] = new char[x];
-
-	for (int i = 0; i < y;i++)
-		for (int j = 0; j < x;j++)
-			m_grid[i][j] = ' ';
+		m_grid[i].resize(x);
 }
 
 void Board::createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& textures, Player* player)
@@ -212,14 +198,13 @@ void Board::newLevel()
 {
 	this->m_monsters.clear();
 	this->m_static_obj.clear();
-	this->deleteGrid();
 }
 
 void Board::updateMonsterData()
 {
 	for (int i = 0; i < m_monsters.size();i++)
 	{
-		m_monsters[i]->setGrid(m_grid, m_height, m_weidth);
+		m_monsters[i]->setGrid(m_grid);
 	}
 }
 sf::Vector2f Board::getSize()
@@ -308,29 +293,4 @@ void Board::renderStaticObj(sf::RenderWindow* window)
 {
 	for (int i = 0; i < m_static_obj.size();i++)
 		m_static_obj[i]->render(window);
-}
-
-void Board::renderPlayer(sf::RenderWindow* window)
-{
-	//m_player->render(window);
-}
-
-void Board::renderStatus(sf::RenderWindow* window)
-{
-	/*
-	sf::Texture txt;
-	txt.loadFromFile("heart.png");
-	sf::Sprite heart;
-	heart.setTexture(txt);
-
-	heart.setScale(0.15,0.15);
-
-	heart.setPosition(0 , ROW_GAME_SCREEN + (m_avgPix.y / 2u));
-
-		for (int i = 0; i < m_player2->getLife();i++)
-		{
-			heart.setPosition(i * 100, ROW_GAME_SCREEN + (m_avgPix.y / 2u) );
-			window->draw(heart);
-		}
-		*/
 }

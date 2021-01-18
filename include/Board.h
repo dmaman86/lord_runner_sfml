@@ -58,8 +58,7 @@ public:
 
 	void renderMonster(sf::RenderWindow* window);
 	void renderStaticObj(sf::RenderWindow* window);
-	void renderPlayer(sf::RenderWindow* window);
-	void renderStatus(sf::RenderWindow* window);
+
 
 
 private:
@@ -75,8 +74,7 @@ private:
 
 	int m_height ;
 	int m_weidth ;
-	char** m_grid;
-	
+	std::vector<std::vector<char>> m_grid;
 	//Player* m_player2;
 
 	std::unique_ptr<DynamicObject> m_player;
@@ -100,7 +98,6 @@ private:
 	bool HaveSomthingToStand(DynamicObject& creacure);
 	bool isInRange(DynamicObject& creacure);
 
-	void deleteGrid();
 
 	// void initTextures();
 

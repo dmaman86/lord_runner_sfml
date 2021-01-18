@@ -102,6 +102,7 @@ void GameState::handleGift()
 	{
 		m_board.createObject
 		(m_board.getPlaceToAddMon(), ObjectType::MonsterChar, *getContext().textures, m_player);
+		this->m_board.updateMonsterData();
 	}
 
 }
