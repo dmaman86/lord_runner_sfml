@@ -10,7 +10,8 @@
 #include "models/StaticObject.h"
 //#include "models/Monster.h"
 #include "models/MonsterRand.h"
-//#include "models/MonsterHorizontal.h"
+#include "models/MonsterHorizontal.h"
+#include "models/MonsterSmart.h"
 #include "models/Player.h"
 #include "models/DynamicObject.h"
 #include "models/Floor.h"
@@ -40,7 +41,7 @@ public:
 	~Board();
 	void initAvg(size_t, size_t);
 	// void createObject(sf::Vector2f pos, ObjectType type, TextureHolder& textures );
-	void createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& textures);
+	void createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& textures, Player* player);
 	void update(const float& dt, Player* player);
 	void newLevel();
 	
@@ -83,7 +84,8 @@ private:
 	std::unique_ptr<StaticObject> createStaticObject(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures);
 
 	// std::unique_ptr<DynamicObject> createDynamicObject(ObjectType type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures);
-	std::unique_ptr<DynamicObject> createDynamicObject(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures);
+	std::unique_ptr<DynamicObject> createDynamicObject
+	(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures, Player* player);
 
 	void updateMonsters(const float& dt);
 	void updateCreature(const float& dt, DynamicObject& creacure);

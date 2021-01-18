@@ -1,6 +1,5 @@
 #include "Board.h"
 #include <ctype.h>
-#include "models/MonsterHorizontal.h"
 
 Board::Board() : m_level_one(true)
 {
@@ -21,20 +20,24 @@ Board::~Board()
 }
 
 
-std::unique_ptr<DynamicObject> Board::createDynamicObject(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures)
+std::unique_ptr<DynamicObject> Board::createDynamicObject
+(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures,Player * player)
 {
 	switch (type)
 	{
 		// case ObjectType::PlayerChar:
 			// return std::make_unique<Player>(pos, size, &textures.get(Textures::Player));
 	case ObjectType::MonsterChar:
-		int r = rand() % 2;
-		switch (r)
+		int r = rand() % 3;
+		switch (2)
 		{
 		case 0:
 			return std::make_unique<MonsterRand>(pos, size, &textures.get(Textures::MonsterRand));
 		case 1:
 			return std::make_unique<MonsterHorizontal>(pos, size, &textures.get(Textures::MonsterRL));
+		case 2:
+			return std::make_unique<MonsterSmart>
+				(pos, size, &textures.get(Textures::MonsterSmart),player);
 		}
 	}
 	return nullptr;
@@ -79,7 +82,7 @@ void Board::initAvg(size_t y, size_t x )
 	m_avgPix.y = (ROW_GAME_SCREEN / (float)y);
 }
 
-void Board::createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& textures)
+void Board::createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& textures, Player* player)
 {
 	/*if (type == ObjectType::PlayerChar)
 	{
@@ -88,7 +91,7 @@ void Board::createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& t
 		return;
 	}*/
 
-	std::unique_ptr<DynamicObject> movable = createDynamicObject(type,pos, m_avgPix, textures);
+	std::unique_ptr<DynamicObject> movable = createDynamicObject(type,pos, m_avgPix, textures,player);
 	if (movable)
 	{
 		m_monsters.push_back(std::move(movable));

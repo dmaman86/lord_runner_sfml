@@ -56,6 +56,11 @@ void DynamicObject::setFirstPos()
 	this->m_rec->setPosition(getFirstPos());
 }
 
+const sf::Vector2f& DynamicObject::getPosition() const
+{
+	return this->m_rec->getPosition();
+}
+
 /* ######### Virual Functions ########## */
 
 

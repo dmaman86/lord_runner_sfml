@@ -35,7 +35,10 @@ public:
 	void move(const float& dt);
 	void virtual goBack();
 	void setFirstPos();
-	 
+	const sf::Vector2f& getPosition() const;
+
+
+
 	// ============= pure virtual functions ===============
 	void virtual updateDirection() = 0;
 	void virtual handleColision(DynamicObject& obj) = 0;

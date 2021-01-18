@@ -45,7 +45,8 @@ void Player::handleColision(Floor& obj)
 {
 	if (obj.isExsist())
 		this->goBack();
-
+	else if (obj.isFull())
+		this->injured();
 }
 
 bool Player::dig()
