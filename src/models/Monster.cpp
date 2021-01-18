@@ -42,14 +42,7 @@ void Monster::goBack()
 }
 
 
-void Monster::updateDirection()
-{
-	srand((unsigned int)time(NULL));
 
-	m_dircetion = rand() % 4;
-
-	this->SaveLastPosition();
-}
 
 void Monster::handleColision(Player& obj)
 {

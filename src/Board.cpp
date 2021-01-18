@@ -1,12 +1,12 @@
 #include "Board.h"
 #include <ctype.h>
+#include "models/MonsterHorizontal.h"
 
 Board::Board() : m_level_one(true)
 {
     // initTextures();
 	m_player = nullptr;
 	srand((unsigned int)time(NULL));
-
 }
 
 Board::~Board() 
@@ -25,10 +25,17 @@ std::unique_ptr<DynamicObject> Board::createDynamicObject(ObjectType::ID type, s
 {
 	switch (type)
 	{
-	// case ObjectType::PlayerChar:
-		// return std::make_unique<Player>(pos, size, &textures.get(Textures::Player));
+		// case ObjectType::PlayerChar:
+			// return std::make_unique<Player>(pos, size, &textures.get(Textures::Player));
 	case ObjectType::MonsterChar:
-		return std::make_unique<Monster>(pos, size, &textures.get(Textures::Monster));
+		int r = rand() % 2;
+		switch (r)
+		{
+		case 0:
+			return std::make_unique<MonsterRand>(pos, size, &textures.get(Textures::MonsterRand));
+		case 1:
+			return std::make_unique<MonsterHorizontal>(pos, size, &textures.get(Textures::MonsterRL));
+		}
 	}
 	return nullptr;
 }

@@ -8,7 +8,9 @@
 #include <memory>
 
 #include "models/StaticObject.h"
-#include "models/Monster.h"
+//#include "models/Monster.h"
+#include "models/MonsterRand.h"
+//#include "models/MonsterHorizontal.h"
 #include "models/Player.h"
 #include "models/DynamicObject.h"
 #include "models/Floor.h"

@@ -41,7 +41,8 @@ void DynamicObject::resetData()
 
 void DynamicObject::move(const float& dt)
 {
-	this->m_rec->move
+	if(this->isExsist())
+		this->m_rec->move
 	(this->getMovement().x * this->m_moveSpeed * dt, this->getMovement().y * this->m_moveSpeed * dt);
 }
 

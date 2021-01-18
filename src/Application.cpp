@@ -120,7 +120,9 @@ void Application::loadTextures()
 	this->mTextures.load(Textures::Menu, "background_menu_origin.png");
 	this->mTextures.load(Textures::Player, "hero.png");
 	this->mTextures.load(Textures::Coin, "coin.png");
-	this->mTextures.load(Textures::Monster, "monster.png");
+	this->mTextures.load(Textures::MonsterRand, "monster_random.png");
+	this->mTextures.load(Textures::MonsterRL, "monster_r_l.png");
+	this->mTextures.load(Textures::MonsterSmart, "monster_smart.png");
 	this->mTextures.load(Textures::Ladder, "ladder.png");
 	this->mTextures.load(Textures::Ropes, "ropes.png");
 	this->mTextures.load(Textures::Wall, "wall.png");
