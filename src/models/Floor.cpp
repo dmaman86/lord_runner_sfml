@@ -34,7 +34,6 @@ bool Floor::collisionWithStand(DynamicObject& obj, sf::Vector2f size)
 
 		return this->m_rec->getGlobalBounds().intersects(helpRec.getGlobalBounds());
 	}
-	
 }
 
 bool Floor::collisionWithDig(sf::Vector2f point)

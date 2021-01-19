@@ -4,7 +4,7 @@ Ladder::Ladder(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
 	StaticObject(pos, size, txt)
 {
 	// that made ladder Tall and narrow
-	//this->m_rec->setScale(m_rec->getScale().x * 0.75, m_rec->getScale().y);
+	this->m_rec->setScale(m_rec->getScale().x * 0.75, m_rec->getScale().y * 1.15);
 }
 
 void Ladder::handleColision(DynamicObject& obj)
@@ -14,7 +14,15 @@ void Ladder::handleColision(DynamicObject& obj)
 
 bool Ladder::collisionWithStand(DynamicObject& obj, sf::Vector2f size)
 {
-	return this->collisionWith(obj);
+	/*
+	if ((this->m_rec->getPosition().x + size.x / 4 > obj.getSprite().getPosition().x
+		&& this->m_rec->getPosition().x - size.x / 4 <= obj.getSprite().getPosition().x)
+		&& (this->m_rec->getPosition().y + size.y / 2 - 5 > obj.getSprite().getPosition().y
+			&& this->m_rec->getPosition().y - size.y  <= obj.getSprite().getPosition().y)
+		)
+		return true;
+	return false;
+	*/return this->collisionWith(obj);
 }
 /*
 bool Ladder::collisionWithStand(const sf::Vector2f v2f, const sf::Vector2f b)

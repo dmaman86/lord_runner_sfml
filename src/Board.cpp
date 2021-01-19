@@ -20,8 +20,8 @@ std::unique_ptr<DynamicObject> Board::createDynamicObject
 		// case ObjectType::PlayerChar:
 			// return std::make_unique<Player>(pos, size, &textures.get(Textures::Player));
 	case ObjectType::MonsterChar:
-		int r = rand() % 3;
-		switch (2)
+		int r = rand() % 2;
+		switch (r)
 		{
 		case 0:
 			return std::make_unique<MonsterRand>(pos, size, &textures.get(Textures::MonsterRand));
@@ -249,10 +249,18 @@ bool Board::HaveSomthingToStand(DynamicObject& creacure)
 
 bool Board::isInRange(DynamicObject& dynObj)
 {
+/*
 	if ( m_avgPix.x / 2u - 4.5 < dynObj.getSprite().getPosition().x
 	  && m_avgPix.y / 2u  - 4.5 < dynObj.getSprite().getPosition().y
 	  && COLL_GAME_SCREEN - ( m_avgPix.y / 2u) > dynObj.getSprite().getPosition().x
 	  && ROW_GAME_SCREEN - (m_avgPix.x / 4u) > dynObj.getSprite().getPosition().y )
+		return true;
+	return false;
+	*/
+	if (m_avgPix.x / 2u - 4.5 < dynObj.getSprite().getPosition().x
+		&& m_avgPix.y / 2u - 4.5 < dynObj.getSprite().getPosition().y
+		&& COLL_GAME_SCREEN - (m_avgPix.y / 2u) > dynObj.getSprite().getPosition().x
+		&& ROW_GAME_SCREEN  > dynObj.getSprite().getPosition().y)
 		return true;
 	return false;
 }

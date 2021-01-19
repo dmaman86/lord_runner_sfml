@@ -159,7 +159,7 @@ void GameState::handleNewLevel()
 		{
 			m_error = false;
 		}
-		else if (this->m_player->getLevel() > 2)
+		else if (this->m_player->getLevel() > 5)
 		{
 			m_finishGame = true;
 			getContext().playerInput->setSuccess(true);
