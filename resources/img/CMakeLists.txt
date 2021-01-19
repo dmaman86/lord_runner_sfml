@@ -1,5 +1,6 @@
 configure_file ("background_menu.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("background.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("back_ground1.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("background_menu_2.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("background_menu_origin.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("coin.png" ${CMAKE_BINARY_DIR} COPYONLY)

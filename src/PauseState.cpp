@@ -47,7 +47,7 @@ PauseState::PauseState(StateStack& stack, Context context)
 			(windowSize.y / 2) + (i * 100)));
 	}
 	m_buttons[0].setString("Back to Game");
-	m_buttons[1].setString("Back Menu Game");
+	m_buttons[1].setString("Back to Game Menu");
 	m_buttons[2].setString("Restart Game");
 
 	m_sound.setBuffer(context.sounds->get(SoundEffect::Button));

@@ -114,7 +114,7 @@ void Application::loadFonts()
 void Application::loadTextures()
 {
 	this->mTextures.load(Textures::TitleScreen, "splash-background.png");
-	this->mTextures.load(Textures::Game, "background.png");
+	this->mTextures.load(Textures::Game, "back_ground1.png");
 	this->mTextures.load(Textures::Menu, "background_menu_origin.png");
 	this->mTextures.load(Textures::Player, "hero.png");
 	this->mTextures.load(Textures::Coin, "coin.png");
