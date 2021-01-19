@@ -32,6 +32,8 @@ private:
 
 	bool m_backToMenu;
 
+	double mElapsedTime;
+
 	std::multimap<std::string, int> m_multimap;
 
 	void centerOrigin(sf::Text&);

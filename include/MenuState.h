@@ -1,6 +1,7 @@
 #pragma once
 
 #include "./Machine/State.h"
+#include "macros.h"
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -34,9 +35,6 @@ private:
 
     bool m_isSettingsButtonSelected;
     bool m_isSettingsButtonPressed;
-
-    bool m_isAboutOurSelected;
-    bool m_isAboutOurPressed;
 
     bool m_isRecordsSelected;
     bool m_isRecordsPressed;

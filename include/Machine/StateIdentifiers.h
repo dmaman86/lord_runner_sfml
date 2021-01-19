@@ -12,7 +12,6 @@ namespace States
 		Loading,
 		Pause,
 		Settings,
-		AboutOur,
 		Records,
 		ErrorState,
 		FinalState

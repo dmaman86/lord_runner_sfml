@@ -1,6 +1,7 @@
 #pragma once
 
 #include "./Machine/State.h"
+#include "macros.h"
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
