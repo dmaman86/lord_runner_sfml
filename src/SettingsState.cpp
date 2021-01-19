@@ -43,7 +43,7 @@ SettingsState::SettingsState(StateStack& stack, Context context)
 	text.setCharacterSize(55);
 	text.setStyle(sf::Text::Bold);
 
-	for (size_t i = 0; i < 2; i++)
+	for (size_t i = 0; i < MaxButtonsInState::SettingsButtons; i++)
 	{
 		m_buttons.push_back(text);
 		m_buttons[i].setFillColor(sf::Color::White);
@@ -83,19 +83,18 @@ bool SettingsState::update(double dt)
 	{
 		mEffectTime += dt;
 		updateColorButton();
-		if (mEffectTime >= 3.0f)
+		if (mEffectTime >= 1.5f)
 		{
 			m_pressed = false;
 			mEffectTime = 0.0f;
-			if (m_avaibleMusicSelected)
+			if (m_avaibleMusicSelected || m_no_avaibleMusicSelected )
 			{
-				getContext().playerInput->setUserSound(true);
 				requestStackPop();
 				requestStackPush(States::Menu);
 			}
-			else if (m_no_avaibleMusicSelected)
+			else if (m_backToMenu)
 			{
-				getContext().playerInput->setUserSound(false);
+				m_soundState.stop();
 				requestStackPop();
 				requestStackPush(States::Menu);
 			}
@@ -119,11 +118,10 @@ bool SettingsState::handleEvent(const sf::Event& event)
 		requestStateClear();
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 	{
-		m_soundState.stop();
-		requestStackPop();
-		requestStackPush(States::Menu);
+		m_backToMenu = true;
+		m_pressed = true;
 	}
 
 	if (event.MouseButtonPressed)
@@ -134,6 +132,7 @@ bool SettingsState::handleEvent(const sf::Event& event)
 			m_avaibleMusicSelected = true;
 			m_no_avaibleMusicSelected = false;
 			m_pressed = true;
+			getContext().playerInput->setUserSound(true);
 			m_sound.play();
 		}
 
@@ -142,6 +141,7 @@ bool SettingsState::handleEvent(const sf::Event& event)
 			m_no_avaibleMusicSelected = true;
 			m_avaibleMusicSelected = false;
 			m_pressed = true;
+			getContext().playerInput->setUserSound(false);
 			m_sound.play();
 		}
 		return true;

@@ -85,9 +85,13 @@ bool FinalState::update(double dt)
 {
 	if (m_backToMenu)
 	{
-		getContext().playerInput->updateScore(*m_name, m_score);
-		requestStateClear();
-		requestStackPush(States::Menu);
+		mElapsedTime += dt;
+		if (mElapsedTime > 3.0f)
+		{
+			getContext().playerInput->updateScore(*m_name, m_score);
+			requestStateClear();
+			requestStackPush(States::Menu);
+		}
 	}
 	this->updateCursor();
 
@@ -98,7 +102,8 @@ bool FinalState::handleEvent(const sf::Event& event)
 {
 	if (sf::Event::Closed == event.type || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 	{
-		m_backToMenu = true;
+		m_soundState.pause();
+		requestStateClear();
 	}
 	else if (event.type == sf::Event::TextEntered)
 	{

@@ -6,7 +6,6 @@
 #include "MenuState.h"
 #include "PauseState.h"
 #include "SettingsState.h"
-#include "AboutOurState.h"
 #include "RecordsState.h"
 #include "ErrorState.h"
 #include "FinalState.h"
@@ -102,7 +101,6 @@ void Application::registerStates()
 	mStateStack.registerState<GameState>(States::Game);
 	mStateStack.registerState<PauseState>(States::Pause);
 	mStateStack.registerState<SettingsState>(States::Settings);
-	mStateStack.registerState<AboutOurState>(States::AboutOur);
 	mStateStack.registerState<RecordsState>(States::Records);
 	mStateStack.registerState<ErrorState>(States::ErrorState);
 	mStateStack.registerState<FinalState>(States::FinalState);
@@ -110,7 +108,7 @@ void Application::registerStates()
 
 void Application::loadFonts()
 {
-	this->mFonts.load(Fonts::Main, "SuperMario256.ttf");
+	this->mFonts.load(Fonts::Main, "font_game.ttf");
 }
 
 void Application::loadTextures()

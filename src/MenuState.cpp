@@ -15,8 +15,6 @@ MenuState::MenuState(StateStack& stack, Context context)
 	m_isPlayButtonPressed = false;
 	m_isSettingsButtonSelected = false;
 	m_isSettingsButtonPressed = false;
-	m_isAboutOurSelected = false;
-	m_isAboutOurPressed = false;
 	m_isRecordsPressed = false;
 	m_isRecordsSelected = false;
 
@@ -47,7 +45,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 	text.setCharacterSize(55);
 	text.setStyle(sf::Text::Bold);
 
-	for (size_t i = 0; i < 4; i++)
+	for (size_t i = 0; i < MaxButtonsInState::MenuButtons; i++)
 	{
 		m_buttons.push_back(text);
 		m_buttons[i].setFillColor(sf::Color::White);
@@ -59,9 +57,8 @@ MenuState::MenuState(StateStack& stack, Context context)
 	}
 
 	m_buttons[0].setString("Play Game");
-	m_buttons[1].setString("Settings Game");
-	m_buttons[2].setString("About Our");
-	m_buttons[3].setString("Top Scores");
+	m_buttons[1].setString("Game Settings");
+	m_buttons[2].setString("Top Scores");
 
 	aload_music = context.playerInput->getUserSound();
 
@@ -99,7 +96,7 @@ bool MenuState::update(double dt)
 	{
 		mEffectTime += dt;
 		updateColorButton();
-		if (mEffectTime >= 3.0f)
+		if (mEffectTime >= 2.0f)
 		{
 			m_pressed = false;
 			mEffectTime = 0.0f;
@@ -112,11 +109,6 @@ bool MenuState::update(double dt)
 			{
 				requestStackPop();
 				requestStackPush(States::Settings);
-			}
-			else if (m_isAboutOurSelected)
-			{
-				requestStackPop();
-				requestStackPush(States::AboutOur);
 			}
 			else if (m_isRecordsSelected)
 			{
@@ -138,7 +130,6 @@ bool MenuState::handleEvent(const sf::Event& event)
 	if (sf::Event::Closed == event.type || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 	{
 		m_soundState.stop();
-		// requestStackPop();
 		requestStateClear();
 	}
 
@@ -149,7 +140,6 @@ bool MenuState::handleEvent(const sf::Event& event)
 		{
 			m_isPlayButtonSelected = true;
 			m_isSettingsButtonSelected = false;
-			m_isAboutOurSelected = false;
 			m_isRecordsSelected = false;
 			m_pressed = true;
 			if(aload_music)
@@ -160,28 +150,14 @@ bool MenuState::handleEvent(const sf::Event& event)
 		{
 			m_isSettingsButtonSelected = true;
 			m_isPlayButtonSelected = false;
-			m_isAboutOurSelected = false;
 			m_isRecordsSelected = false;
 			m_pressed = true;
 			if (aload_music)
 				m_sound.play();
 		}
 
-
-		if (m_isAboutOurPressed = input->isSpriteClicked(m_buttons[2], sf::Mouse::Left, window))
+		if (m_isRecordsPressed = input->isSpriteClicked(m_buttons[2], sf::Mouse::Left, window))
 		{
-			m_isAboutOurSelected = true;
-			m_isPlayButtonSelected = false;
-			m_isSettingsButtonSelected = false;
-			m_isRecordsSelected = false;
-			m_pressed = true;
-			if (aload_music)
-				m_sound.play();
-		}
-
-		if (m_isRecordsPressed = input->isSpriteClicked(m_buttons[3], sf::Mouse::Left, window))
-		{
-			m_isAboutOurSelected = false;
 			m_isPlayButtonSelected = false;
 			m_isSettingsButtonSelected = false;
 			m_isRecordsSelected = true;
@@ -208,29 +184,17 @@ void MenuState::updateColorButton()
 		m_buttons[0].setFillColor(sf::Color::Black);
 		m_buttons[1].setFillColor(sf::Color::White);
 		m_buttons[2].setFillColor(sf::Color::White);
-		m_buttons[3].setFillColor(sf::Color::White);
-
 	}
 	else if (m_isSettingsButtonSelected)
 	{
 		m_buttons[0].setFillColor(sf::Color::White);
 		m_buttons[1].setFillColor(sf::Color::Black);
 		m_buttons[2].setFillColor(sf::Color::White);
-		m_buttons[3].setFillColor(sf::Color::White);
-
-	}
-	else if (m_isAboutOurSelected)
-	{
-		m_buttons[0].setFillColor(sf::Color::White);
-		m_buttons[1].setFillColor(sf::Color::White);
-		m_buttons[2].setFillColor(sf::Color::Black);
-		m_buttons[3].setFillColor(sf::Color::White);
 	}
 	else if (m_isRecordsSelected)
 	{
 		m_buttons[0].setFillColor(sf::Color::White);
 		m_buttons[1].setFillColor(sf::Color::White);
-		m_buttons[2].setFillColor(sf::Color::White);
-		m_buttons[3].setFillColor(sf::Color::Black);
+		m_buttons[2].setFillColor(sf::Color::Black);
 	}
 }

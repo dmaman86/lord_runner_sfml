@@ -6,7 +6,7 @@
 
 
 RecordsState::RecordsState(StateStack& stack, Context context)
-	: State(stack, context), m_backToMenu(false)
+	: State(stack, context), m_backToMenu(false), mElapsedTime(0.0f)
 {
 	sf::Vector2u textureSize, windowSize;
 
@@ -93,9 +93,14 @@ bool RecordsState::update(double dt)
 {
 	if (m_backToMenu)
 	{
-		m_soundState.stop();
-		requestStackPop();
-		requestStackPush(States::Menu);
+		mElapsedTime += dt;
+		if (mElapsedTime > 1.5f)
+		{
+			m_backToMenu = false;
+			m_soundState.stop();
+			requestStackPop();
+			requestStackPush(States::Menu);
+		}
 	}
 
 	this->updateCursor();
@@ -107,8 +112,10 @@ bool RecordsState::handleEvent(const sf::Event& event)
 {
 	if (sf::Event::Closed == event.type || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 	{
-		m_backToMenu = true;
+		requestStateClear();
 	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+		m_backToMenu = true;
 	return true;
 }
 

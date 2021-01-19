@@ -12,6 +12,7 @@ PauseState::PauseState(StateStack& stack, Context context)
 	: State(stack, context)
 	, mBackgroundSprite()
 	, mPausedText()
+	, mElapsedTime(0.0f)
 {
 	m_isBackMenuSelected = false;
 	m_isBackMenuPressed = false;
@@ -35,7 +36,8 @@ PauseState::PauseState(StateStack& stack, Context context)
 	text.setFont(font);
 	text.setCharacterSize(55);
 	text.setStyle(sf::Text::Bold);
-	for (size_t i = 0; i < 3; i++)
+
+	for (size_t i = 0; i < MaxButtonsInState::PauseButtons; i++)
 	{
 		m_buttons.push_back(text);
 		m_buttons[i].setFillColor(sf::Color::White);
@@ -83,8 +85,8 @@ bool PauseState::update(double dt)
 	if (m_pressed)
 	{
 		updateColorButton();
-		// m_clock.restart();
-		if (m_clock.getElapsedTime().asSeconds() > 2.0)
+		mElapsedTime += dt;
+		if (mElapsedTime > 1.5f)
 		{
 			m_pressed = false;
 			m_sound.pause();

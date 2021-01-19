@@ -27,9 +27,6 @@ void TitleState::draw()
 {
 	sf::RenderWindow& window = *getContext().window;
 	window.draw(mBackgroundSprite);
-
-	if (mShowText)
-		window.draw(mText);
 }
 
 bool TitleState::update(double dt)
