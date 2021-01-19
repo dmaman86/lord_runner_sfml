@@ -50,8 +50,18 @@ void MonsterSmart::setGrid(std::vector<std::vector<char>> grid)
 		i++;
 	}
 }
-
-
+/*
+void MonsterSmart::handleColision(Ladder& obj)
+{
+	this->m_rec->setPosition(obj.getSprite().getPosition().x , m_rec->getPosition().y);
+}
+*/
+/*
+void MonsterSmart::handleColision(Ropes& obj)
+{
+	this->m_rec->setPosition(obj.getSprite().getPosition().x, m_rec->getPosition().y);
+}
+*/
 void MonsterSmart::updateDirection()
 {
 	/* start but not finish
@@ -68,9 +78,19 @@ void MonsterSmart::updateDirection()
 	
 	playerPosMap = this->getPosOnMat(m_copy_player);
 	monsterPosMap = this->getPosOnMat(this);
-	this->buildVisited();
-	m_dircetion = this->getDirectionSmart(playerPosMap, monsterPosMap);
-/*
+	
+	std::cout << monsterPosMap.x << " " << monsterPosMap.y << std::endl;
+	
+	if ((playerPosMap.x >= 0 && playerPosMap.y >= 0 &&
+		playerPosMap.x < m_visited.size() && playerPosMap.y < m_visited[0].size()) &&
+		(monsterPosMap.x >= 0 && monsterPosMap.y >= 0 &&
+			monsterPosMap.x < m_visited.size() && monsterPosMap.y < m_visited[0].size()))
+	{
+		this->buildVisited();
+		m_dircetion = this->getDirectionSmart(playerPosMap, monsterPosMap);
+	}
+
+	/*
 	if (m_grid[monsterPosMap.x][monsterPosMap.y] == 'H' && ((m_dircetion == 3) || (m_dircetion == 4)) ) 
 	{
 		this->m_rec->setPosition(this->getPosition().x - m_size.x / 2u, this->getPosition().y);
@@ -84,7 +104,6 @@ void MonsterSmart::updateDirection()
 		}
 	}
 	*/
-
 
 	if (m_dircetion == -1)
 	{
@@ -103,13 +122,23 @@ size_t MonsterSmart::getDirectionSmart(sf::Vector2f playerPosMap, sf::Vector2f m
 	std::vector<int> vec;
 	vec.clear();
 	QItem source(monsterPosMap.x, monsterPosMap.y, vec);
-	m_visited[source.row][source.col] = 1;
+
+	if (source.row >= 0 && source.col >= 0 &&
+		source.row < m_visited.size() && source.col < m_visited[0].size())
+		m_visited[source.row][source.col] = 1;
+	else
+		return -1;
+
 	queueManager.push(source);
 	bool moveTwo = false;
 
 	while (!queueManager.empty()) {
 		QItem p = queueManager.front();
 		queueManager.pop();
+
+		if (!(p.row >= 0 && p.col >= 0 &&
+			p.row < m_visited.size() && p.col < m_visited[0].size()))
+			return -1;
 
 		if(m_grid[p.row][p.col] == 2)
 			moveTwo = true;
@@ -166,26 +195,31 @@ size_t MonsterSmart::getDirectionSmart(sf::Vector2f playerPosMap, sf::Vector2f m
 
 sf::Vector2f MonsterSmart::getPosOnMat(DynamicObject * dObj)
 {
-	
 	float position;
 	int row,col;
 	position = m_size.y;
+	sf::Vector2f vec;
 
-	for (row = 0; position <= dObj->getPosition().y; ++row) {
+	col = std::round((dObj->getPosition().x - m_size.x / 2u) / m_size.x);
+	row = std::round((dObj->getPosition().y - m_size.y / 2u) / m_size.y);
+
+	/*
+	for (row = 0; position < dObj->getPosition().y; ++row) {
 		position += m_size.y;
 	}
-
+	
+	
 	position = m_size.x;
-	for (col = 0; position <= dObj->getPosition().x ; ++col) {
+	for (col = 0; position < dObj->getPosition().x ; ++col) {
 		position += m_size.x;
 	}
-	
+	*/
+
 	//if (position - m_size.x / 2u > dObj->getPosition().x && col != 0 && col + 1 < m_visited.size())
 	//	col++;
 
-	 if ( ( position > ( dObj->getPosition().x + m_size.x / 2u ) ) && ( ( col > 1 ) && ( col + 1 < m_visited[0].size() ) ) )
-		col--;
-
+	 //if ( ( position > ( dObj->getPosition().x + m_size.x / 2u ) ) && ( ( col > 1 ) && ( col + 1 < m_visited[0].size() ) ) )
+	//	col--;
 	return sf::Vector2f(row,col);
 }
 
@@ -203,7 +237,8 @@ void MonsterSmart::buildVisited()
 		for (size_t j = 0; j < m_grid[i].size(); j++)
 		{
 			if ( (m_grid[i][j] == ObjectType::RopesChar || m_grid[i][j] == ObjectType::LadderChar) ||
-				(i + 1 < m_grid.size() && ( m_grid[i + 1][j] == ObjectType::FloorChar || m_grid[i + 1][j] == ObjectType::LadderChar )) )
+				(i + 1 < m_grid.size() && ( m_grid[i + 1][j] == ObjectType::FloorChar || m_grid[i + 1][j] == ObjectType::LadderChar )) 
+				&& (m_grid[i][j] == ObjectType::CoinChar || m_grid[i][j] == ObjectType::GiftChar || m_grid[i][j] == '\0') )
 				m_visited[i][j] = 0;
 			else if(m_grid[i][j] != ObjectType::FloorChar && i != m_grid.size() - 1 && i != 0)
 				m_visited[i][j] = 2;

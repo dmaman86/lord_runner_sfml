@@ -2,6 +2,9 @@
 
 #include "models/Monster.h"
 #include "models/Player.h"
+#include "models/Ladder.h"
+#include "models/Ropes.h"
+
 #include "../macros.h"
 #include <vector>
 
@@ -13,7 +16,8 @@ public:
 	(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt ,Player * p);
 	
 	void virtual setGrid(std::vector<std::vector<char>>) override;
-	
+	//void virtual handleColision(Ladder& obj) override;
+	//void virtual handleColision(Ropes& obj) override;
 	void virtual updateDirection() override;
 
 private:
