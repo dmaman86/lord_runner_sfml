@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Object.h"
+#include "../macros.h"
 
 class Floor;
 class Coin;

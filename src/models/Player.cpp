@@ -16,7 +16,7 @@
 
 Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, sf::SoundBuffer* sound) :
 	DynamicObject(pos, size, 250,txt), 
-	m_is_injured(false), m_life(3), m_score(0),m_numLevel(1), m_direction_dig(0)
+	m_is_injured(false), m_life(INIT_LIFE), m_score(INIT),m_numLevel(1), m_direction_dig(INIT)
 
 {
 	// m_sbuffer.loadFromFile("player_coin.wav");
@@ -28,13 +28,13 @@ void Player::updateDirection()
 {
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		m_dircetion = 1;
+		m_dircetion = Object_Direction::Left;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		m_dircetion = 2;
+		m_dircetion = Object_Direction::Right;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		m_dircetion = 3;
+		m_dircetion = Object_Direction::Up;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		m_dircetion = 4;
+		m_dircetion = Object_Direction::Down;
 
 	this->SaveLastPosition();
 
@@ -54,12 +54,12 @@ bool Player::dig()
 	sf::Vector2f vec2f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
 	{
-		this->m_direction_dig = 1;
+		this->m_direction_dig = Object_Direction::Left;
 		return true;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
 	{
-		this->m_direction_dig = 2;
+		this->m_direction_dig = Object_Direction::Right;
 		return true;
 	}
 	return false;
@@ -122,7 +122,7 @@ void Player::handleColision(GiftLife& obj)
 	if (obj.isExsist())
 	{
 		obj.handleColision(*this);
-		if(m_life < 6)
+		if(m_life < MAX_LIFE)
 			this->m_life++;
 	}
 }
@@ -200,5 +200,3 @@ const int Player::getLife() const
 {
 	return m_life;
 }
-
-

@@ -8,6 +8,7 @@
 #include <SFML/Graphics/Text.hpp>
 
 #include "models/Gift.h"
+#include "macros.h"
 
 class GameState : public State
 {

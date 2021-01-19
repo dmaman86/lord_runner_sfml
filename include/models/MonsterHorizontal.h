@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Monster.h"
+#include "../macros.h"
 
 #include <time.h> // srand time
 

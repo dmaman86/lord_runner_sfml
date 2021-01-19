@@ -1,26 +1,34 @@
 #pragma once
 
-const int NUM_BUTTONS = 9;
+namespace Object_Direction
+{
+	enum ID
+	{
+		None = -1,
+		Left = 1,
+		Right = 2,
+		Up = 3,
+		Down = 4,
+		Extra = 6
+	};
+}
 
-// char of objects
-const char PLAYER = '@';
-const char MONSTER = '%';
-const char LADDER = 'H';
-const char ROPES = '-';
-const char EMPTY = ' ';
-const char COIN = '*';
-const char FLOOR = '#';
+namespace ObjectType
+{
+	enum ID
+	{
+		PlayerChar = '@',
+		MonsterChar = '%',
+		FloorChar = '#',
+		RopesChar = '-',
+		LadderChar = 'H',
+		CoinChar = '*',
+		GiftChar = '+'
+	};
+}
 
-enum Options_in_Game {
-	PLAYER_OP = 0,
-	MONSTER_OP,
-	COIN_OP,
-	FLOOR_OP,
-	ROPES_OP,
-	LADDER_OP,
-	EMPTY_OP,
-	SAVE_OP,
-	REFRESH_OP
-};
-
+const int MAX_LEVELS = 5;
+const int MAX_LIFE = 6;
+const int INIT_LIFE = 3;
+const int INIT = 0;
 

@@ -11,21 +11,6 @@ namespace sf
 }
 
 
-namespace ObjectType
-{
-	enum ID
-	{
-		PlayerChar = '@',
-		MonsterChar = '%',
-		FloorChar = '#',
-		RopesChar = '-',
-		LadderChar = 'H',
-		CoinChar = '*',
-		GiftChar = '+'
-	};
-}
-
-
 namespace GiftType
 {
 	enum ID

@@ -10,6 +10,7 @@
 #include "GiftScore.h"
 #include "GiftMonster.h"
 #include "GiftStain.h"
+#include "../macros.h"
 
 class Monster;
 

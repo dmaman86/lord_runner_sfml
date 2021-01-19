@@ -10,8 +10,8 @@ void MonsterHorizontal::updateDirection()
 {
 	if (this->getLastPos() == this->m_rec->getPosition())
 	{
-		(m_horizional_dir == 1) ?
-			m_horizional_dir = 2 : m_horizional_dir = 1;
+		(m_horizional_dir == Object_Direction::Left) ?
+			m_horizional_dir = Object_Direction::Right : m_horizional_dir = Object_Direction::Left;
 	}
 
 	m_dircetion = m_horizional_dir;

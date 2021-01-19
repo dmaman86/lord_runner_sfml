@@ -27,7 +27,7 @@ DynamicObject::~DynamicObject()
 
 void DynamicObject::setDirectionDown()
 {
-	this->m_dircetion = 4;
+	this->m_dircetion = Object_Direction::Down;
 }
 
 

@@ -159,7 +159,7 @@ void GameState::handleNewLevel()
 		{
 			m_error = false;
 		}
-		else if (this->m_player->getLevel() > 5)
+		else if (this->m_player->getLevel() > MAX_LEVELS)
 		{
 			m_finishGame = true;
 			getContext().playerInput->setSuccess(true);
@@ -316,7 +316,7 @@ void GameState::read_data(std::ifstream& fd_readLevel)
 		{
 			fd_readLevel.get(c);
 
-			if (c == '@')
+			if (c == ObjectType::PlayerChar)
 				m_player->newData(sf::Vector2f((float)j, (float)i), m_board.getSize() );
 			else 
 			{

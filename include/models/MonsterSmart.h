@@ -2,6 +2,7 @@
 
 #include "models/Monster.h"
 #include "models/Player.h"
+#include "../macros.h"
 #include <vector>
 
 class MonsterSmart : public Monster
