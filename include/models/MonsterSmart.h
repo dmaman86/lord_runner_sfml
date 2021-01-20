@@ -35,10 +35,10 @@ private:
 	sf::Vector2i m_last_cell;
 
 	// private func
-	sf::Vector2f getPosOnMat(DynamicObject*);
-	size_t getDirectionSmart(sf::Vector2f, sf::Vector2f);
+	sf::Vector2i getPosOnMat(DynamicObject*);
+	size_t getDirectionSmart(sf::Vector2i, sf::Vector2i);
 	void buildVisited();
-	void fixPixel(sf::Vector2f &);
+	void fixPixel(sf::Vector2i &);
 	bool isInRange(int row, int col);
 	//bool isInMyRow();
 };

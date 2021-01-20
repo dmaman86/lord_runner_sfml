@@ -29,6 +29,9 @@ void MonsterSmart::setGrid(std::vector<std::vector<char>> grid)
 
 	static int i = 0;
 
+	if (m_grid.size() == 0 || m_visited.size() == 0)
+		return;
+
 	if (i == 0)
 	{
 		for (int i = 0; i < m_grid.size();i++)
@@ -78,7 +81,10 @@ bool MonsterSmart::isInRange(int row, int col)
 
 void MonsterSmart::updateDirection()
 {
-	sf::Vector2f playerPosMap, monsterPosMap;
+	if (m_grid.size() == 0 || m_visited.size() == 0)
+		return;
+
+	sf::Vector2i playerPosMap, monsterPosMap;
 	bool lastEqual = false;
 	playerPosMap = this->getPosOnMat(m_copy_player);
 	monsterPosMap = this->getPosOnMat(this);
@@ -108,8 +114,11 @@ void MonsterSmart::updateDirection()
 	this->SaveLastPosition();
 }
 
-size_t MonsterSmart::getDirectionSmart(sf::Vector2f playerPosMap, sf::Vector2f monsterPosMap)
+size_t MonsterSmart::getDirectionSmart(sf::Vector2i playerPosMap, sf::Vector2i monsterPosMap)
 {
+	if (m_grid.size() == 0 || m_visited.size() == 0)
+		return 0;
+
 
 	std::queue <QItem> queueManager;
 	std::vector<int> vec;
@@ -141,7 +150,12 @@ size_t MonsterSmart::getDirectionSmart(sf::Vector2f playerPosMap, sf::Vector2f m
 
 		// Destination found; 
 		if (p.row == playerPosMap.x && p.col == playerPosMap.y)
-			return p.VecMov[0];
+		{
+			if (!p.VecMov.empty())
+				return p.VecMov[0];
+			else
+				return -1;
+		}	
 
 		// moving up 
 		if (p.row - 1 >= 0 && m_visited[p.row - 1][p.col] == 0 && !moveTwo)
@@ -186,14 +200,14 @@ size_t MonsterSmart::getDirectionSmart(sf::Vector2f playerPosMap, sf::Vector2f m
 }
 
 
-sf::Vector2f MonsterSmart::getPosOnMat(DynamicObject* dObj)
+sf::Vector2i MonsterSmart::getPosOnMat(DynamicObject* dObj)
 {
 	int row, col;
 
 	col = std::round((dObj->getPosition().x - m_size.x / 2u) / m_size.x);
 	row = std::round((dObj->getPosition().y - m_size.y / 2u) / m_size.y);
 
-	return sf::Vector2f(row, col);
+	return sf::Vector2i(row, col);
 }
 
 
@@ -221,8 +235,11 @@ void MonsterSmart::buildVisited()
 	}
 }
 
-void MonsterSmart::fixPixel(sf::Vector2f & monsterPosMap)
+void MonsterSmart::fixPixel(sf::Vector2i & monsterPosMap)
 {
+	if (m_grid.size() == 0 || m_visited.size() == 0)
+		return;
+
 	static int parameter = 0;
 
 	if (m_last_cell == sf::Vector2i(monsterPosMap.x, monsterPosMap.y) && this->getPosition() == this->m_last_postion)
@@ -261,7 +278,7 @@ void MonsterSmart::fixPixel(sf::Vector2f & monsterPosMap)
 				parameter = 4;
 			}
 		}
-		if (m_last_dir == Object_Direction::Right)     // ============================FINISH=============
+		if (m_last_dir == Object_Direction::Right) 
 		{
 			if (isInRange(monsterPosMap.x + 1, monsterPosMap.y + 1) &&
 				m_grid[monsterPosMap.x + 1][monsterPosMap.y + 1] == '#')
@@ -278,7 +295,7 @@ void MonsterSmart::fixPixel(sf::Vector2f & monsterPosMap)
 				parameter = 6;
 			}
 		}
-		if (m_last_dir == Object_Direction::Left)// ============================FINISH=============
+		if (m_last_dir == Object_Direction::Left)
 		{
 			if (isInRange(monsterPosMap.x + 1, monsterPosMap.y - 1) &&
 				m_grid[monsterPosMap.x + 1][monsterPosMap.y - 1] == '#')
