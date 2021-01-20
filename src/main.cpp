@@ -3,10 +3,13 @@
 #include <stdexcept>
 #include <iostream>
 #include <cstdlib>
+#include <time.h> // srand time
 
 
 int main()
 {
+	srand((unsigned int)time(NULL));
+
 	try
 	{
 		Application app;

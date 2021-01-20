@@ -20,7 +20,10 @@ class Player : public DynamicObject
 	
 public:
 	Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, SoundBufferHolder& sounds);
-	void virtual updateDirection() override;
+	
+	void resetData()override;
+
+	void virtual updateDirection(const float& dt) override;
 	void virtual handleColision(Floor& obj)override;
 
 	void virtual handleColision(Coin& obj);

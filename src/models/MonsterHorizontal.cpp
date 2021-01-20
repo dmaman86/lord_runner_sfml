@@ -6,7 +6,7 @@ MonsterHorizontal::MonsterHorizontal(sf::Vector2f pos, sf::Vector2f size, sf::Te
 	this->m_rec->setScale(m_rec->getScale().x * (float)0.8,m_rec->getScale().y * (float)1.2);
 }
 
-void MonsterHorizontal::updateDirection()
+void MonsterHorizontal::updateDirection(const float& dt)
 {
 	if (this->getLastPos() == this->m_rec->getPosition())
 	{

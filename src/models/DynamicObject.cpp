@@ -31,12 +31,7 @@ void DynamicObject::setDirectionDown()
 }
 
 
-void DynamicObject::resetData()
-{
-	this->resetDirection();
-	if (this->m_rec->getRotation() == 90.f)
-		this->m_rec->setRotation(0.f);
-}
+
 
 
 void DynamicObject::move(const float& dt)

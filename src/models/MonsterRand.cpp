@@ -6,11 +6,16 @@ MonsterRand::MonsterRand(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) 
 
 }
 
-void MonsterRand::updateDirection()
+void MonsterRand::updateDirection(const float& dt)
 {
-	srand((unsigned int)time(NULL));
+	static float time = 4;
 
-	m_dircetion = rand() % 4;
+	time += dt;
 
+	if (time > 2.f)
+	{
+		time = 0;
+		m_dircetion = rand() % 4;
+	}
 	this->SaveLastPosition();
 }

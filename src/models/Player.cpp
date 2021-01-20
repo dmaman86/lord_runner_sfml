@@ -31,7 +31,7 @@ Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, SoundBuffe
 	m_soundStain.setVolume(30.0f);
 }
 
-void Player::updateDirection()
+void Player::updateDirection(const float& dt)
 {
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
@@ -206,4 +206,9 @@ void Player::injured()
 const int Player::getLife() const
 {
 	return m_life;
+}
+
+void Player::resetData()
+{
+	this->resetDirection();
 }

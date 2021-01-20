@@ -18,7 +18,7 @@ public:
 	void virtual setGrid(std::vector<std::vector<char>>) override;
 	void virtual handleColision(Ladder& obj) override;
 	//void virtual handleColision(Ropes& obj) override;
-	void virtual updateDirection() override;
+	void virtual updateDirection(const float& dt) override;
 
 private:
 	Player* m_copy_player;

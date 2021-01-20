@@ -5,7 +5,6 @@ Board::Board() : m_level_one(true)
 {
     // initTextures();
 	m_player = nullptr;
-	srand((unsigned int)time(NULL));
 }
 
 Board::~Board() 
@@ -19,7 +18,7 @@ std::unique_ptr<DynamicObject> Board::createDynamicObject
 	{
 	case ObjectType::MonsterChar:
 		int r = rand() % KindMonsters::Max;
-		switch (r)
+		switch (KindMonsters::Rand)
 		{
 		case KindMonsters::Rand:
 			return std::make_unique<MonsterRand>(pos, size, &textures.get(Textures::MonsterRand));
@@ -270,7 +269,7 @@ bool Board::isInRange(DynamicObject& dynObj)
 void Board::updateCreature(const float& dt, DynamicObject& creacure)
 {
 	creacure.resetData();
-	creacure.updateDirection();
+	creacure.updateDirection(dt);
 
 	if(!HaveSomthingToStand(creacure))
 		creacure.setDirectionDown();

@@ -31,7 +31,7 @@ public:
 
 	// public functions
 		// movment
-	void resetData();
+	void virtual resetData() {};
 	void setDirectionDown();
 	void move(const float& dt);
 	void virtual goBack();
@@ -41,7 +41,7 @@ public:
 
 
 	// ============= pure virtual functions ===============
-	void virtual updateDirection() = 0;
+	void virtual updateDirection(const float& dt) = 0;
 	void virtual handleColision(DynamicObject& obj) = 0;
 	void virtual handleColision(Player& obj) = 0;
 	void virtual handleColision(Monster& obj) = 0;

@@ -79,7 +79,7 @@ bool MonsterSmart::isInRange(int row, int col)
 }
 
 
-void MonsterSmart::updateDirection()
+void MonsterSmart::updateDirection(const float& dt)
 {
 	if (m_grid.size() == 0 || m_visited.size() == 0)
 		return;
@@ -104,7 +104,6 @@ void MonsterSmart::updateDirection()
 	
 	if (m_dircetion == -1)
 	{
-		srand((unsigned int)time(NULL));
 		m_dircetion = rand() % 4;
 	}
 

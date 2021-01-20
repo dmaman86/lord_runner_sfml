@@ -185,6 +185,7 @@ bool GameState::update(double dt)
 	}
 	else if (!m_isPause)
 	{
+		//m_level_clock.getElapsedTime().asSeconds();
 		this->m_board.update(dt, m_player);
 		this->handeleDig();
 		this->handleRace();
