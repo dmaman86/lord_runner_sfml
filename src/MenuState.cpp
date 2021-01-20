@@ -38,6 +38,9 @@ MenuState::MenuState(StateStack& stack, Context context)
 	m_title.setFont(font);
 	m_title.setString("Lord Runner Game");
 	m_title.setFillColor(sf::Color(76,0,153));
+	m_title.setOutlineColor(sf::Color::White);
+	m_title.setOutlineThickness(5.f);
+
 	m_title.setCharacterSize(100);
 	centerOrigin(m_title);
 	m_title.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
@@ -54,6 +57,9 @@ MenuState::MenuState(StateStack& stack, Context context)
 			m_buttons[i].getLocalBounds().height / 2);
 		m_buttons[i].setPosition(sf::Vector2f(windowSize.x / 2.5,
 			(windowSize.y / 2) + (i * 100)));
+		m_buttons[i].setOutlineColor(sf::Color(76, 0, 153));
+		m_buttons[i].setOutlineThickness(5.f);
+
 	}
 
 	m_buttons[0].setString("Play Game");
