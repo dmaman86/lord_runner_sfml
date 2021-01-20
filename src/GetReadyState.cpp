@@ -1,4 +1,4 @@
-#include "StartGameState.h"
+#include "GetReadyState.h"
 #include "./Resources/ResourceHolder.h"
 #include "./Resources/ResourceIdentifiers.h"
 
@@ -6,9 +6,9 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>
 
-int StartGameState::init = 0;
+int GetReadyState::init = 0;
 
-StartGameState::StartGameState(StateStack& stack, Context context)
+GetReadyState::GetReadyState(StateStack& stack, Context context)
 	: State(stack, context)
 	, mCounterTime(0.0f)
 	, m_time(0.0f)
@@ -19,7 +19,7 @@ StartGameState::StartGameState(StateStack& stack, Context context)
 	mBackgroundSprite.setTexture(context.textures->get(Textures::Game));
 
 	m_titleReady.setFont(font);
-	m_titleReady.setCharacterSize(50);
+	m_titleReady.setCharacterSize(100);
 	centerOrigin(m_titleReady);
 	m_titleReady.setPosition(0.5f * windowSize.x - 100, 0.4f * windowSize.y + 75);
 	m_titleReady.setFillColor(sf::Color::Red);
@@ -32,13 +32,12 @@ StartGameState::StartGameState(StateStack& stack, Context context)
 	m_counterdown = 3;
 }
 
-StartGameState::~StartGameState()
+GetReadyState::~GetReadyState()
 {
 	m_soundState.stop();
-	StartGameState::init = 0;
 }
 
-void StartGameState::draw()
+void GetReadyState::draw()
 {
 	for (; init < 3;)
 	{
@@ -66,7 +65,7 @@ void StartGameState::draw()
 	}
 }
 
-bool StartGameState::update(double dt)
+bool GetReadyState::update(double dt)
 {
 	if (init == 3)
 	{
@@ -76,7 +75,7 @@ bool StartGameState::update(double dt)
 	return true;
 }
 
-bool StartGameState::handleEvent(const sf::Event& event)
+bool GetReadyState::handleEvent(const sf::Event& event)
 {
 	sf::RenderWindow& window = *getContext().window;
 	InputManager* input = getContext().input;
@@ -89,7 +88,7 @@ bool StartGameState::handleEvent(const sf::Event& event)
 	return false;
 }
 
-void StartGameState::centerOrigin(sf::Text& text)
+void GetReadyState::centerOrigin(sf::Text& text)
 {
 	sf::FloatRect bounds = text.getLocalBounds();
 	text.setOrigin(std::floor(bounds.left + bounds.width / 2.f),

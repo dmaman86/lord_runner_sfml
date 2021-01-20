@@ -18,7 +18,7 @@ RecordsState::RecordsState(StateStack& stack, Context context)
 	mBackgroundSprite.setScale((float)windowSize.x / textureSize.x,
 		(float)windowSize.y / textureSize.y);
 
-	m_soundState.setBuffer(context.sounds->get(SoundEffect::Scores));
+	m_soundState.setBuffer(context.sounds->get(SoundEffect::TopScores));
 	m_soundState.setLoop(true);
 
 	sf::Font& font = context.fonts->get(Fonts::Main);

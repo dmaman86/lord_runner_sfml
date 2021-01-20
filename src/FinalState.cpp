@@ -54,7 +54,6 @@ FinalState::FinalState(StateStack& stack, Context context)
 	playerText.setPosition(sf::Vector2f(windowSize.x / 2.5, (windowSize.y / 2) + 200));
 
 	m_score_player = new std::string(std::to_string(context.playerInput->getScore()));
-	// m_name = new std::string("");
 
 	m_score = context.playerInput->getScore();
 
@@ -77,23 +76,16 @@ void FinalState::draw()
 	window.draw(m_message);
 	window.draw(playerText);
 
-	window.draw(mousePicture);
-
 }
 
 bool FinalState::update(double dt)
 {
 	if (m_backToMenu)
 	{
-		mElapsedTime += dt;
-		if (mElapsedTime > 3.0f)
-		{
-			getContext().playerInput->updateScore(*m_name, m_score);
-			requestStateClear();
-			requestStackPush(States::Menu);
-		}
+		getContext().playerInput->updateScore(*m_name, m_score);
+		requestStateClear();
+		requestStackPush(States::Menu);
 	}
-	this->updateCursor();
 
 	return true;
 }

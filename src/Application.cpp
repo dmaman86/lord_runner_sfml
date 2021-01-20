@@ -9,7 +9,7 @@
 #include "RecordsState.h"
 #include "ErrorState.h"
 #include "FinalState.h"
-#include "StartGameState.h"
+#include "GetReadyState.h"
 
 #include <iostream>
 #include <string>
@@ -105,7 +105,7 @@ void Application::registerStates()
 	mStateStack.registerState<RecordsState>(States::Records);
 	mStateStack.registerState<ErrorState>(States::ErrorState);
 	mStateStack.registerState<FinalState>(States::FinalState);
-	mStateStack.registerState<StartGameState>(States::StartGame);
+	mStateStack.registerState<GetReadyState>(States::GetReady);
 }
 
 void Application::loadFonts()
@@ -138,13 +138,16 @@ void Application::loadSounds()
 	this->mSounds.load(SoundEffect::Open, "open.wav");
 	this->mSounds.load(SoundEffect::Game, "gamesound.wav");
 	this->mSounds.load(SoundEffect::Menu, "menusound.wav");
-	this->mSounds.load(SoundEffect::Button, "new_move_next_state.wav");
+	this->mSounds.load(SoundEffect::Button, "button_sound.wav");
 	this->mSounds.load(SoundEffect::PlayerCoin, "player_coin.wav");
 	this->mSounds.load(SoundEffect::PlayerDead, "player_dead.wav");
 	this->mSounds.load(SoundEffect::StartLevelClock, "start_level_clock.wav");
 	this->mSounds.load(SoundEffect::EndTime, "end_of_time.wav");
 	this->mSounds.load(SoundEffect::Lose, "lose_state.wav");
 	this->mSounds.load(SoundEffect::Win, "win_state.wav");
-	this->mSounds.load(SoundEffect::Scores, "scores_sound.wav");
+	this->mSounds.load(SoundEffect::TopScores, "scores_sound.wav");
+	this->mSounds.load(SoundEffect::LifeUp, "player_life_up.wav");
+	this->mSounds.load(SoundEffect::ScoreUp, "player_score.wav");
+	this->mSounds.load(SoundEffect::Stain, "stain.wav");
 }
 

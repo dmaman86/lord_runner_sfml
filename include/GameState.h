@@ -33,7 +33,6 @@ private:
 	// new sound
 	sf::Sound m_sStartLevClock;
 	sf::Sound m_sEndLevClock;
-	sf::Sound m_PmeetM;
 
 
 	Board m_board;
@@ -56,14 +55,9 @@ private:
 	bool m_finishGame;
 	bool m_start;
 
-	void gameFreezeStarting();
 	void handeleDig();
 	void handleGift();
 	void handleRace();
 	void handleInjured();
 	void handleNewLevel();
-
-//sf::Time getTimePassed();
-
-	//sf::Clock m_clock;
 };

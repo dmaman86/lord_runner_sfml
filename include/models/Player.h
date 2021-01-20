@@ -11,6 +11,7 @@
 #include "GiftMonster.h"
 #include "GiftStain.h"
 #include "../macros.h"
+#include "../Resources/ResourceIdentifiers.h"
 
 class Monster;
 
@@ -18,7 +19,7 @@ class Player : public DynamicObject
 {
 	
 public:
-	Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, sf::SoundBuffer * sound);
+	Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, SoundBufferHolder& sounds);
 	void virtual updateDirection() override;
 	void virtual handleColision(Floor& obj)override;
 
@@ -61,7 +62,11 @@ private:
 	int m_direction_dig;
 
 	
-	sf::Sound m_sound;
+	sf::Sound m_soundGetCoin;
+	sf::Sound m_soundInjured;
+	sf::Sound m_soundLifeUp;
+	sf::Sound m_soundScoreUp;
+	sf::Sound m_soundStain;
 	// sf::SoundBuffer m_sbuffer;
 
 

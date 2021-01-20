@@ -10,7 +10,7 @@
 GameState::GameState(StateStack& stack, Context context)
 	: State(stack, context),
 	m_player( new Player(sf::Vector2f(0,0), sf::Vector2f(0,0) ,
-	&context.textures->get(Textures::Player), &context.sounds->get(SoundEffect::PlayerCoin)) )
+	&context.textures->get(Textures::Player), *getContext().sounds))
 	, m_containerStatus(&context.textures->get(Textures::Heart), 
 						&context.fonts->get(Fonts::Main)),
 	m_is_race_time(true), m_start(true)
@@ -27,14 +27,10 @@ GameState::GameState(StateStack& stack, Context context)
 	m_soundState.setVolume(100.0f);
 	m_sound.setBuffer(context.sounds->get(SoundEffect::Button));
 
-	// m_soundState.play();
-
 	m_sStartLevClock.setBuffer(context.sounds->get(SoundEffect::StartLevelClock));
 	m_sStartLevClock.setVolume(40.0f);
 	m_sEndLevClock.setBuffer(context.sounds->get(SoundEffect::EndTime));
 	m_sEndLevClock.setVolume(40.0f);
-	m_PmeetM.setBuffer(context.sounds->get(SoundEffect::PlayerDead));
-	m_PmeetM.setVolume(40.0f);
 	
 	m_time_pause = sf::seconds(0);
 }
@@ -125,7 +121,6 @@ void GameState::handleInjured()
 	// 1.moved to func later
 	if (m_player->isInjured())
 	{
-		m_start = true;
 		m_time_pause = sf::seconds(0);
 		if (!m_player->getLife())
 		{
@@ -137,7 +132,6 @@ void GameState::handleInjured()
 		{
 			m_board.startLevelAgain();
 			m_player->setFirstPos();
-			m_PmeetM.play();
 			this->m_level_clock.restart();
 		}
 	}
@@ -170,33 +164,8 @@ void GameState::handleNewLevel()
 	}
 }
 
-void GameState::gameFreezeStarting()
-{
-	if (m_start)
-	{
-		//sf::Event event;
-		// while (1)
-			//this->getContext().window->waitEvent(event)
-		/*{
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)  ||
-				sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ||
-				sf::Keyboard::isKeyPressed(sf::Keyboard::Up)    ||
-				sf::Keyboard::isKeyPressed(sf::Keyboard::Down) )
-			{
-				m_level_clock.restart();
-				m_start = false;
-				break;
-			}
-		}*/
-		m_soundState.pause();
-		requestStackPush(States::StartGame);
-	}
-
-}
-
 bool GameState::update(double dt)
 {
-	//gameFreezeStarting();
 	if (!m_error)
 	{
 		// if something wrong with levels
@@ -206,7 +175,7 @@ bool GameState::update(double dt)
 	else if (m_start)
 	{
 		m_soundState.pause();
-		requestStackPush(States::StartGame);
+		requestStackPush(States::GetReady);
 	}
 	else if (m_finishGame)
 	{

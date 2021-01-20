@@ -14,14 +14,21 @@
 
 
 
-Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, sf::SoundBuffer* sound) :
+Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, SoundBufferHolder& sounds) :
 	DynamicObject(pos, size, 250,txt), 
 	m_is_injured(false), m_life(INIT_LIFE), m_score(INIT),m_numLevel(1), m_direction_dig(INIT)
 
 {
-	// m_sbuffer.loadFromFile("player_coin.wav");
-	m_sound.setBuffer(*sound);
-	m_sound.setVolume(30.0f);
+	m_soundGetCoin.setBuffer(sounds.get(SoundEffect::PlayerCoin));
+	m_soundGetCoin.setVolume(30.0f);
+	m_soundInjured.setBuffer(sounds.get(SoundEffect::PlayerDead));
+	m_soundInjured.setVolume(30.0f);
+	m_soundLifeUp.setBuffer(sounds.get(SoundEffect::LifeUp));
+	m_soundLifeUp.setVolume(30.0f);
+	m_soundScoreUp.setBuffer(sounds.get(SoundEffect::ScoreUp));
+	m_soundScoreUp.setVolume(30.0f);
+	m_soundStain.setBuffer(sounds.get(SoundEffect::Stain));
+	m_soundStain.setVolume(30.0f);
 }
 
 void Player::updateDirection()
@@ -37,8 +44,6 @@ void Player::updateDirection()
 		m_dircetion = Object_Direction::Down;
 
 	this->SaveLastPosition();
-
-	//std::cout << m_score << std::endl;
 }
 
 void Player::handleColision(Floor& obj)
@@ -86,8 +91,7 @@ void Player::handleColision(Coin& obj)
 	if (obj.isExsist())
 	{
 		obj.handleColision(*this);
-		m_sound.play();
-		//Sleep(500);
+		m_soundGetCoin.play();
 		this->m_score += m_numLevel * 2;
 	}
 }
@@ -122,6 +126,7 @@ void Player::handleColision(GiftLife& obj)
 	if (obj.isExsist())
 	{
 		obj.handleColision(*this);
+		m_soundLifeUp.play();
 		if(m_life < MAX_LIFE)
 			this->m_life++;
 	}
@@ -132,6 +137,7 @@ void Player::handleColision(GiftScore& obj)
 	if (obj.isExsist())
 	{
 		obj.handleColision(*this);
+		m_soundScoreUp.play();
 		this->m_score += 150;
 	}
 }
@@ -148,6 +154,7 @@ void Player::handleColision(GiftStain& obj)
 {
 	if (obj.isExsist())
 	{
+		m_soundStain.play();
 		obj.handleColision(*this);
 	}
 }
@@ -191,7 +198,7 @@ const int Player::getLevel() const
 void Player::injured() 
 {
 	m_life--;
-	// sound
+	m_soundInjured.play();
 	m_is_injured = true;
 	Coin::resetCollected();
 }

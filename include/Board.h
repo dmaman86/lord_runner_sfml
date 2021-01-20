@@ -22,16 +22,6 @@
 #include "Resources/ResourceHolder.h"
 #include "Resources/ResourceIdentifiers.h"
 
-/*enum ObjectType
-{
-	PlayerChar = '@',
-	MonsterChar = '%',
-	FloorChar = '#',
-	RopesChar = '-',
-	LadderChar = 'H',
-	CoinChar = '*'
-};*/
-
 
 class Board
 {

@@ -10,11 +10,11 @@
 #include <vector>
 #include <cmath>
 
-class StartGameState : public State
+class GetReadyState : public State
 {
 public:
-	StartGameState(StateStack& stack, Context context);
-	~StartGameState();
+	GetReadyState(StateStack& stack, Context context);
+	~GetReadyState();
 
 	virtual void		draw();
 	virtual bool		update(double dt);

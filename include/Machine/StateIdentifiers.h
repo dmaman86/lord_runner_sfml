@@ -15,6 +15,6 @@ namespace States
 		Records,
 		ErrorState,
 		FinalState,
-		StartGame
+		GetReady
 	};
 }

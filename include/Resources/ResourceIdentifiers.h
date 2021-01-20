@@ -66,8 +66,11 @@ namespace SoundEffect
 		StartLevelClock,
 		EndTime,
 		Lose,
-		Scores,
-		Win
+		TopScores,
+		Win,
+		LifeUp,
+		ScoreUp,
+		Stain
 	};
 }
 
