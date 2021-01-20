@@ -13,10 +13,10 @@ class MonsterSmart : public Monster
 
 public:
 	MonsterSmart
-	(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt ,Player * p);
-	
+	(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, Player* p);
+
 	void virtual setGrid(std::vector<std::vector<char>>) override;
-	//void virtual handleColision(Ladder& obj) override;
+	void virtual handleColision(Ladder& obj) override;
 	//void virtual handleColision(Ropes& obj) override;
 	void virtual updateDirection() override;
 
@@ -29,10 +29,16 @@ private:
 	int m_height;
 	int m_weidth;
 
+	bool m_last;
+	int m_last_dir;
+
+	sf::Vector2i m_last_cell;
+
 	// private func
 	sf::Vector2f getPosOnMat(DynamicObject*);
 	size_t getDirectionSmart(sf::Vector2f, sf::Vector2f);
 	void buildVisited();
-	
+	void fixPixel(sf::Vector2f &);
+	bool isInRange(int row, int col);
 	//bool isInMyRow();
 };
