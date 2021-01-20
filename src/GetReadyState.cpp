@@ -21,8 +21,12 @@ GetReadyState::GetReadyState(StateStack& stack, Context context)
 	m_titleReady.setFont(font);
 	m_titleReady.setCharacterSize(100);
 	centerOrigin(m_titleReady);
-	m_titleReady.setPosition(0.5f * windowSize.x - 100, 0.4f * windowSize.y + 75);
+	m_titleReady.setPosition(0.5f * windowSize.x - 275, 0.4f * windowSize.y + 40);
 	m_titleReady.setFillColor(sf::Color::Red);
+	m_titleReady.setOutlineColor(sf::Color::White);
+	m_titleReady.setOutlineThickness(5.f);
+
+
 	
 	m_soundState.setBuffer(context.sounds->get(SoundEffect::CounterDown));
 	m_soundState.setLoop(true);
