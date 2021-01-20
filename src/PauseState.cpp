@@ -86,7 +86,7 @@ bool PauseState::update(double dt)
 	{
 		updateColorButton();
 		mElapsedTime += dt;
-		if (mElapsedTime > 1.5f)
+		if (mElapsedTime > 1.0f)
 		{
 			m_pressed = false;
 			m_sound.pause();

@@ -151,10 +151,6 @@ void GameState::handleNewLevel()
 
 		if (!initLevel())
 		{
-			// m_error = false;
-		// }
-		// else if (this->m_player->getLevel() > MAX_LEVELS)
-		// {
 			m_finishGame = true;
 			getContext().playerInput->setSuccess(true);
 			getContext().playerInput->setScore(this->m_player->getScore());
