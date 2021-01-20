@@ -17,17 +17,15 @@ std::unique_ptr<DynamicObject> Board::createDynamicObject
 {
 	switch (type)
 	{
-		// case ObjectType::PlayerChar:
-			// return std::make_unique<Player>(pos, size, &textures.get(Textures::Player));
 	case ObjectType::MonsterChar:
-		int r = rand() % 3;
-		switch (2)
+		int r = rand() % KindMonsters::Max;
+		switch (r)
 		{
-		case 0:
+		case KindMonsters::Rand:
 			return std::make_unique<MonsterRand>(pos, size, &textures.get(Textures::MonsterRand));
-		case 1:
+		case KindMonsters::Horizontal:
 			return std::make_unique<MonsterHorizontal>(pos, size, &textures.get(Textures::MonsterRL));
-		case 2:
+		case KindMonsters::Smart:
 			return std::make_unique<MonsterSmart>
 				(pos, size, &textures.get(Textures::MonsterSmart),player);
 		}
@@ -49,18 +47,18 @@ std::unique_ptr<StaticObject> Board::createStaticObject(ObjectType::ID type, sf:
 		m_location_add_monster = pos;
 		return std::make_unique<Coin>(pos, size, &textures.get(Textures::Coin));
 	case ObjectType::GiftChar:
-		int r = rand() % 5;
+		int r = rand() % KindGifts::Max;
 		switch (r)
 		{
-		case 0:
+		case KindGifts::Life:
 			return std::make_unique<GiftLife>(pos, size, &textures.get(Textures::Gifts));
-		case 1:
+		case KindGifts::Time:
 			return std::make_unique<GiftTime>(pos, size, &textures.get(Textures::Gifts));
-		case 2:
+		case KindGifts::Score:
 			return std::make_unique<GiftScore>(pos, size, &textures.get(Textures::Gifts));
-		case 3:
+		case KindGifts::Monster:
 			return std::make_unique<GiftMonster>(pos, size, &textures.get(Textures::Gifts));
-		case 4:
+		case KindGifts::Stain:
 			return std::make_unique<GiftStain>(pos, size, &textures.get(Textures::Gifts));
 		}
 	}

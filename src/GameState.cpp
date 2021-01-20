@@ -27,7 +27,7 @@ GameState::GameState(StateStack& stack, Context context)
 	m_soundState.setVolume(100.0f);
 	m_sound.setBuffer(context.sounds->get(SoundEffect::Button));
 
-	m_soundState.play();
+	// m_soundState.play();
 
 	m_sStartLevClock.setBuffer(context.sounds->get(SoundEffect::StartLevelClock));
 	m_sStartLevClock.setVolume(40.0f);
@@ -55,8 +55,6 @@ void GameState::draw()
     m_board.renderStaticObj(&window);
 
     m_board.renderMonster(&window);
-
-
 
 	if(m_isPause)
 		this->m_containerStatus.renderStatus
@@ -150,6 +148,7 @@ void GameState::handleNewLevel()
 	if (Coin::getCount() == Coin::getCollected())
 	{
 		// next level
+		m_start = true;
 		m_time_pause = sf::seconds(0);
 		Coin::resetCollected();
 		this->m_player->newLevel();
@@ -176,9 +175,9 @@ void GameState::gameFreezeStarting()
 	if (m_start)
 	{
 		//sf::Event event;
-		while (1)
+		// while (1)
 			//this->getContext().window->waitEvent(event)
-		{
+		/*{
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)  ||
 				sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ||
 				sf::Keyboard::isKeyPressed(sf::Keyboard::Up)    ||
@@ -188,20 +187,26 @@ void GameState::gameFreezeStarting()
 				m_start = false;
 				break;
 			}
-		}
+		}*/
+		m_soundState.pause();
+		requestStackPush(States::StartGame);
 	}
 
 }
 
 bool GameState::update(double dt)
 {
-	gameFreezeStarting();
-
+	//gameFreezeStarting();
 	if (!m_error)
 	{
 		// if something wrong with levels
 		requestStackPop();
 		requestStackPush(States::ErrorState);
+	}
+	else if (m_start)
+	{
+		m_soundState.pause();
+		requestStackPush(States::StartGame);
 	}
 	else if (m_finishGame)
 	{
@@ -262,13 +267,13 @@ void GameState::pause()
 
 void GameState::start()
 {
-
 	if (m_isPause)
 		m_time_pause = sf::seconds(((m_level_clock.getElapsedTime().asSeconds() - std::abs(m_time_pause.asSeconds()))));
 	else
 		m_time_pause = sf::seconds(0);
 	m_isPause = false;
 	m_soundState.play();
+	m_start = false;
 }
 
 bool GameState::initLevel()

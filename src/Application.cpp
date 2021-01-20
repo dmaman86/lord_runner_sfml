@@ -9,6 +9,7 @@
 #include "RecordsState.h"
 #include "ErrorState.h"
 #include "FinalState.h"
+#include "StartGameState.h"
 
 #include <iostream>
 #include <string>
@@ -104,6 +105,7 @@ void Application::registerStates()
 	mStateStack.registerState<RecordsState>(States::Records);
 	mStateStack.registerState<ErrorState>(States::ErrorState);
 	mStateStack.registerState<FinalState>(States::FinalState);
+	mStateStack.registerState<StartGameState>(States::StartGame);
 }
 
 void Application::loadFonts()

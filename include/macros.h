@@ -37,6 +37,30 @@ namespace MaxButtonsInState
 	};
 }
 
+namespace KindMonsters
+{
+	enum ID
+	{
+		Rand = 0,
+		Horizontal,
+		Smart,
+		Max
+	};
+}
+
+namespace KindGifts
+{
+	enum ID
+	{
+		Life,
+		Time,
+		Score,
+		Monster,
+		Stain,
+		Max
+	};
+}
+
 const int MAX_LEVELS = 5;
 const int MAX_LIFE = 6;
 const int INIT_LIFE = 3;

@@ -14,6 +14,7 @@ namespace States
 		Settings,
 		Records,
 		ErrorState,
-		FinalState
+		FinalState,
+		StartGame
 	};
 }
