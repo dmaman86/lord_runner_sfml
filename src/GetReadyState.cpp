@@ -24,8 +24,9 @@ GetReadyState::GetReadyState(StateStack& stack, Context context)
 	m_titleReady.setPosition(0.5f * windowSize.x - 100, 0.4f * windowSize.y + 75);
 	m_titleReady.setFillColor(sf::Color::Red);
 	
-	m_soundState.setBuffer(context.sounds->get(SoundEffect::Menu));
+	m_soundState.setBuffer(context.sounds->get(SoundEffect::CounterDown));
 	m_soundState.setLoop(true);
+	m_soundState.setVolume(30.0f);
 	m_soundState.play();
 
 	m_clock.restart();

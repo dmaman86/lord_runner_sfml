@@ -70,7 +70,8 @@ namespace SoundEffect
 		Win,
 		LifeUp,
 		ScoreUp,
-		Stain
+		Stain,
+		CounterDown
 	};
 }
 

@@ -54,7 +54,7 @@ void ContainerStatus::renderStatus
 		if(t_in_s > 0.2 )
 			this->m_textTime.setString("Time: " + std::to_string(t_in_s));
 		else
-			this->m_textTime.setString("Time: " + std::to_string(0));
+			this->m_textTime.setString("Time: " + std::to_string(0.0f));
 
 
 		window->draw(m_textTime);

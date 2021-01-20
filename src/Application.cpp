@@ -149,5 +149,6 @@ void Application::loadSounds()
 	this->mSounds.load(SoundEffect::LifeUp, "player_life_up.wav");
 	this->mSounds.load(SoundEffect::ScoreUp, "player_score.wav");
 	this->mSounds.load(SoundEffect::Stain, "stain.wav");
+	this->mSounds.load(SoundEffect::CounterDown, "counter_down.wav");
 }
 

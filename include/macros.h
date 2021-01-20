@@ -61,7 +61,7 @@ namespace KindGifts
 	};
 }
 
-const int MAX_LEVELS = 1;
+const int MAX_LEVELS = 5;
 const int MAX_LIFE = 6;
 const int INIT_LIFE = 3;
 const int INIT = 0;
