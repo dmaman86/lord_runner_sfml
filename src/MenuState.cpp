@@ -96,7 +96,7 @@ bool MenuState::update(double dt)
 	{
 		mEffectTime += dt;
 		updateColorButton();
-		if (mEffectTime >= 1.2f)
+		if (mEffectTime >= 1.0f)
 		{
 			m_pressed = false;
 			mEffectTime = 0.0f;

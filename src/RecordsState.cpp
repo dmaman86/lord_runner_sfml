@@ -93,14 +93,14 @@ bool RecordsState::update(double dt)
 {
 	if (m_backToMenu)
 	{
-		mElapsedTime += dt;
-		if (mElapsedTime > 1.5f)
-		{
+		// mElapsedTime += dt;
+		// if (mElapsedTime > 1.5f)
+		// {
 			m_backToMenu = false;
 			m_soundState.stop();
 			requestStackPop();
 			requestStackPush(States::Menu);
-		}
+		// }
 	}
 
 	this->updateCursor();
