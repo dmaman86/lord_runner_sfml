@@ -18,7 +18,7 @@ std::unique_ptr<DynamicObject> Board::createDynamicObject
 	{
 	case ObjectType::MonsterChar:
 		int r = rand() % KindMonsters::Max;
-		switch (KindMonsters::Rand)
+		switch (r)
 		{
 		case KindMonsters::Rand:
 			return std::make_unique<MonsterRand>(pos, size, &textures.get(Textures::MonsterRand));
