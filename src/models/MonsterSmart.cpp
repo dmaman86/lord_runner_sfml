@@ -53,9 +53,9 @@ void MonsterSmart::handleColision(Ladder& obj)
 	if (m_dircetion == Object_Direction::Up || m_dircetion == Object_Direction::Down)
 		this->m_rec->setPosition(obj.getSprite().getPosition().x, m_rec->getPosition().y);
 	else if(m_dircetion == Object_Direction::Right)
-		this->m_rec->setPosition(m_rec->getPosition().x + m_size.x / 2u, m_rec->getPosition().y);
+		this->m_rec->setPosition(m_rec->getPosition().x + 0.01, m_rec->getPosition().y);
 	else if(m_dircetion == Object_Direction::Left)
-		this->m_rec->setPosition(m_rec->getPosition().x - m_size.x / 2u, m_rec->getPosition().y);
+		this->m_rec->setPosition(m_rec->getPosition().x - 0.01, m_rec->getPosition().y);
 }
 
 /*
@@ -232,15 +232,15 @@ void MonsterSmart::fixPixel(sf::Vector2f & monsterPosMap)
 			if (isInRange(monsterPosMap.x + 1, monsterPosMap.y - 1) &&
 				m_grid[monsterPosMap.x + 1][monsterPosMap.y - 1] == '#')
 			{
-				this->m_rec->setPosition(this->getPosition().x - m_size.x / 2u, this->getPosition().y);
+				this->m_rec->setPosition(this->getPosition().x - 0.01, this->getPosition().y);
 				parameter = 1;
 			}
-			if (isInRange(monsterPosMap.x - 1, monsterPosMap.y - 1) &&
+			if (isInRange(monsterPosMap.x - 1, monsterPosMap.y - 0.01) &&
 				m_grid[monsterPosMap.x - 1][monsterPosMap.y - 1] == '#')
 			{
-				this->m_rec->setPosition(this->getPosition().x + m_size.x / 2u, this->getPosition().y);
+				this->m_rec->setPosition(this->getPosition().x + 0.01, this->getPosition().y);
 				if (parameter == 1)
-					this->m_rec->setPosition(this->getPosition().x + m_size.x / 2u, this->getPosition().y);
+					this->m_rec->setPosition(this->getPosition().x + 0.01, this->getPosition().y);
 				parameter = 2;
 			}
 		}
@@ -249,15 +249,15 @@ void MonsterSmart::fixPixel(sf::Vector2f & monsterPosMap)
 			if (isInRange(monsterPosMap.x + 1, monsterPosMap.y - 1) &&
 				m_grid[monsterPosMap.x + 1][monsterPosMap.y - 1] == '#')
 			{
-				this->m_rec->setPosition(this->getPosition().x + m_size.x / 2u, this->getPosition().y);
+				this->m_rec->setPosition(this->getPosition().x + 0.01, this->getPosition().y);
 				parameter = 3;
 			}
 			if (isInRange(monsterPosMap.x + 1, monsterPosMap.y + 1) &&
 				m_grid[monsterPosMap.x + 1][monsterPosMap.y + 1] == '#')
 			{
-				this->m_rec->setPosition(this->getPosition().x - m_size.x / 2u, this->getPosition().y);
+				this->m_rec->setPosition(this->getPosition().x - 0.01, this->getPosition().y);
 				if (parameter = 3)
-					this->m_rec->setPosition(this->getPosition().x - m_size.x / 2u, this->getPosition().y);
+					this->m_rec->setPosition(this->getPosition().x - 0.01, this->getPosition().y);
 				parameter = 4;
 			}
 		}
@@ -266,15 +266,15 @@ void MonsterSmart::fixPixel(sf::Vector2f & monsterPosMap)
 			if (isInRange(monsterPosMap.x + 1, monsterPosMap.y + 1) &&
 				m_grid[monsterPosMap.x + 1][monsterPosMap.y + 1] == '#')
 			{
-				this->m_rec->setPosition(this->getPosition().x, this->getPosition().y + m_size.y / 2u);
+				this->m_rec->setPosition(this->getPosition().x, this->getPosition().y + 0.01);
 				parameter = 5;
 			}
 			if (isInRange(monsterPosMap.x - 1, monsterPosMap.y + 1) &&
 				m_grid[monsterPosMap.x - 1][monsterPosMap.y + 1] == '#')
 			{
-				this->m_rec->setPosition(this->getPosition().x, this->getPosition().y - m_size.y / 2u);
+				this->m_rec->setPosition(this->getPosition().x, this->getPosition().y - 0.01);
 				if (parameter = 5)
-					this->m_rec->setPosition(this->getPosition().x, this->getPosition().y - m_size.y / 2u);
+					this->m_rec->setPosition(this->getPosition().x, this->getPosition().y - 0.01);
 				parameter = 6;
 			}
 		}
@@ -284,15 +284,15 @@ void MonsterSmart::fixPixel(sf::Vector2f & monsterPosMap)
 				m_grid[monsterPosMap.x + 1][monsterPosMap.y - 1] == '#')
 			{
 
-				this->m_rec->setPosition(this->getPosition().x, this->getPosition().y - m_size.y / 2u);
+				this->m_rec->setPosition(this->getPosition().x, this->getPosition().y - 0.01);
 				parameter = 7;
 			}
 			if (isInRange(monsterPosMap.x - 1, monsterPosMap.y - 1) &&
 				m_grid[monsterPosMap.x - 1][monsterPosMap.y - 1] == '#')
 			{
-				this->m_rec->setPosition(this->getPosition().x, this->getPosition().y + m_size.y / 2u);
+				this->m_rec->setPosition(this->getPosition().x, this->getPosition().y + 0.01);
 				if (parameter = 7)
-					this->m_rec->setPosition(this->getPosition().x, this->getPosition().y + m_size.y / 2u);
+					this->m_rec->setPosition(this->getPosition().x, this->getPosition().y + 0.01);
 				parameter = 8;
 			}
 		}
