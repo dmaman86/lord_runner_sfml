@@ -38,6 +38,8 @@ SettingsState::SettingsState(StateStack& stack, Context context)
 	m_title.setCharacterSize(100);
 	centerOrigin(m_title);
 	m_title.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
+	m_title.setOutlineColor(sf::Color::White);
+	m_title.setOutlineThickness(5.f);
 
 	text.setFont(font);
 	text.setCharacterSize(55);
@@ -52,6 +54,8 @@ SettingsState::SettingsState(StateStack& stack, Context context)
 			m_buttons[i].getLocalBounds().height / 2);
 		m_buttons[i].setPosition(sf::Vector2f(windowSize.x / 2.5,
 			(windowSize.y / 2) + (i * 100)));
+		m_buttons[i].setOutlineColor(sf::Color(76, 0, 153));
+		m_buttons[i].setOutlineThickness(5.f);
 	}
 
 	m_buttons[0].setString("Avaible Music");
@@ -70,11 +74,10 @@ void SettingsState::draw()
 
 	window.draw(m_title);
 
-	window.draw(mousePicture);
-
 	for (auto button : m_buttons)
 		window.draw(button);
 
+	window.draw(mousePicture);
 }
 
 bool SettingsState::update(double dt)
@@ -102,6 +105,20 @@ bool SettingsState::update(double dt)
 	}
 
 	this->updateCursor();
+
+	auto mouse_pos = sf::Mouse::getPosition(*getContext().window); // Mouse position relative to the window
+	auto translated_pos = getContext().window->mapPixelToCoords(mouse_pos);
+
+	for (int i = 0; i < m_buttons.size();i++)
+	{
+		if (m_buttons[i].getGlobalBounds().contains(translated_pos)) // Rectangle-contains-point check
+		{
+			// Mouse is inside the sprite.
+			m_buttons[i].setFillColor(sf::Color::Yellow);
+		}
+		else
+			m_buttons[i].setFillColor(sf::Color::White);
+	}
 
 	return true;
 }

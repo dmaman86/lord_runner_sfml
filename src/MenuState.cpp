@@ -93,7 +93,6 @@ void MenuState::draw()
 	
 	window.draw(mousePicture);
 
-
 }
 
 bool MenuState::update(double dt)
@@ -126,6 +125,21 @@ bool MenuState::update(double dt)
 	}
 
 	this->updateCursor();
+
+	auto mouse_pos = sf::Mouse::getPosition(*getContext().window); // Mouse position relative to the window
+	auto translated_pos = getContext().window->mapPixelToCoords(mouse_pos);
+
+	for (int i = 0; i < m_buttons.size();i++)
+	{
+		if (m_buttons[i].getGlobalBounds().contains(translated_pos)) // Rectangle-contains-point check
+		{
+			// Mouse is inside the sprite.
+			m_buttons[i].setFillColor(sf::Color::Yellow);
+		}
+		else
+			m_buttons[i].setFillColor(sf::Color::White);
+	}
+
 
 	return true;
 }
