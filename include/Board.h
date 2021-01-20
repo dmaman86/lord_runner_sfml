@@ -38,7 +38,7 @@ public:
 	void startLevelAgain();
 
 	void digIn(sf::Time time,sf::Vector2f pos, const  sf::Sprite&);
-	void releaseDisappears(sf::Time time);
+	bool releaseDisappears(sf::Time time, const sf::Vector2f);
 
 	sf::Vector2f getPlaceToAddMon();
 

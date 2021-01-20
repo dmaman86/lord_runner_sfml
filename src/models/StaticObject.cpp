@@ -65,4 +65,9 @@ bool StaticObject::collisionWithDig(sf::Vector2f)
 	return false;
 }
 
+bool StaticObject::digMeFree(sf::Time time, const sf::Vector2f)
+{
+	return false;
+}
+
 

@@ -47,7 +47,7 @@ void Floor::digMe(sf::Time time)
 	this->m_t_deleted = sf::seconds(time.asSeconds());
 }
 
-void Floor::digMeFree(sf::Time time)
+bool Floor::digMeFree(sf::Time time,const sf::Vector2f posPlayer)
 {
 	if (!m_isExist)
 	{
@@ -56,9 +56,11 @@ void Floor::digMeFree(sf::Time time)
 			this->m_isExist = true;
 			m_t_deleted = sf::seconds(0);
 			this->m_full = false;
-
+			if(this->getSprite().getGlobalBounds().contains(posPlayer))
+				return true;
 		}
 	}
+	return false;
 }
 
 void Floor::resetExist()

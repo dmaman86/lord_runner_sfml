@@ -15,7 +15,7 @@ public:
 	bool virtual collisionWithStand(DynamicObject& obj, sf::Vector2f size) = 0;
 	bool virtual collisionWithDig(sf::Vector2f);
 	void virtual digMe(sf::Time time) {};
-	void virtual digMeFree(sf::Time time) {};
+	bool virtual digMeFree(sf::Time time, const sf::Vector2f) ;
 
 	void virtual handleColision(Floor& obj) {};
 	void virtual handleColision(Coin& obj) {};

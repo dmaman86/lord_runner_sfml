@@ -84,7 +84,8 @@ void GameState::handeleDig()
 		this->m_board.digIn(sf::Time(this->m_level_clock.getElapsedTime()),
 			this->m_player->getMovementDig(m_board.getSize()), this->m_player->getSprite());
 	}
-	m_board.releaseDisappears(this->m_level_clock.getElapsedTime());
+	if (m_board.releaseDisappears(this->m_level_clock.getElapsedTime(), this->m_player->getPosition()))
+		m_player->injured();
 }
 
 void GameState::handleGift()

@@ -177,12 +177,15 @@ void Board::digIn(sf::Time time, sf::Vector2f pos,const sf::Sprite & spr)
 	}
 }
 
-void Board::releaseDisappears(sf::Time time)
+bool Board::releaseDisappears(sf::Time time,const sf::Vector2f pos)
 {	
+	bool dead = false;
 	for (int i = 0;i < m_static_obj.size();i++)
 	{
-		m_static_obj[i]->digMeFree(time);
+		if (m_static_obj[i]->digMeFree(time, pos))
+			dead = true;
 	}
+	return dead;
 }
 
 void Board::update(const float& dt,Player* player)
