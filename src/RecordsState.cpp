@@ -7,6 +7,7 @@
 
 RecordsState::RecordsState(StateStack& stack, Context context)
 	: State(stack, context), m_backToMenu(false), mElapsedTime(0.0f)
+	, m_showText(true), mTextEffectTime(0.0f)
 {
 	sf::Vector2u textureSize, windowSize;
 
@@ -50,6 +51,18 @@ RecordsState::RecordsState(StateStack& stack, Context context)
 	m_userScore->setFont(font);
 	m_userScore->setOrigin(m_userScore->getLocalBounds().width / 2,
 		m_userScore->getLocalBounds().height / 2);
+
+	// message in footer state
+	m_textBack.setFont(font);
+	m_textBack.setString("Press enter to return to the menu");
+	m_textBack.setFillColor(sf::Color(76, 0, 153));
+	m_textBack.setCharacterSize(35);
+	m_textBack.setOrigin(m_textBack.getLocalBounds().width / 2,
+		m_textBack.getLocalBounds().height / 2);
+	m_textBack.setPosition(sf::Vector2f(windowSize.x * 0.5f,
+		(windowSize.y / 2) + (5 * 100)));
+	m_textBack.setOutlineColor(sf::Color::White);
+	m_textBack.setOutlineThickness(5.f);
 
 	// sounds state
 	m_soundState.setBuffer(context.sounds->get(SoundEffect::TopScores));
@@ -97,6 +110,9 @@ void RecordsState::draw()
 		i++;
 	}
 	i = 0;
+
+	if (m_showText)
+		window.draw(m_textBack);
 }
 
 bool RecordsState::update(double dt)
@@ -107,6 +123,14 @@ bool RecordsState::update(double dt)
 		m_soundState.stop();
 		requestStackPop();
 		requestStackPush(States::Menu);
+	}
+
+	// to footer message
+	mTextEffectTime += dt;
+	if (mTextEffectTime >= 0.5f)
+	{
+		m_showText = !m_showText;
+		mTextEffectTime = 0.0f;
 	}
 
 	this->updateCursor();

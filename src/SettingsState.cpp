@@ -6,7 +6,8 @@
 
 
 SettingsState::SettingsState(StateStack& stack, Context context)
-	: State(stack, context), m_backToMenu(false), mEffectTime(0.0f)
+	: State(stack, context), m_backToMenu(false), mEffectTime(0.0f),
+	  m_showText(true), mTextEffectTime(0.0f)
 {
 	// booleans for buttons
 	m_avaibleMusicSelected = false;
@@ -39,6 +40,18 @@ SettingsState::SettingsState(StateStack& stack, Context context)
 
 	// buttons
 	buildButtons(windowSize);
+
+	// footer message
+	m_textBack.setFont(font);
+	m_textBack.setString("Press enter to return to the menu");
+	m_textBack.setFillColor(sf::Color(76, 0, 153));
+	m_textBack.setCharacterSize(35);
+	m_textBack.setOrigin(m_textBack.getLocalBounds().width / 2,
+		m_textBack.getLocalBounds().height / 2);
+	m_textBack.setPosition(sf::Vector2f(windowSize.x * 0.5f,
+		(windowSize.y / 2) + (5 * 100)));
+	m_textBack.setOutlineColor(sf::Color::White);
+	m_textBack.setOutlineThickness(5.f);
 	
 	// sounds state
 	m_soundState.setBuffer(context.sounds->get(SoundEffect::Menu));
@@ -60,6 +73,9 @@ void SettingsState::draw()
 
 	for (auto button : m_buttons)
 		window.draw(button);
+
+	if (m_showText)
+		window.draw(m_textBack);
 
 	window.draw(mousePicture);
 }
@@ -87,6 +103,14 @@ bool SettingsState::update(double dt)
 				requestStackPush(States::Menu);
 			}
 		}
+	}
+
+	// to display footer message by 0.5 seconds
+	mTextEffectTime += dt;
+	if (mTextEffectTime >= 0.5f)
+	{
+		m_showText = !m_showText;
+		mTextEffectTime = 0.0f;
 	}
 
 	this->updateCursor();

@@ -27,6 +27,7 @@ private:
 	sf::Sound m_sound;
 	sf::Text m_title;
 	std::vector< sf::Text > m_buttons;
+	sf::Text m_textBack;
 
 	bool m_backToMenu;
 	bool m_pressed;
@@ -37,7 +38,10 @@ private:
 	bool m_no_avaibleMusicSelected;
 	bool m_no_avaibleMusicPressed;
 
+	bool m_showText;
+
 	float mEffectTime;
+	float mTextEffectTime;
 
 	void centerOrigin(sf::Text&);
 	void updateColorButton();

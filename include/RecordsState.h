@@ -28,12 +28,15 @@ private:
 
 	sf::Text* m_userName;
 	sf::Text* m_userScore;
+	sf::Text m_textBack;
 	std::string str;
 	int score;
 
 	bool m_backToMenu;
+	bool m_showText;
 
-	double mElapsedTime;
+	float mElapsedTime;
+	float mTextEffectTime;
 
 	std::multimap<std::string, int> m_multimap;
 
