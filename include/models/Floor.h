@@ -17,7 +17,7 @@ public:
 	// Constractor / Distactor
 	Floor(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt);
 	~Floor() = default;
-	bool isFull(); // there is monster in floor
+	const bool isFull(); // there is monster in floor
 
 	// virtual functions
 	void virtual handleColision(DynamicObject& obj) override;

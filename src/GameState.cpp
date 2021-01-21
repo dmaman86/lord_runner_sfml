@@ -54,6 +54,7 @@ void GameState::draw()
 
     m_board.renderMonster(&window);
 
+	// draw status
 	if(m_isPause)
 		this->m_containerStatus.renderStatus
 		(*m_player, &window, m_is_race_time,
@@ -76,6 +77,15 @@ void GameState::draw()
 	window.draw(mousePicture);
 }
 
+/*
+	handeleDig:
+	
+	If the user has performed an excavation.
+	Asks Bord to dig in the appropriate place.
+	In any case, ask Bord to check if any floor needs to be loosened.
+	If the floor is loose and the player is stuck in it - kill him
+*/
+// =================================================================
 void GameState::handeleDig()
 {
 	if (this->m_player->dig())
@@ -87,6 +97,10 @@ void GameState::handeleDig()
 		m_player->injured();
 }
 
+/*
+	Checks if there is a relevant gift that needs to be activated
+*/
+// =================================================================
 void GameState::handleGift()
 {
 	// if get present that give player more time
@@ -98,9 +112,13 @@ void GameState::handleGift()
 		(m_board.getPlaceToAddMon(), ObjectType::MonsterChar, *getContext().textures, m_player,m_is_race_time);
 		this->m_board.updateMonsterData();
 	}
-
 }
 
+/*
+	if the level is on time
+	checks if the time is up and handles
+*/
+// =================================================================
 void GameState::handleRace()
 {
 	if (this->m_is_race_time)
@@ -117,6 +135,12 @@ void GameState::handleRace()
 	}
 }
 
+/*
+	In case the player is injured,
+	check if he is left alive then start the level again
+	if not finish the game
+*/
+// =================================================================
 void GameState::handleInjured()
 {
 	// 1.moved to func later
@@ -138,6 +162,12 @@ void GameState::handleInjured()
 	}
 }
 
+/*
+	If all coins have been collected
+	Trying to load a new step
+	If not successful - the user wins
+*/
+// =================================================================
 void GameState::handleNewLevel()
 {
 	if (Coin::getCount() == Coin::getCollected())
@@ -259,6 +289,10 @@ std::string GameState::getPath()
     return path;
 }
 
+/*
+	read data from file
+*/
+//======================================================
 void GameState::read_data(std::ifstream& fd_readLevel)
 {
     size_t height, weidth,time;
@@ -268,6 +302,7 @@ void GameState::read_data(std::ifstream& fd_readLevel)
     fd_readLevel >> weidth;
 	fd_readLevel >> time;
 
+	// level on time
 	if (time != -1)
 	{
 		m_time_of_level = sf::seconds(time);

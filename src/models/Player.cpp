@@ -2,18 +2,11 @@
 #include <Windows.h>
 #include <chrono>
 #include <thread>
-#ifdef _WIN32
-#include <Windows.h>
-#else
-#include <unistd.h>
-#endif
-//#include "GameState.h"
-#include "./Resources/ResourceHolder.h"
 
+#include "./Resources/ResourceHolder.h"
 #include "models/Floor.h"
 
-
-
+// constructor
 Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, SoundBufferHolder& sounds) :
 	DynamicObject(pos, size, 250,txt), 
 	m_is_injured(false), m_life(INIT_LIFE), m_score(INIT),m_numLevel(1), m_direction_dig(INIT)
@@ -31,10 +24,36 @@ Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, SoundBuffe
 	m_soundStain.setVolume(30.0f);
 	m_soundAddMon.setBuffer(sounds.get(SoundEffect::AddMonster));
 	m_soundAddTime.setBuffer(sounds.get(SoundEffect::AddTime));
-
-	//m_soundAddMon.setVolume(60.0f);
 }
 
+/*
+	new Data : 
+	at each new stage initializes the
+	position and size of the player
+*/
+//=============================================================
+void Player::newData(sf::Vector2f pos, sf::Vector2f avgPix)
+{
+	m_rec->setScale(
+		(avgPix.x / (m_rec->getTexture()->getSize().x)),
+		(avgPix.y / (m_rec->getTexture()->getSize().y)));
+	this->m_rec->setScale(m_rec->getScale() * (float)0.8);
+	//m_rec->setOrigin(avgPix.x / 2.f, avgPix.y / 2.f);
+	m_rec->setPosition(sf::Vector2f((pos.x * avgPix.x + avgPix.x / 2u),
+		((pos.y * avgPix.y) + avgPix.y / 2u)));
+	//(sf::Vector2f((pos.x * avgPix.x) + avgPix.x / 2u, (pos.y * avgPix.y) + avgPix.y / 2u));
+
+	this->m_first_position = m_rec->getPosition();
+	//this->m_numLevel++;
+	this->m_score += (m_numLevel - 1) * 50;
+
+}
+
+/*
+	update Direction :
+	By pressing the arrow keys
+*/
+//=============================================================
 void Player::updateDirection(const float& dt)
 {
 
@@ -50,14 +69,12 @@ void Player::updateDirection(const float& dt)
 	this->SaveLastPosition();
 }
 
-void Player::handleColision(Floor& obj)
-{
-	if (obj.isExsist())
-		this->goBack();
-	else if (obj.isFull())
-		this->injured();
-}
-
+/*
+	dig :
+	update direction of dig
+	and reutrn true if x or z pressed
+*/
+//=============================================================
 bool Player::dig()
 {
 	sf::Vector2f vec2f;
@@ -72,9 +89,12 @@ bool Player::dig()
 		return true;
 	}
 	return false;
-
 }
 
+/*
+	return vector of position to dig
+*/
+//=============================================================
 const sf::Vector2f& Player::getMovementDig(sf::Vector2f size) const
 {
 	switch (m_direction_dig)
@@ -90,6 +110,19 @@ const sf::Vector2f& Player::getMovementDig(sf::Vector2f size) const
 	}
 }
 
+// ============ handle Colision functions: ====================
+
+//=============================================================
+void Player::handleColision(Floor& obj)
+{
+	if (obj.isExsist())
+		this->goBack();
+	// if go sown to floor that duul with monster
+	else if (obj.isFull())
+		this->injured();
+}
+
+//=============================================================
 void Player::handleColision(Coin& obj)
 {
 	if (obj.isExsist())
@@ -100,31 +133,14 @@ void Player::handleColision(Coin& obj)
 	}
 }
 
-
+//=============================================================
 void Player::handleColision(Monster& obj)
 {
 	if(!m_is_injured && obj.isExsist())
 		this->injured();
 }
 
-void Player::newData(sf::Vector2f pos, sf::Vector2f avgPix)
-{
-	m_rec->setScale(
-		(avgPix.x / (m_rec->getTexture()->getSize().x)),
-		(avgPix.y / (m_rec->getTexture()->getSize().y)));
-	this->m_rec->setScale(m_rec->getScale() * (float)0.8);
-	//m_rec->setOrigin(avgPix.x / 2.f, avgPix.y / 2.f);
-	m_rec->setPosition(sf::Vector2f((pos.x * avgPix.x + avgPix.x / 2u),
-		((pos.y * avgPix.y) + avgPix.y / 2u )));
-	//(sf::Vector2f((pos.x * avgPix.x) + avgPix.x / 2u, (pos.y * avgPix.y) + avgPix.y / 2u));
-
-	this->m_first_position = m_rec->getPosition();
-	//this->m_numLevel++;
-	this->m_score += (m_numLevel - 1) * 50;
-
-}
-
-
+//=============================================================
 void Player::handleColision(GiftLife& obj)
 {
 	if (obj.isExsist())
@@ -136,6 +152,7 @@ void Player::handleColision(GiftLife& obj)
 	}
 }
 
+//=============================================================
 void Player::handleColision(GiftScore& obj)
 {
 	if (obj.isExsist())
@@ -146,6 +163,7 @@ void Player::handleColision(GiftScore& obj)
 	}
 }
 
+//=============================================================
 void Player::handleColision(GiftMonster& obj)
 {
 	if (obj.isExsist())
@@ -155,6 +173,7 @@ void Player::handleColision(GiftMonster& obj)
 	}
 }
 
+//=============================================================
 void Player::handleColision(GiftStain& obj)
 {
 	if (obj.isExsist())
@@ -164,7 +183,7 @@ void Player::handleColision(GiftStain& obj)
 	}
 }
 
-
+//=============================================================
 void Player::handleColision(GiftTime& obj)
 {
 	if (obj.isExsist())
@@ -174,7 +193,37 @@ void Player::handleColision(GiftTime& obj)
 	}
 }
 
+//=============================================================
+void Player::newLevel() 
+{
+	m_numLevel++;
+}
 
+// injured the player
+//=============================================================
+void Player::injured() 
+{
+	m_life--;
+	m_soundInjured.play();
+	m_is_injured = true;
+	Coin::resetCollected();
+}
+
+//=============================================================
+const int Player::getLife() const
+{
+	return m_life;
+}
+
+//=============================================================
+void Player::resetData()
+{
+	this->resetDirection();
+}
+
+// ====================== get functions: ======================
+
+//=============================================================
 const bool Player::isInjured()
 {
 	if (m_is_injured)
@@ -185,36 +234,14 @@ const bool Player::isInjured()
 	return false;
 }
 
-void Player::newLevel() 
-{
-	m_numLevel++;
-}
-
-
+//=============================================================
 const int Player::getScore() const
 {
 	return m_score;
 }
 
+//=============================================================
 const int Player::getLevel() const
 {
 	return m_numLevel;
-}
-
-void Player::injured() 
-{
-	m_life--;
-	m_soundInjured.play();
-	m_is_injured = true;
-	Coin::resetCollected();
-}
-
-const int Player::getLife() const
-{
-	return m_life;
-}
-
-void Player::resetData()
-{
-	this->resetDirection();
 }

@@ -22,7 +22,6 @@ public:
 	// pure virtual functions
 	void virtual handleColision(DynamicObject& obj) = 0;
 	void virtual handleColision(Player& obj) = 0;
-	void virtual update() = 0;
 
 protected:
 

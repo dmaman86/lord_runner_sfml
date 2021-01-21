@@ -12,9 +12,8 @@ public:
 
 	// Constractor / Distactor
 	GiftScore(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt);
-	~GiftScore();
+	~GiftScore() = default;
 	// virtual functions
-	void virtual update() override;
 	void virtual handleColision(DynamicObject& obj) override;
 	void virtual handleColision(Player& obj) override;
 

@@ -1,14 +1,17 @@
 #include "models/Monster.h"
-
 #include "models/Floor.h"
 
-
+// comstructor
 Monster::Monster(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
 	DynamicObject(pos, size, 100,txt)
 {
 
 }
-
+/* handle Colision with floor:
+	if the floor exists, put the monster back
+	If not, and the existing monster puts the monster in floor
+*/
+//========================================================================
 void Monster::handleColision(Floor& obj)
 {
 	if (obj.isExsist())
@@ -28,6 +31,11 @@ void Monster::handleColision(Floor& obj)
 	
 }
 
+/*
+	if the monster is exist (not inside the floor) normal back .
+	if not, return to the previous place before the fall
+*/
+//========================================================================
 void Monster::goBack()
 {
 	if (this->m_isExist)
@@ -41,14 +49,13 @@ void Monster::goBack()
 	}
 }
 
-
-
-
+//========================================================================
 void Monster::handleColision(Player& obj)
 {
-	//this->m_rec->setPosition(m_first_position);
+	
 }
 
+//========================================================================
 void Monster::handleColision(DynamicObject& obj)
 {
 	obj.handleColision(*this);

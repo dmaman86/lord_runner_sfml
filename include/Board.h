@@ -41,8 +41,8 @@ public:
 	void startLevelAgain();
 	void digIn(sf::Time time,sf::Vector2f pos);
 	bool releaseDisappears(sf::Time time, DynamicObject& creature);
-	sf::Vector2f getPlaceToAddMon();
-	sf::Vector2f getSize();
+	const sf::Vector2f getPlaceToAddMon() const;
+	const sf::Vector2f getSize() const;
 	void renderMonster(sf::RenderWindow* window);
 	void renderStaticObj(sf::RenderWindow* window);
 
@@ -53,16 +53,13 @@ private:
 	
 	sf::Vector2f m_avgPix;
 	sf::Vector2f m_location_add_monster;
-
-	int m_height ;
-	int m_weidth ;
 	
 	std::vector<std::vector<char>> m_grid;
 
 	// private functions
 	std::unique_ptr<StaticObject> createStaticObject
 	(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures,bool);
-	std::unique_ptr<Monster> createDynamicObject
+	std::unique_ptr<Monster> createMonster
 	(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures, Player* const player);
 
 	void updateMonsters(const float& dt);

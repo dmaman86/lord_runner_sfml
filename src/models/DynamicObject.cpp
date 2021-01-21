@@ -19,11 +19,16 @@ DynamicObject::DynamicObject
  * ######### Public Functions ########## *
  * ===================================== */
 
+ //===================================================
 void DynamicObject::setDirectionDown()
 {
 	this->m_dircetion = Object_Direction::Down;
 }
 
+/* move function :
+* get delta time and moving the character according to
+* the direction it has and according to its speed*/
+//===================================================
 void DynamicObject::move(const float& dt)
 {
 	if(this->isExsist())
@@ -31,16 +36,19 @@ void DynamicObject::move(const float& dt)
 	(this->getMovement().x * this->m_moveSpeed * dt, this->getMovement().y * this->m_moveSpeed * dt);
 }
 
+//===================================================
 void DynamicObject::goBack()
 {
 	this->m_rec->setPosition(getLastPos());
 }
 
+//===================================================
 void DynamicObject::setFirstPos()
 {
 	this->m_rec->setPosition(getFirstPos());
 }
 
+//===================================================
 const sf::Vector2f& DynamicObject::getPosition() const
 {
 	return this->m_rec->getPosition();
@@ -48,38 +56,19 @@ const sf::Vector2f& DynamicObject::getPosition() const
 
 /* ######### Virual Functions ########## */
 
-
-/*
-void DynamicObject::handleColision(Coin& obj)
-{
-	//
-}
-*//**/
-void DynamicObject::handleColision(Ladder& obj)
-{
-	// change texture !
-}
-
-void DynamicObject::handleColision(Ropes& obj)
-{
-	// change texture !
-
-
-	// para rotate on ropes - maybe change texture?
-	//this->m_rec->setRotation(90.f);
-}
-
 /* ===================================== *
  * ######### Private Functions ########## *
  * ===================================== */
 
 // ############### Auxiliary Functions : ############ //
 
+//===================================================
 void DynamicObject::resetDirection()
 {
 	this->m_dircetion = 6;
 }
 
+//===================================================
 void DynamicObject::SaveLastPosition()
 {
 	m_last_postion = this->getSprite().getPosition();
@@ -87,6 +76,8 @@ void DynamicObject::SaveLastPosition()
 
 // ############### Get Functions : ############ //
 
+// get movment vector by direction member
+//===================================================
 const sf::Vector2f& DynamicObject::getMovement() const
 {
 	switch (m_dircetion)
@@ -113,11 +104,13 @@ const sf::Vector2f& DynamicObject::getMovement() const
 	}
 }
 
+//===================================================
 const sf::Vector2f& DynamicObject::getLastPos() const
 {
 	return this->m_last_postion;
 }
 
+//===================================================
 const sf::Vector2f& DynamicObject::getFirstPos() const
 {
 	return this->m_first_position;

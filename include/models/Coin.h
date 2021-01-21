@@ -24,8 +24,8 @@ public:
 	void resetExist() override; // new level
 
 	// static function
-	static int getCount();  
-	static int getCollected();
+	static const int getCount();  
+	static const int getCollected();
 	static void resetCollected();
 
 private:

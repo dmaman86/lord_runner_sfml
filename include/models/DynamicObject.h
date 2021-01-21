@@ -55,8 +55,8 @@ public:
 	void virtual handleColision(Floor& obj) = 0;
 
 	// ============= virual functions =====================
-	void virtual handleColision(Ladder& obj);
-	void virtual handleColision(Ropes& obj);
+	void virtual handleColision(Ladder& obj) {};
+	void virtual handleColision(Ropes& obj) {};
 
 	const sf::Vector2f& getPosition() const;
 	void virtual setGrid(std::vector<std::vector<char>>&) {};

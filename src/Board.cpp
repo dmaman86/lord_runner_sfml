@@ -1,16 +1,21 @@
 #include "Board.h"
 #include <ctype.h>
 
-Board::Board() 
+// constructor
+Board::Board()
 {
 }
 
+// distructor
 Board::~Board() 
 {
 }
 
-std::unique_ptr<Monster> Board::createDynamicObject
-(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures,Player * const player )
+// return unique ptr to monster  
+//===================================================================
+std::unique_ptr<Monster> Board::createMonster
+(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size,
+	TextureHolder& textures,Player * const player )
 {
 	if (type == ObjectType::MonsterChar)
 	{
@@ -29,6 +34,8 @@ std::unique_ptr<Monster> Board::createDynamicObject
 	return nullptr;
 }
 
+// return unique ptr to static object
+//===================================================================
 std::unique_ptr<StaticObject> Board::createStaticObject
 (ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures ,bool onTime)
 {
@@ -66,14 +73,12 @@ std::unique_ptr<StaticObject> Board::createStaticObject
 	return nullptr;
 }
 
-
+// init size of board and size of grid-static
+//===================================================================
 void Board::initSizeData(size_t y, size_t x )
 {
 	m_avgPix.x = (COLL_GAME_SCREEN / (float)x);
 	m_avgPix.y = (ROW_GAME_SCREEN / (float)y);
-	
-	m_height = y;
-	m_weidth = x;
 
 	m_grid.resize(y);
 
@@ -81,75 +86,36 @@ void Board::initSizeData(size_t y, size_t x )
 		m_grid[i].resize(x);
 }
 
-void Board::createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& textures, Player* player,bool onTime)
+/*
+	create Object :
+	Aided by auxiliary functions of monster building and static object building.
+	Finally puts them into the appropriate vector
+*/
+//===================================================================
+void Board::createObject
+(sf::Vector2f pos, ObjectType::ID type,
+	TextureHolder& textures, Player* player,bool onTime)
 {
-	/*if (type == ObjectType::PlayerChar)
-	{
-		// to do - level one only!
-		m_player = createDynamicObject(type, pos, m_avgPix, textures);
-		return;
-	}*/
-
-	std::unique_ptr<Monster> movable = createDynamicObject(type,pos, m_avgPix, textures,player);
+	std::unique_ptr<Monster> movable =
+		createMonster(type,pos, m_avgPix, textures,player);
 	if (movable)
 	{
 		m_monsters.push_back(std::move(movable));
-	//	if (!m_player2 )
-	//		m_player2 = (Player*)m_monsters[m_monsters.size() - 1].get();
-		
 		return;
 	}
 
-	std::unique_ptr<StaticObject> unmovable = createStaticObject(type, pos, m_avgPix, textures,onTime);
+	std::unique_ptr<StaticObject> unmovable = 
+		createStaticObject(type, pos, m_avgPix, textures,onTime);
 	if (unmovable)
 	{
 		m_grid[(int)pos.y][(int)pos.x] = (char)type;
 		m_static_obj.push_back(std::move(unmovable));
 		return;
 	}
-
-//	std::cerr << "Unrecognized char in the file: " << type << std::endl;
-//	exit(EXIT_FAILURE);
-
-	/*
-	if( isspace( c ) || iscntrl( c ) || c == '\0' )
-	    return;
-	if (c == '@')
-	{
-		if (m_player)
-		{
-			Player* p = dynamic_cast <Player*> (&*this->m_player);
-			if (p) {
-				p->newData(pos, m_avgPix);
-			}
-		}
-		else {
-			m_player = std::make_unique< Player >(pos, m_avgPix, &textures.get(Textures::Player));
-		}
-	}
-	if (c == '%')
-	{
-		m_monsters.push_back(std::make_unique< Monster >(pos, m_avgPix, &textures.get(Textures::Monster)));
-	}
-	else if (c == '-')
-	{
-		m_static_obj.push_back(std::make_unique< Ropes >(pos, m_avgPix, &textures.get(Textures::Ropes)));
-	}
-	else if (c == 'H')
-	{
-		m_static_obj.push_back(std::make_unique< Ladder >(pos, m_avgPix, &textures.get(Textures::Ladder)));
-	}
-	else if (c == '#')
-	{
-		m_static_obj.push_back(std::make_unique< Floor >(pos, m_avgPix, &textures.get(Textures::Wall)));
-	}
-	else if (c == '*')
-	{
-		m_static_obj.push_back(std::make_unique< Coin >(pos, m_avgPix, &textures.get(Textures::Coin)));
-	}
-	*/
 }
 
+// resatart to all objects
+//===================================================================
 void Board::startLevelAgain()
 {
 	for (int i = 0; i < m_monsters.size();i++)
@@ -162,6 +128,7 @@ void Board::startLevelAgain()
 	}
 }
 
+//===================================================================
 void Board::digIn(sf::Time time, sf::Vector2f pos)
 {
 	for (int i = 0;i < m_static_obj.size();i++)
@@ -173,6 +140,7 @@ void Board::digIn(sf::Time time, sf::Vector2f pos)
 	}
 }
 
+//===================================================================
 bool Board::releaseDisappears(sf::Time time,DynamicObject& creature)
 {	
 	bool dead = false;
@@ -184,6 +152,8 @@ bool Board::releaseDisappears(sf::Time time,DynamicObject& creature)
 	return dead;
 }
 
+// game state sends the player and asks the board to update the data
+//===================================================================
 void Board::update(const float& dt,Player* player)
 {
 	this->updateCreature(dt, *player);
@@ -191,12 +161,16 @@ void Board::update(const float& dt,Player* player)
 	this->collisionsDynamic(*player);
 }
 
+// clear vectors
+//===================================================================
 void Board::newLevel()
 {
 	this->m_monsters.clear();
 	this->m_static_obj.clear();
 }
 
+// give to smart monster the grid-static
+//===================================================================
 void Board::updateMonsterData()
 {
 	for (int i = 0; i < m_monsters.size();i++)
@@ -204,11 +178,15 @@ void Board::updateMonsterData()
 		m_monsters[i]->setGrid(m_grid);
 	}
 }
-sf::Vector2f Board::getSize()
+
+//===================================================================
+const sf::Vector2f Board::getSize() const
 {
 	return this->m_avgPix;
 }
 
+// get Dynamic Object and chack collision with the static vector
+//===================================================================
 void Board::collisionsStatic(DynamicObject& creature)
 {
 	for (int i = 0; i < m_static_obj.size();i++)
@@ -218,6 +196,8 @@ void Board::collisionsStatic(DynamicObject& creature)
 	}
 }
 
+// get Dynamic Object and chack collision with the monster vector
+//===================================================================
 void Board::collisionsDynamic(DynamicObject& creature)
 {
 	for (int i = 0; i < m_monsters.size();i++)
@@ -227,12 +207,13 @@ void Board::collisionsDynamic(DynamicObject& creature)
 	}
 }
 
-sf::Vector2f Board::getPlaceToAddMon()
+//===================================================================
+const sf::Vector2f Board::getPlaceToAddMon() const
 {
 	return m_location_add_monster;
 }
 
-
+//===================================================================
 bool Board::HaveSomthingToStand(DynamicObject& creacure)
 {
 	for (int i = 0; i < m_static_obj.size();i++)
@@ -244,25 +225,24 @@ bool Board::HaveSomthingToStand(DynamicObject& creacure)
 	return false;
 }
 
+// if Dynamic Object is in range of the window
+//===================================================================
 bool Board::isInRange(DynamicObject& dynObj)
 {
-/*
-	if ( m_avgPix.x / 2u - 4.5 < dynObj.getSprite().getPosition().x
-	  && m_avgPix.y / 2u  - 4.5 < dynObj.getSprite().getPosition().y
-	  && COLL_GAME_SCREEN - ( m_avgPix.y / 2u) > dynObj.getSprite().getPosition().x
-	  && ROW_GAME_SCREEN - (m_avgPix.x / 4u) > dynObj.getSprite().getPosition().y )
-		return true;
-	return false;
-	*/
 	if (m_avgPix.x / 2u - 4.5 < dynObj.getSprite().getPosition().x
 		&& m_avgPix.y / 2u - 4.5 < dynObj.getSprite().getPosition().y
 		&& COLL_GAME_SCREEN - (m_avgPix.y / 2u) > dynObj.getSprite().getPosition().x
-		&& ROW_GAME_SCREEN  > dynObj.getSprite().getPosition().y)
+		&& ROW_GAME_SCREEN - (m_avgPix.y / 8u) > dynObj.getSprite().getPosition().y)
 		return true;
 	return false;
 }
 
-
+/*
+	update Creature :
+	Gets a dynamic object
+	Asks him to move and checks his collisions with static objects
+*/
+//===================================================================
 void Board::updateCreature(const float& dt, DynamicObject& creacure)
 {
 	creacure.resetData();
@@ -279,6 +259,8 @@ void Board::updateCreature(const float& dt, DynamicObject& creacure)
 	collisionsStatic(creacure);
 }
 
+// send all monster to update creature
+//===================================================================
 void Board::updateMonsters(const float& dt)
 {
 	for (int i = 0; i < m_monsters.size();i++)
@@ -287,12 +269,14 @@ void Board::updateMonsters(const float& dt)
 	}
 }
 
+//===================================================================
 void Board::renderMonster(sf::RenderWindow* target)
 {
 	for (int i = 0; i < m_monsters.size();i++)
 		m_monsters[i]->render(target);
 }
 
+//===================================================================
 void Board::renderStaticObj(sf::RenderWindow* window)
 {
 	for (int i = 0; i < m_static_obj.size();i++)

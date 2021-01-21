@@ -1,5 +1,6 @@
 #include "models/Floor.h"
 
+// constructor
 Floor::Floor(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
 	StaticObject(pos, size, txt), m_full(false)
 {
@@ -7,23 +8,21 @@ Floor::Floor(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
 	m_t_deleted = sf::seconds(0);
 }
 
+// handle Colision funcsions:
+//=================================================================
 void Floor::handleColision(DynamicObject& obj)
 {
-	//if(m_isExist)
-		obj.handleColision(*this);
+	obj.handleColision(*this);
 }
 
+//=================================================================
 void Floor::handleColision(Monster& obj)
 {
 	m_full = true;
 }
-/*
-bool Flor::collisionWithStand(const sf::Vector2f v2f, const sf::Vector2f size)
-{
-	return this->getGlobBounds().contains
-	(v2f.x , v2f.y + size.y);
-}
-*/
+
+// return if can stand on this floor
+//=================================================================
 bool Floor::collisionWithStand(DynamicObject& obj, sf::Vector2f size)
 {
 	if (m_isExist || m_full)
@@ -36,22 +35,28 @@ bool Floor::collisionWithStand(DynamicObject& obj, sf::Vector2f size)
 	}
 }
 
+//=================================================================
 bool Floor::collisionWithDig(sf::Vector2f point)
 {
 	return this->m_rec->getGlobalBounds().contains(point);
 }
 
+// dig in
+//=================================================================
 void Floor::digMe(sf::Time time)
 {
 	this->m_isExist = false;
 	this->m_t_deleted = sf::seconds(time.asSeconds());
 }
 
+// dig out
+//=================================================================
 bool Floor::digMeFree(sf::Time time, DynamicObject& obj)
 {
 	if (!m_isExist)
 	{
-		if (sf::seconds(m_t_deleted.asSeconds()) + sf::seconds(4) < sf::seconds(time.asSeconds()))
+		if (sf::seconds(m_t_deleted.asSeconds()) + sf::seconds(4) <
+			sf::seconds(time.asSeconds()))
 		{
 			this->m_isExist = true;
 			m_t_deleted = sf::seconds(0);
@@ -63,6 +68,7 @@ bool Floor::digMeFree(sf::Time time, DynamicObject& obj)
 	return false;
 }
 
+//=================================================================
 void Floor::resetExist()
 {
 	this->m_isExist = true;
@@ -70,7 +76,8 @@ void Floor::resetExist()
 	m_t_deleted = sf::seconds(0);
 }
 
-bool Floor::isFull()
+//=================================================================
+const bool Floor::isFull()
 {
 	return m_full;
 }
