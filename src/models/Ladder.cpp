@@ -18,13 +18,5 @@ void Ladder::handleColision(DynamicObject& obj)
 //========================================================================
 bool Ladder::collisionWithStand(DynamicObject& obj, sf::Vector2f size)
 {
-	/*
-	if ((this->m_rec->getPosition().x + size.x / 4 > obj.getSprite().getPosition().x
-		&& this->m_rec->getPosition().x - size.x / 4 <= obj.getSprite().getPosition().x)
-		&& (this->m_rec->getPosition().y + size.y / 2 - 5 > obj.getSprite().getPosition().y
-			&& this->m_rec->getPosition().y - size.y  <= obj.getSprite().getPosition().y)
-		)
-		return true;
-	return false;
-	*/return this->collisionWith(obj);
+	return this->collisionWith(obj);
 }

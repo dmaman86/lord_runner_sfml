@@ -7,6 +7,20 @@
 #include "../macros.h"
 #include <vector>
 
+// strcut that using in cfs algorithem
+struct NudeBfs {
+public:
+	int row;
+	int col;
+	std::vector<int> VecMov;
+
+	NudeBfs(int x, int y, std::vector<int> w)
+		: row(x), col(y), VecMov(w)
+	{
+	}
+}; // end NudeBfs
+
+
 /* ================================================
 class MonsterSmart
 
@@ -24,7 +38,6 @@ public:
 	~MonsterSmart() = default;
 	// virtual functions
 	void virtual setGrid(std::vector<std::vector<char>> &) override;
-	void virtual handleColision(Ladder& obj) override;
 	void virtual updateDirection(const float& dt) override;
 
 private:
