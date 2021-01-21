@@ -20,7 +20,7 @@ std::unique_ptr<Monster> Board::createMonster
 	if (type == ObjectType::MonsterChar)
 	{
 		int r = rand() % KindMonsters::Max;
-		switch (KindMonsters::Smart)
+		switch (r)
 		{
 		case KindMonsters::Rand:
 			return std::make_unique<MonsterRand>(pos, size, &textures.get(Textures::MonsterRand));

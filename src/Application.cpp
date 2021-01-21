@@ -17,7 +17,7 @@
 
 
 Application::Application()
-	: mWindow(sf::VideoMode(1920, 1080), "Lord Runner Game")
+	: mWindow(sf::VideoMode(1920, 1080), "Lord Runner Game",sf::Style::Fullscreen)
 	, mTextures()
 	, mFonts()
 	, mSounds()

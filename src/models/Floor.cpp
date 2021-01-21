@@ -4,7 +4,8 @@
 Floor::Floor(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
 	StaticObject(pos, size, txt), m_full(false)
 {
-	this->m_rec->setScale(m_rec->getScale().x * 1, m_rec->getScale().y * 0.8);
+	this->m_rec->setScale(m_rec->getScale().x * (float)1,
+		m_rec->getScale().y * (float)0.8);
 	m_t_deleted = sf::seconds(0);
 }
 

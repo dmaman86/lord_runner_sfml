@@ -8,7 +8,7 @@
 
 // constructor
 Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, SoundBufferHolder& sounds) :
-	DynamicObject(pos, size, 250,txt), 
+	DynamicObject(pos, size, SPEED_PLAYER,txt),
 	m_is_injured(false), m_life(INIT_LIFE), m_score(INIT),m_numLevel(1), m_direction_dig(INIT)
 
 {
@@ -45,7 +45,7 @@ void Player::newData(sf::Vector2f pos, sf::Vector2f avgPix)
 
 	this->m_first_position = m_rec->getPosition();
 	//this->m_numLevel++;
-	this->m_score += (m_numLevel - 1) * 50;
+	this->m_score += (m_numLevel - 1) * AddCoins::NewLevel;
 
 }
 
@@ -129,7 +129,7 @@ void Player::handleColision(Coin& obj)
 	{
 		obj.handleColision(*this);
 		m_soundGetCoin.play();
-		this->m_score += m_numLevel * 2;
+		this->m_score += m_numLevel * AddCoins::MeetCoin;
 	}
 }
 
@@ -159,7 +159,7 @@ void Player::handleColision(GiftScore& obj)
 	{
 		obj.handleColision(*this);
 		m_soundScoreUp.play();
-		this->m_score += 150;
+		this->m_score += AddCoins::MeetGift;
 	}
 }
 

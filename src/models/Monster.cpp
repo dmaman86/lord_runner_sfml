@@ -3,7 +3,7 @@
 
 // comstructor
 Monster::Monster(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
-	DynamicObject(pos, size, 100,txt)
+	DynamicObject(pos, size, SPEED_MONSTER,txt)
 {
 
 }

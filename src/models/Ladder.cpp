@@ -5,7 +5,8 @@ Ladder::Ladder(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
 	StaticObject(pos, size, txt)
 {
 	// made ladder Tall and narrow
-	this->m_rec->setScale(m_rec->getScale().x * 0.75, m_rec->getScale().y * 1.15);
+	this->m_rec->setScale(m_rec->getScale().x * (float)0.75,
+		m_rec->getScale().y * (float)1.15);
 }
 
 //========================================================================

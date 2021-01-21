@@ -94,8 +94,20 @@ namespace ButtonsPause
 	};
 }
 
-const int MAX_LEVELS = 5;
+namespace AddCoins
+{
+	enum ID
+	{
+		NewLevel = 50,
+		MeetCoin = 2,
+		MeetGift = 150
+	};
+}
+
 const int MAX_LIFE = 6;
 const int INIT_LIFE = 3;
 const int INIT = 0;
+const size_t SPEED_MONSTER = 100;
+const size_t SPEED_PLAYER = 250;
+
 
