@@ -82,9 +82,9 @@ void GameState::handeleDig()
 	if (this->m_player->dig())
 	{
 		this->m_board.digIn(sf::Time(this->m_level_clock.getElapsedTime()),
-			this->m_player->getMovementDig(m_board.getSize()), this->m_player->getSprite());
+			this->m_player->getMovementDig(m_board.getSize()));
 	}
-	if (m_board.releaseDisappears(this->m_level_clock.getElapsedTime(), this->m_player->getPosition()))
+	if (m_board.releaseDisappears(this->m_level_clock.getElapsedTime(), *m_player))
 		m_player->injured();
 }
 

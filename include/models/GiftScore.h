@@ -1,24 +1,23 @@
 #pragma once
 
-
 #include "../models/Gift.h"
+/* ================================================
+class GiftScore
 
+	Adds to the player a Score
+*/
 class GiftScore: public Gift
 {
 public:
+
+	// Constractor / Distactor
 	GiftScore(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt);
 	~GiftScore();
-
+	// virtual functions
 	void virtual update() override;
-
-
-	void virtual handleColision(DynamicObject& obj);
-
-	void virtual handleColision(Player& obj);// needed override
-	//static bool isActive();
-
+	void virtual handleColision(DynamicObject& obj) override;
+	void virtual handleColision(Player& obj) override;
 
 private:
-	//static bool m_is_active;
 
-};
+}; // end GiftScore

@@ -5,10 +5,6 @@ Gift::Gift(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt):
 {
 }
 
-Gift::~Gift()
-{
-}
-
 void Gift::resetExist()
 {
 }

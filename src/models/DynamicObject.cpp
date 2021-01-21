@@ -15,12 +15,6 @@ DynamicObject::DynamicObject
 	m_first_position = this->m_rec->getPosition();
 }
 
-// virual distructor
-DynamicObject::~DynamicObject()
-{
-	// Empty - no memory allocation
-}
-
 /* ===================================== *
  * ######### Public Functions ########## *
  * ===================================== */
@@ -29,10 +23,6 @@ void DynamicObject::setDirectionDown()
 {
 	this->m_dircetion = Object_Direction::Down;
 }
-
-
-
-
 
 void DynamicObject::move(const float& dt)
 {

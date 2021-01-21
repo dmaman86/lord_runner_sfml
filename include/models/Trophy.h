@@ -3,32 +3,23 @@
 #include "StaticObject.h"
 #include "DynamicObject.h"
 
-//class DynamicObject;
-//class Player;
-//#include "Player.h"
-
+/* ================================================
+Abstract class Trophy
+	Represents all the static objects that
+	the player takes from the board during the game
+*/
 class Trophy : public StaticObject
 {
 
 public:
+	// Constractor / Distactor
 	Trophy(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt);
-	virtual ~Trophy();
-
-	void virtual handleColision(DynamicObject& obj) {};
-
-	void virtual handleColision(Player& obj) {};// needed go up in tree
-
+	virtual ~Trophy() = default;
+	// virtual functions
 	bool collisionWithStand(DynamicObject& obj, const sf::Vector2f) override;
+	void virtual handleColision(DynamicObject& obj) {};
+	void virtual handleColision(Player& obj) = 0;
 
-	// static member function
-//	static int getCount();  // return # objects instantiated
-//	static int getCollected();
-//	static void resetCollected();
-
-
-	//void virtual handleColision(Monster& obj) override;
-	//void virtual handleColision(Player& obj) override;
 private:
 
-
-};
+}; // end Trophy

@@ -41,18 +41,15 @@ public:
 	const sf::Sprite& getSprite() const;
 	const bool collisionWith(const Object& obj) const;
 	const bool isExsist() const;
-
+	// virtual functions
 	void virtual render(sf::RenderWindow* target);
-
 	// Pure virtual functions 
 	void virtual handleColision(Floor& obj) = 0;
 	void virtual handleColision(Coin& obj) = 0 ;
 	void virtual handleColision(Ladder& obj) = 0;
 	void virtual handleColision(Ropes& obj) = 0;
 	void virtual handleColision(Monster& obj) = 0;
-
-	void virtual handleColision(DynamicObject& obj) = 0;// override; // important
-
+	void virtual handleColision(DynamicObject& obj) = 0;
 
 protected:
 	sf::Sprite* m_rec;

@@ -2,19 +2,26 @@
 
 #include "models/DynamicObject.h"
 
-#include <time.h> // srand time
+/* ================================================
+Abstract class Monster
 
-//class Game;
+	Responsible for all the monsters in the game
+*/
 class Monster : public DynamicObject
 {
 
 public:
 
-
+	// Constractor / Distactor
 	Monster(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt);
+	virtual ~Monster() = default;
+	
+	// virtual functions
+	void virtual goBack() override;
 	void virtual handleColision(Floor& obj)override;
 	void virtual handleColision(Player& obj) override;
 	void virtual handleColision(DynamicObject& obj);
+	// empty functions
 	void virtual handleColision(Monster& obj) {};
 	void virtual handleColision(Coin& obj) {};
 	void virtual handleColision(GiftLife& obj) {};
@@ -23,9 +30,7 @@ public:
 	void virtual handleColision(GiftMonster& obj) {};
 	void virtual handleColision(GiftStain& obj) {};
 
-	void virtual goBack() override;
-
-
 private:
-	sf::Vector2f m_position_before_floor;
-};
+	sf::Vector2f m_position_before_floor; // position before Fell to the floor
+
+}; // end Monster

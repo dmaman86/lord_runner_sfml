@@ -169,7 +169,7 @@ void Player::handleColision(GiftTime& obj)
 }
 
 
-bool Player::isInjured()
+const bool Player::isInjured()
 {
 	if (m_is_injured)
 	{

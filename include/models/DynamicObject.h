@@ -3,6 +3,7 @@
 #include "Object.h"
 #include "../macros.h"
 
+// forward declaration
 class Floor;
 class Coin;
 class Ladder;
@@ -19,7 +20,10 @@ class GiftStain;
 
 const float COLL_GAME_SCREEN = 1920.f;
 const float ROW_GAME_SCREEN = 930.f;
-
+/* ================================================
+Abstract class DynamicObject
+	Represents all the dynamic objects in the game
+*/
 class DynamicObject :public Object
 {
 
@@ -27,18 +31,15 @@ public:
 	// Constractor / Distactor
 	DynamicObject
 	(sf::Vector2f pos, sf::Vector2f size, size_t speed, sf::Texture* txt);
-	virtual ~DynamicObject();
+	virtual ~DynamicObject() = default;
 
 	// public functions
 		// movment
 	void virtual resetData() {};
-	void setDirectionDown();
+	void virtual setDirectionDown();
 	void move(const float& dt);
 	void virtual goBack();
 	void setFirstPos();
-	const sf::Vector2f& getPosition() const;
-	void virtual setGrid(std::vector<std::vector<char>>) {};
-
 
 	// ============= pure virtual functions ===============
 	void virtual updateDirection(const float& dt) = 0;
@@ -51,11 +52,14 @@ public:
 	void virtual handleColision(GiftScore& obj) = 0;
 	void virtual handleColision(GiftMonster& obj) = 0;
 	void virtual handleColision(GiftStain& obj) = 0;
+	void virtual handleColision(Floor& obj) = 0;
 
 	// ============= virual functions =====================
-	void virtual handleColision(Floor& obj) = 0;
 	void virtual handleColision(Ladder& obj);
 	void virtual handleColision(Ropes& obj);
+
+	const sf::Vector2f& getPosition() const;
+	void virtual setGrid(std::vector<std::vector<char>>&) {};
 
 protected:
 	// members

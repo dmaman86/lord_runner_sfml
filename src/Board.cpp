@@ -1,24 +1,22 @@
 #include "Board.h"
 #include <ctype.h>
 
-Board::Board() : m_level_one(true)
+Board::Board() 
 {
-    // initTextures();
-	m_player = nullptr;
 }
 
 Board::~Board() 
 {
 }
 
-std::unique_ptr<DynamicObject> Board::createDynamicObject
+std::unique_ptr<Monster> Board::createDynamicObject
 (ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures,Player * player)
 {
 	switch (type)
 	{
 	case ObjectType::MonsterChar:
 		int r = rand() % KindMonsters::Max;
-		switch (r)
+		switch (KindMonsters::Smart)
 		{
 		case KindMonsters::Rand:
 			return std::make_unique<MonsterRand>(pos, size, &textures.get(Textures::MonsterRand));
@@ -88,7 +86,7 @@ void Board::createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& t
 		return;
 	}*/
 
-	std::unique_ptr<DynamicObject> movable = createDynamicObject(type,pos, m_avgPix, textures,player);
+	std::unique_ptr<Monster> movable = createDynamicObject(type,pos, m_avgPix, textures,player);
 	if (movable)
 	{
 		m_monsters.push_back(std::move(movable));
@@ -160,13 +158,8 @@ void Board::startLevelAgain()
 	}
 }
 
-void Board::digIn(sf::Time time, sf::Vector2f pos,const sf::Sprite & spr)
+void Board::digIn(sf::Time time, sf::Vector2f pos)
 {
-	/*
-	sf::Sprite sHelper(spr);
-	sHelper.setPosition(pos);
-	sHelper.setScale(0.05,0.05);
-	*/
 	for (int i = 0;i < m_static_obj.size();i++)
 	{
 		if (m_static_obj[i]->collisionWithDig(pos))
@@ -176,12 +169,12 @@ void Board::digIn(sf::Time time, sf::Vector2f pos,const sf::Sprite & spr)
 	}
 }
 
-bool Board::releaseDisappears(sf::Time time,const sf::Vector2f pos)
+bool Board::releaseDisappears(sf::Time time,DynamicObject& creature)
 {	
 	bool dead = false;
 	for (int i = 0;i < m_static_obj.size();i++)
 	{
-		if (m_static_obj[i]->digMeFree(time, pos))
+		if (m_static_obj[i]->digMeFree(time, creature))
 			dead = true;
 	}
 	return dead;
@@ -279,7 +272,6 @@ void Board::updateCreature(const float& dt, DynamicObject& creacure)
 	if (!isInRange(creacure))
 		creacure.goBack();
 
-//	collisionsDynamic(creacure);
 	collisionsStatic(creacure);
 }
 

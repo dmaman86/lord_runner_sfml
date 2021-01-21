@@ -1,6 +1,8 @@
 #include "models/MonsterSmart.h"
 #include <queue> 
 #include <cmath>
+#include <stdlib.h> 
+#include "models/Floor.h"
 
 class QItem {
 public:
@@ -15,83 +17,52 @@ public:
 };
 
 MonsterSmart::MonsterSmart
-(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, Player* p) :
-	Monster(pos, size, txt), m_size(size), m_last(false), m_last_cell(0, 0)
+(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt,  Player* const p) :
+	Monster(pos, size, txt), m_size(size),m_last_cell(0, 0)
 {
-	//this->m_rec->setScale(m_rec->getScale().x * (float)0.8, m_rec->getScale().y * (float)1.2);
 	m_copy_player = p;
 }
 
-void MonsterSmart::setGrid(std::vector<std::vector<char>> grid)
+void MonsterSmart::setGrid(std::vector<std::vector<char>> &grid)
 {
-	m_grid = grid;
+	m_map = grid;
 	this->buildVisited();
-
-	static int i = 0;
-
-	if (m_grid.size() == 0 || m_visited.size() == 0)
-		return;
-
-	if (i == 0)
-	{
-		for (int i = 0; i < m_grid.size();i++)
-		{
-			for (int j = 0; j < m_grid[i].size();j++)
-				std::cout << m_grid[i][j] << " ";
-			std::cout << std::endl;
-		}
-
-		for (int i = 0; i < m_visited.size();i++)
-		{
-			for (int j = 0; j < m_visited[i].size();j++)
-				std::cout << m_visited[i][j] << " ";
-			std::cout << std::endl;
-		}
-		i++;
-	}
 }
 
 void MonsterSmart::handleColision(Ladder& obj)
 {
 	if (m_dircetion == Object_Direction::Up || m_dircetion == Object_Direction::Down)
+	{
 		this->m_rec->setPosition(obj.getSprite().getPosition().x, m_rec->getPosition().y);
-	else if(m_dircetion == Object_Direction::Right)
-		this->m_rec->setPosition(m_rec->getPosition().x + 0.1, m_rec->getPosition().y);
-	else if(m_dircetion == Object_Direction::Left)
-		this->m_rec->setPosition(m_rec->getPosition().x - 0.1, m_rec->getPosition().y);
+	}
+	else if (m_dircetion == Object_Direction::Right || m_dircetion == Object_Direction::Left)
+	{
+		if (m_last_dir == Object_Direction::Up)
+			this->m_rec->setPosition(m_rec->getPosition().x,
+				m_rec->getPosition().y - m_rec->getGlobalBounds().height / 2.5);
+		else if (m_last_dir == Object_Direction::Down)
+			this->m_rec->setPosition(m_rec->getPosition().x,
+				m_rec->getPosition().y + m_rec->getGlobalBounds().height / 2.5);
+	}
 }
-
-/*
-void MonsterSmart::handleColision(Ropes& obj)
-{
-	if (m_dircetion == Object_Direction::Right || m_dircetion == Object_Direction::Left)
-		this->m_rec->setPosition(obj.getSprite().getPosition().x, m_rec->getPosition().y);
-	else if (m_dircetion == Object_Direction::Right)
-		this->m_rec->setPosition(m_rec->getPosition().x + m_size.x / 2u, m_rec->getPosition().y);
-	else if (m_dircetion == Object_Direction::Left)
-		this->m_rec->setPosition(m_rec->getPosition().x - m_size.x / 2u, m_rec->getPosition().y);
-}
-*/
 
 bool MonsterSmart::isInRange(int row, int col)
 {
 	return (row >= 0 && col >= 0 && row < m_visited.size() && col < m_visited[0].size());
 }
 
-
 void MonsterSmart::updateDirection(const float& dt)
 {
-	if (m_grid.size() == 0 || m_visited.size() == 0)
-		return;
-
-	sf::Vector2i playerPosMap, monsterPosMap;
-	bool lastEqual = false;
+	sf::Vector2i  monsterPosMap, playerPosMap;
 	playerPosMap = this->getPosOnMat(m_copy_player);
 	monsterPosMap = this->getPosOnMat(this);
-	
+
+	m_last_dir = m_dircetion;
+
 	this->fixPixel(monsterPosMap);
 
 	m_last_cell = sf::Vector2i(monsterPosMap.x, monsterPosMap.y);
+
 
 	if ((playerPosMap.x >= 0 && playerPosMap.y >= 0 &&
 		playerPosMap.x < m_visited.size() && playerPosMap.y < m_visited[0].size()) &&
@@ -99,23 +70,25 @@ void MonsterSmart::updateDirection(const float& dt)
 			monsterPosMap.x < m_visited.size() && monsterPosMap.y < m_visited[0].size()))
 	{
 		this->buildVisited();
-		m_dircetion = this->getDirectionSmart(playerPosMap, monsterPosMap);
+		m_dircetion = this->getDirectionSmartBfs(playerPosMap, monsterPosMap);
 	}
-	
+
 	if (m_dircetion == -1)
 	{
-		m_dircetion = rand() % 4;
+		if (this->getLastPos() == this->m_rec->getPosition())
+		{
+			(m_last_dir == Object_Direction::Left) ?
+				m_last_dir = Object_Direction::Right : m_last_dir = Object_Direction::Left;
+		}
+		m_dircetion = m_last_dir;
 	}
-
-
-	m_last_dir = m_dircetion;
 
 	this->SaveLastPosition();
 }
 
-size_t MonsterSmart::getDirectionSmart(sf::Vector2i playerPosMap, sf::Vector2i monsterPosMap)
+size_t MonsterSmart::getDirectionSmartBfs(sf::Vector2i playerPosMap, sf::Vector2i monsterPosMap)
 {
-	if (m_grid.size() == 0 || m_visited.size() == 0)
+	if (m_map.size() == 0 || m_visited.size() == 0)
 		return 0;
 
 
@@ -124,11 +97,11 @@ size_t MonsterSmart::getDirectionSmart(sf::Vector2i playerPosMap, sf::Vector2i m
 	vec.clear();
 	QItem source(monsterPosMap.x, monsterPosMap.y, vec);
 
-	if (source.row >= 0 && source.col >= 0 &&
-		source.row < m_visited.size() && source.col < m_visited[0].size())
-		m_visited[source.row][source.col] = 1;
-	else
-		return -1;
+	//	if (source.row >= 0 && source.col >= 0 &&
+	//		source.row < m_visited.size() && source.col < m_visited[0].size())
+	//		m_visited[source.row][source.col] = 1;
+	//	else
+	//		return -1;
 
 	queueManager.push(source);
 	bool moveTwo = false;
@@ -137,24 +110,23 @@ size_t MonsterSmart::getDirectionSmart(sf::Vector2i playerPosMap, sf::Vector2i m
 		QItem p = queueManager.front();
 		queueManager.pop();
 
-		if (!(p.row >= 0 && p.col >= 0 &&
+			if (!(p.row >= 0 && p.col >= 0 &&
 			p.row < m_visited.size() && p.col < m_visited[0].size()))
 			return -1;
 
-		if (m_grid[p.row][p.col] == 2)
+		if (m_map[p.row][p.col] == 2)
 			moveTwo = true;
 		else
 			moveTwo = false;
 
-
-		// Destination found; 
+		// Player found; 
 		if (p.row == playerPosMap.x && p.col == playerPosMap.y)
 		{
 			if (!p.VecMov.empty())
 				return p.VecMov[0];
 			else
 				return -1;
-		}	
+		}
 
 		// moving up 
 		if (p.row - 1 >= 0 && m_visited[p.row - 1][p.col] == 0 && !moveTwo)
@@ -213,20 +185,20 @@ sf::Vector2i MonsterSmart::getPosOnMat(DynamicObject* dObj)
 void MonsterSmart::buildVisited()
 {
 	// build
-	m_visited.resize(m_grid.size());
+	m_visited.resize(m_map.size());
 
-	for (int i = 0; i < m_grid.size();i++)
-		m_visited[i].resize(m_grid[i].size());
+	for (int i = 0; i < m_map.size();i++)
+		m_visited[i].resize(m_map[i].size());
 
 	// full
-	for (size_t i = 0; i < m_grid.size(); i++) {
-		for (size_t j = 0; j < m_grid[i].size(); j++)
+	for (size_t i = 0; i < m_map.size(); i++) {
+		for (size_t j = 0; j < m_map[i].size(); j++)
 		{
-			if ((m_grid[i][j] == ObjectType::RopesChar || m_grid[i][j] == ObjectType::LadderChar) ||
-				(i + 1 < m_grid.size() && (m_grid[i + 1][j] == ObjectType::FloorChar || m_grid[i + 1][j] == ObjectType::LadderChar))
-				&& (m_grid[i][j] == ObjectType::CoinChar || m_grid[i][j] == ObjectType::GiftChar || m_grid[i][j] == '\0'))
+			if ((m_map[i][j] == ObjectType::RopesChar || m_map[i][j] == ObjectType::LadderChar) ||
+				(i + 1 < m_map.size() && (m_map[i + 1][j] == ObjectType::FloorChar || m_map[i + 1][j] == ObjectType::LadderChar))
+				&& (m_map[i][j] == ObjectType::CoinChar || m_map[i][j] == ObjectType::GiftChar || m_map[i][j] == '\0'))
 				m_visited[i][j] = 0;
-			else if(m_grid[i][j] == ObjectType::FloorChar)
+			else if (m_map[i][j] == ObjectType::FloorChar)
 				m_visited[i][j] = 1;
 			else
 				m_visited[i][j] = 2;
@@ -234,82 +206,26 @@ void MonsterSmart::buildVisited()
 	}
 }
 
-void MonsterSmart::fixPixel(sf::Vector2i & monsterPosMap)
+void MonsterSmart::fixPixel(sf::Vector2i  monsterPosMap)
 {
-	if (m_grid.size() == 0 || m_visited.size() == 0)
-		return;
-
 	static int parameter = 0;
-
 	if (m_last_cell == sf::Vector2i(monsterPosMap.x, monsterPosMap.y) && this->getPosition() == this->m_last_postion)
 	{
-		if (m_last_dir == Object_Direction::Up)
+		if (m_dircetion == Object_Direction::Down)
 		{
 			if (isInRange(monsterPosMap.x + 1, monsterPosMap.y - 1) &&
-				m_grid[monsterPosMap.x + 1][monsterPosMap.y - 1] == '#')
+				m_map[monsterPosMap.x + 1][monsterPosMap.y - 1] == '#')
 			{
-				this->m_rec->setPosition(this->getPosition().x - 0.1, this->getPosition().y);
-				parameter = 1;
-			}
-			if (isInRange(monsterPosMap.x - 1, monsterPosMap.y - 0.1) &&
-				m_grid[monsterPosMap.x - 1][monsterPosMap.y - 1] == '#')
-			{
-				this->m_rec->setPosition(this->getPosition().x + 0.1, this->getPosition().y);
-				if (parameter == 1)
-					this->m_rec->setPosition(this->getPosition().x + 0.1, this->getPosition().y);
-				parameter = 2;
-			}
-		}
-		if (m_last_dir == Object_Direction::Down)
-		{
-			if (isInRange(monsterPosMap.x + 1, monsterPosMap.y - 1) &&
-				m_grid[monsterPosMap.x + 1][monsterPosMap.y - 1] == '#')
-			{
-				this->m_rec->setPosition(this->getPosition().x + 0.1, this->getPosition().y);
+				this->m_rec->setPosition(this->getPosition().x + m_rec->getGlobalBounds().width / 2, this->getPosition().y);
 				parameter = 3;
 			}
 			if (isInRange(monsterPosMap.x + 1, monsterPosMap.y + 1) &&
-				m_grid[monsterPosMap.x + 1][monsterPosMap.y + 1] == '#')
+				m_map[monsterPosMap.x + 1][monsterPosMap.y + 1] == '#')
 			{
-				this->m_rec->setPosition(this->getPosition().x - 0.1, this->getPosition().y);
+				this->m_rec->setPosition(this->getPosition().x - m_rec->getGlobalBounds().width / 2, this->getPosition().y);
 				if (parameter = 3)
-					this->m_rec->setPosition(this->getPosition().x - 0.1, this->getPosition().y);
+					this->m_rec->setPosition(this->getPosition().x + m_rec->getGlobalBounds().width / 2, this->getPosition().y);
 				parameter = 4;
-			}
-		}
-		if (m_last_dir == Object_Direction::Right) 
-		{
-			if (isInRange(monsterPosMap.x + 1, monsterPosMap.y + 1) &&
-				m_grid[monsterPosMap.x + 1][monsterPosMap.y + 1] == '#')
-			{
-				this->m_rec->setPosition(this->getPosition().x, this->getPosition().y + 0.1);
-				parameter = 5;
-			}
-			if (isInRange(monsterPosMap.x - 1, monsterPosMap.y + 1) &&
-				m_grid[monsterPosMap.x - 1][monsterPosMap.y + 1] == '#')
-			{
-				this->m_rec->setPosition(this->getPosition().x, this->getPosition().y - 0.1);
-				if (parameter = 5)
-					this->m_rec->setPosition(this->getPosition().x, this->getPosition().y - 0.1);
-				parameter = 6;
-			}
-		}
-		if (m_last_dir == Object_Direction::Left)
-		{
-			if (isInRange(monsterPosMap.x + 1, monsterPosMap.y - 1) &&
-				m_grid[monsterPosMap.x + 1][monsterPosMap.y - 1] == '#')
-			{
-
-				this->m_rec->setPosition(this->getPosition().x, this->getPosition().y - 0.1);
-				parameter = 7;
-			}
-			if (isInRange(monsterPosMap.x - 1, monsterPosMap.y - 1) &&
-				m_grid[monsterPosMap.x - 1][monsterPosMap.y - 1] == '#')
-			{
-				this->m_rec->setPosition(this->getPosition().x, this->getPosition().y + 0.1);
-				if (parameter = 7)
-					this->m_rec->setPosition(this->getPosition().x, this->getPosition().y + 0.1);
-				parameter = 8;
 			}
 		}
 	}

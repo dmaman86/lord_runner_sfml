@@ -47,7 +47,7 @@ void Floor::digMe(sf::Time time)
 	this->m_t_deleted = sf::seconds(time.asSeconds());
 }
 
-bool Floor::digMeFree(sf::Time time,const sf::Vector2f posPlayer)
+bool Floor::digMeFree(sf::Time time, DynamicObject& obj)
 {
 	if (!m_isExist)
 	{
@@ -56,7 +56,7 @@ bool Floor::digMeFree(sf::Time time,const sf::Vector2f posPlayer)
 			this->m_isExist = true;
 			m_t_deleted = sf::seconds(0);
 			this->m_full = false;
-			if(this->getSprite().getGlobalBounds().contains(posPlayer))
+			if(this->collisionWith(obj))
 				return true;
 		}
 	}
