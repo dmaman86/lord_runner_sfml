@@ -8,7 +8,7 @@
 SettingsState::SettingsState(StateStack& stack, Context context)
 	: State(stack, context), m_backToMenu(false), mEffectTime(0.0f)
 {
-
+	// booleans for buttons
 	m_avaibleMusicSelected = false;
 	m_avaibleMusicPressed = false;
 	m_pressed = false;
@@ -20,17 +20,13 @@ SettingsState::SettingsState(StateStack& stack, Context context)
 	windowSize = context.window->getSize();
 	textureSize = context.textures->get(Textures::Menu).getSize();
 
+	// get texture background
 	sf::Texture& texture = context.textures->get(Textures::Menu);
 	mBackgroundSprite.setTexture(texture);
 	mBackgroundSprite.setScale((float)windowSize.x / textureSize.x,
 		(float)windowSize.y / textureSize.y);
 
-	m_soundState.setBuffer(context.sounds->get(SoundEffect::Menu));
-	m_soundState.setLoop(true);
-	m_sound.setBuffer(context.sounds->get(SoundEffect::Button));
-	m_sound.setPlayingOffset(sf::seconds(2.f));
-
-	sf::Text text;
+	// build title
 	sf::Font& font = context.fonts->get(Fonts::Main);
 	m_title.setFont(font);
 	m_title.setString("Settings");
@@ -41,26 +37,14 @@ SettingsState::SettingsState(StateStack& stack, Context context)
 	m_title.setOutlineColor(sf::Color::White);
 	m_title.setOutlineThickness(5.f);
 
-	text.setFont(font);
-	text.setCharacterSize(55);
-	text.setStyle(sf::Text::Bold);
-
-	for (size_t i = 0; i < MaxButtonsInState::SettingsButtons; i++)
-	{
-		m_buttons.push_back(text);
-		m_buttons[i].setFillColor(sf::Color::White);
-
-		m_buttons[i].setOrigin(m_buttons[i].getLocalBounds().width / 2,
-			m_buttons[i].getLocalBounds().height / 2);
-		m_buttons[i].setPosition(sf::Vector2f(windowSize.x / 2.5,
-			(windowSize.y / 2) + (i * 100)));
-		m_buttons[i].setOutlineColor(sf::Color(76, 0, 153));
-		m_buttons[i].setOutlineThickness(5.f);
-	}
-
-	m_buttons[0].setString("Avaible Music");
-	m_buttons[1].setString("No Avaible Music");
-
+	// buttons
+	buildButtons(windowSize);
+	
+	// sounds state
+	m_soundState.setBuffer(context.sounds->get(SoundEffect::Menu));
+	m_soundState.setLoop(true);
+	m_sound.setBuffer(context.sounds->get(SoundEffect::Button));
+	m_sound.setPlayingOffset(sf::seconds(2.f));
 	m_soundState.play();
 }
 
@@ -88,6 +72,7 @@ bool SettingsState::update(double dt)
 		updateColorButton();
 		if (mEffectTime >= 1.0f)
 		{
+			// move to state after one second
 			m_pressed = false;
 			mEffectTime = 0.0f;
 			if (m_avaibleMusicSelected || m_no_avaibleMusicSelected )
@@ -106,19 +91,7 @@ bool SettingsState::update(double dt)
 
 	this->updateCursor();
 
-	auto mouse_pos = sf::Mouse::getPosition(*getContext().window); // Mouse position relative to the window
-	auto translated_pos = getContext().window->mapPixelToCoords(mouse_pos);
-
-	for (int i = 0; i < m_buttons.size();i++)
-	{
-		if (m_buttons[i].getGlobalBounds().contains(translated_pos)) // Rectangle-contains-point check
-		{
-			// Mouse is inside the sprite.
-			m_buttons[i].setFillColor(sf::Color::Yellow);
-		}
-		else
-			m_buttons[i].setFillColor(sf::Color::White);
-	}
+	this->updateByMouse();
 
 	return true;
 }
@@ -131,7 +104,6 @@ bool SettingsState::handleEvent(const sf::Event& event)
 	if (sf::Event::Closed == event.type || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 	{
 		m_soundState.stop();
-		// requestStackPop();
 		requestStateClear();
 	}
 
@@ -144,7 +116,8 @@ bool SettingsState::handleEvent(const sf::Event& event)
 	if (event.MouseButtonPressed)
 	{
 
-		if (m_avaibleMusicPressed = input->isSpriteClicked(m_buttons[0], sf::Mouse::Left, window))
+		if (m_avaibleMusicPressed = input->isSpriteClicked(m_buttons[ButtonsSettings::AvailableMusic],
+															sf::Mouse::Left, window))
 		{
 			m_avaibleMusicSelected = true;
 			m_no_avaibleMusicSelected = false;
@@ -153,7 +126,8 @@ bool SettingsState::handleEvent(const sf::Event& event)
 			m_sound.play();
 		}
 
-		if (m_no_avaibleMusicPressed = input->isSpriteClicked(m_buttons[1], sf::Mouse::Left, window))
+		if (m_no_avaibleMusicPressed = input->isSpriteClicked(m_buttons[ButtonsSettings::NoAvailableMusic],
+																sf::Mouse::Left, window))
 		{
 			m_no_avaibleMusicSelected = true;
 			m_avaibleMusicSelected = false;
@@ -173,16 +147,59 @@ void SettingsState::centerOrigin(sf::Text& text)
 		std::floor(bounds.top + bounds.height / 2.f));
 }
 
+void SettingsState::buildButtons(const sf::Vector2u& windowSize)
+{
+	sf::Text text;
+	text.setFont(getContext().fonts->get(Fonts::Main));
+	text.setCharacterSize(55);
+	text.setStyle(sf::Text::Bold);
+
+	for (size_t i = 0; i < ButtonsSettings::Max; i++)
+	{
+		m_buttons.push_back(text);
+		m_buttons[i].setFillColor(sf::Color::White);
+
+		m_buttons[i].setOrigin(m_buttons[i].getLocalBounds().width / 2,
+			m_buttons[i].getLocalBounds().height / 2);
+		m_buttons[i].setPosition(sf::Vector2f(windowSize.x / 2.5,
+			(windowSize.y / 2) + (i * 100)));
+		m_buttons[i].setOutlineColor(sf::Color(76, 0, 153));
+		m_buttons[i].setOutlineThickness(5.f);
+	}
+
+	m_buttons[ButtonsSettings::AvailableMusic].setString("Avaible Music");
+	m_buttons[ButtonsSettings::NoAvailableMusic].setString("No Avaible Music");
+
+}
+
 void SettingsState::updateColorButton()
 {
 	if (m_avaibleMusicSelected)
 	{
-		m_buttons[0].setFillColor(sf::Color::Black);
-		m_buttons[1].setFillColor(sf::Color::White);
+		m_buttons[ButtonsSettings::AvailableMusic].setFillColor(sf::Color::Black);
+		m_buttons[ButtonsSettings::NoAvailableMusic].setFillColor(sf::Color::White);
 	}
 	else if (m_no_avaibleMusicSelected)
 	{
-		m_buttons[0].setFillColor(sf::Color::White);
-		m_buttons[1].setFillColor(sf::Color::Black);
+		m_buttons[ButtonsSettings::AvailableMusic].setFillColor(sf::Color::White);
+		m_buttons[ButtonsSettings::NoAvailableMusic].setFillColor(sf::Color::Black);
+	}
+}
+
+void SettingsState::updateByMouse()
+{
+	auto mouse_pos = getContext().input->GetMousePosition(*getContext().window);
+	auto translated_pos = getContext().window->mapPixelToCoords(mouse_pos);
+
+	for ( auto &button : m_buttons)
+	{
+		// Rectangle-contains-point check
+		if (button.getGlobalBounds().contains(translated_pos))
+		{
+			// Mouse is inside the sprite.
+			button.setFillColor(sf::Color::Yellow);
+		}
+		else
+			button.setFillColor(sf::Color::White);
 	}
 }

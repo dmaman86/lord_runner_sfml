@@ -16,8 +16,10 @@ GetReadyState::GetReadyState(StateStack& stack, Context context)
 	sf::Font& font = context.fonts->get(Fonts::Main);
 	sf::Vector2f windowSize(context.window->getSize());
 
+	// get texture background
 	mBackgroundSprite.setTexture(context.textures->get(Textures::Game));
 
+	// set title
 	m_titleReady.setFont(font);
 	m_titleReady.setCharacterSize(100);
 	centerOrigin(m_titleReady);
@@ -26,8 +28,7 @@ GetReadyState::GetReadyState(StateStack& stack, Context context)
 	m_titleReady.setOutlineColor(sf::Color::White);
 	m_titleReady.setOutlineThickness(5.f);
 
-
-	
+	// get sound
 	m_soundState.setBuffer(context.sounds->get(SoundEffect::CounterDown));
 	m_soundState.setLoop(true);
 	m_soundState.setVolume(30.0f);
@@ -74,6 +75,7 @@ bool GetReadyState::update(double dt)
 {
 	if (init == 3)
 	{
+		// move to game sate
 		m_soundState.pause();
 		requestStackPop();
 	}
@@ -89,7 +91,6 @@ bool GetReadyState::handleEvent(const sf::Event& event)
 		requestStateClear();
 	}
 
-	
 	return false;
 }
 

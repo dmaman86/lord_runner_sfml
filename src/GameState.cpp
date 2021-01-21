@@ -19,14 +19,16 @@ GameState::GameState(StateStack& stack, Context context)
 	m_finishGame = false;
 	m_error = initLevel();
 
+	// get texture gitft stain
 	m_stain.setTexture(context.textures->get(Textures::Stain));
 
+	// get texture state
 	mBackgroundSprite.setTexture(context.textures->get(Textures::Game));
+	// get sounds state
 	m_soundState.setBuffer(context.sounds->get(SoundEffect::Game));
 	m_soundState.setLoop(true);
 	m_soundState.setVolume(100.0f);
 	m_sound.setBuffer(context.sounds->get(SoundEffect::Button));
-
 	m_sStartLevClock.setBuffer(context.sounds->get(SoundEffect::StartLevelClock));
 	m_sStartLevClock.setVolume(40.0f);
 	m_sEndLevClock.setBuffer(context.sounds->get(SoundEffect::EndTime));
@@ -61,12 +63,10 @@ void GameState::draw()
 		if (m_start)
 			m_level_clock.restart();
 
-		this->m_containerStatus.renderStatus
-		(*m_player, &window, m_is_race_time,
-		m_time_of_level.asSeconds() - (m_level_clock.getElapsedTime().asSeconds() - m_time_pause.asSeconds()) );
+		this->m_containerStatus.renderStatus(*m_player, &window, m_is_race_time,
+						m_time_of_level.asSeconds() - (m_level_clock.getElapsedTime().asSeconds()
+							- m_time_pause.asSeconds()) );
 	}
-
-
 
 	window.draw(m_player->getSprite());
 
@@ -74,7 +74,6 @@ void GameState::draw()
 		window.draw(this->m_stain);
 	
 	window.draw(mousePicture);
-
 }
 
 void GameState::handeleDig()
@@ -107,7 +106,8 @@ void GameState::handleRace()
 	if (this->m_is_race_time)
 	{
 		// if time end
-		if (this->m_level_clock.getElapsedTime().asSeconds() >  m_time_of_level.asSeconds() + m_time_pause.asSeconds())
+		if (this->m_level_clock.getElapsedTime().asSeconds() >
+				m_time_of_level.asSeconds() + m_time_pause.asSeconds())
 		{
 			m_sEndLevClock.play();
 			m_player->injured();
@@ -168,17 +168,18 @@ bool GameState::update(double dt)
 	}
 	else if (m_start)
 	{
+		// state get ready 3, 2, 1
 		m_soundState.pause();
 		requestStackPush(States::GetReady);
 	}
 	else if (m_finishGame)
 	{
+		// user win or lose
 		requestStackPop();
 		requestStackPush(States::FinalState);
 	}
 	else if (!m_isPause)
 	{
-		//m_level_clock.getElapsedTime().asSeconds();
 		this->m_board.update(dt, m_player);
 		this->handeleDig();
 		this->handleRace();
@@ -203,19 +204,18 @@ bool GameState::handleEvent(const sf::Event& event)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
 		// if game pause
-		if (!m_isPause) {
+		if (!m_isPause) 
+		{
 			pause();
 			m_soundState.pause();
 
-
 			if (m_time_pause.asSeconds() != 0)
 			{
-				m_time_pause =  sf::seconds(m_time_pause.asSeconds() - m_level_clock.getElapsedTime().asSeconds()) ;
+				m_time_pause =  sf::seconds(m_time_pause.asSeconds() -
+								m_level_clock.getElapsedTime().asSeconds()) ;
 			}
 			else
-			{
 				m_time_pause = sf::seconds(m_level_clock.getElapsedTime().asSeconds());
-			}
 			
 			requestStackPush(States::Pause);
 		}
@@ -232,7 +232,8 @@ void GameState::pause()
 void GameState::start()
 {
 	if (m_isPause)
-		m_time_pause = sf::seconds(((m_level_clock.getElapsedTime().asSeconds() - std::abs(m_time_pause.asSeconds()))));
+		m_time_pause = sf::seconds(((m_level_clock.getElapsedTime().asSeconds() -
+										std::abs(m_time_pause.asSeconds()))));
 	else
 		m_time_pause = sf::seconds(0);
 	m_isPause = false;
@@ -290,7 +291,8 @@ void GameState::read_data(std::ifstream& fd_readLevel)
 			else 
 			{
 				m_board.createObject
-				(sf::Vector2f((float)j, (float)i), (ObjectType::ID)c, *getContext().textures,m_player);
+				(sf::Vector2f((float)j, (float)i), (ObjectType::ID)c,
+									*getContext().textures,m_player);
 			}
 		}
 		fd_readLevel.get(c);	//eat '\n'

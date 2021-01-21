@@ -6,19 +6,19 @@
 
 
 TitleState::TitleState(StateStack& stack, Context context)
-	: State(stack, context)
-	, mText()
-	, mShowText(true)
+	: State(stack, context), mText(), mShowText(true)
 	, mTextEffectTime(0.0f)
 {
 	sf::Vector2u textureSize, windowSize;
 
 	windowSize = context.window->getSize();
 	textureSize = context.textures->get(Textures::TitleScreen).getSize();
+
+	// get texture
 	mBackgroundSprite.setTexture(context.textures->get(Textures::TitleScreen));
-
-	mBackgroundSprite.setScale((float)windowSize.x / textureSize.x, (float)windowSize.y / textureSize.y);
-
+	mBackgroundSprite.setScale((float)windowSize.x / textureSize.x,
+								(float)windowSize.y / textureSize.y);
+	// get sound
 	mSound.setBuffer(context.sounds->get(SoundEffect::Open));
 	mSound.play();
 }
@@ -31,6 +31,7 @@ void TitleState::draw()
 
 bool TitleState::update(double dt)
 {
+	// display state for 3 seconds
 	mTextEffectTime += dt;
 	if (mTextEffectTime >= 3.0f)
 	{
@@ -38,13 +39,10 @@ bool TitleState::update(double dt)
 		requestStackPop();
 		requestStackPush(States::Menu);
 	}
-
 	return true;
 }
 
 bool TitleState::handleEvent(const sf::Event& event)
 {
-	
-
 	return true;
 }

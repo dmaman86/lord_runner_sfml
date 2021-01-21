@@ -15,15 +15,19 @@ ErrorState::ErrorState(StateStack& stack, Context context)
 	windowSize = context.window->getSize();
 	textureSize = context.textures->get(Textures::Menu).getSize();
 
+	// get texture state
 	sf::Texture& texture = context.textures->get(Textures::Menu);
 	mBackgroundSprite.setTexture(texture);
 	mBackgroundSprite.setScale((float)windowSize.x / textureSize.x,
 		(float)windowSize.y / textureSize.y);
 
+	// get sound state
 	m_soundState.setBuffer(context.sounds->get(SoundEffect::Menu));
 	m_soundState.setLoop(true);
 
+	// get font state
 	sf::Font& font = context.fonts->get(Fonts::Main);
+	// title state
 	m_title.setFont(font);
 	m_title.setString("Sorry, but an error ocurred");
 	m_title.setFillColor(sf::Color(76, 0, 153));

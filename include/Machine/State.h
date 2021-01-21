@@ -26,7 +26,8 @@ public:
 
 	struct Context
 	{
-		Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, SoundBufferHolder& sounds, InputManager& input, PlayerInput& playerInput);
+		Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts,
+			    SoundBufferHolder& sounds, InputManager& input, PlayerInput& playerInput);
 
 		sf::RenderWindow* window;
 		TextureHolder* textures;
@@ -41,9 +42,9 @@ public:
 	State(StateStack& stack, Context context);
 	virtual				~State();
 
-	virtual void		draw() = 0;
-	virtual bool		update(double dt) = 0;
-	virtual bool		handleEvent(const sf::Event& event) = 0;
+	virtual void draw() = 0;
+	virtual bool update(double dt) = 0;
+	virtual bool handleEvent(const sf::Event& event) = 0;
 
 	void updateCursor();
 
@@ -52,16 +53,15 @@ public:
 
 
 protected:
-	void				requestStackPush(States::ID stateID);
-	void				requestStackPop();
-	void				requestStateClear();
+	void requestStackPush(States::ID stateID);
+	void requestStackPop();
+	void requestStateClear();
 
-	Context				getContext() const;
+	Context getContext() const;
 
 	sf::Sprite mousePicture;
 
-
 private:
 	StateStack* mStack;
-	Context				mContext;
+	Context mContext;
 };

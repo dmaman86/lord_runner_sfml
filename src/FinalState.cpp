@@ -15,21 +15,27 @@ FinalState::FinalState(StateStack& stack, Context context)
 	windowSize = context.window->getSize();
 	textureSize = context.textures->get(Textures::Menu).getSize();
 
+	// get texture state
 	sf::Texture& texture = context.textures->get(Textures::Menu);
 	mBackgroundSprite.setTexture(texture);
 	mBackgroundSprite.setScale((float)windowSize.x / textureSize.x,
 		(float)windowSize.y / textureSize.y);
 
+	// get font state
 	sf::Font& font = context.fonts->get(Fonts::Main);
 	m_title.setFont(font);
+	// display if user win
 	if (context.playerInput->getSuccess())
 	{
-		m_title.setString("Congratulations!You Win!!\n\tYour score is: " + std::to_string(context.playerInput->getScore()));
+		m_title.setString("Congratulations! You Win!!\n\tYour score is: "
+						+ std::to_string(context.playerInput->getScore()));
 		m_soundState.setBuffer(context.sounds->get(SoundEffect::Win));
 	}
 	else
 	{
-		m_title.setString("Sorry, You Lose!\n\tYour score is: " + std::to_string(context.playerInput->getScore()));
+		// user lose
+		m_title.setString("Sorry, You Lose!\n\tYour score is: "
+						+ std::to_string(context.playerInput->getScore()));
 		m_soundState.setBuffer(context.sounds->get(SoundEffect::Lose));
 	}
 	m_soundState.setLoop(true);
@@ -38,6 +44,7 @@ FinalState::FinalState(StateStack& stack, Context context)
 	centerOrigin(m_title);
 	m_title.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
 
+	// second text
 	m_message.setFont(font);
 	m_message.setString("Please enter your name");
 	m_message.setFillColor(sf::Color::White);
@@ -47,14 +54,15 @@ FinalState::FinalState(StateStack& stack, Context context)
 	m_message.setPosition(sf::Vector2f(windowSize.x / 2.5,
 		(windowSize.y / 2) + 100));
 
+	// text input from user
 	playerText.setFont(font);
 	playerText.setCharacterSize(50);
 	playerText.setFillColor(sf::Color::Red);
 	centerOrigin(playerText);
 	playerText.setPosition(sf::Vector2f(windowSize.x / 2.5, (windowSize.y / 2) + 200));
 
+	// get score user
 	m_score_player = new std::string(std::to_string(context.playerInput->getScore()));
-
 	m_score = context.playerInput->getScore();
 
 	m_soundState.play();
@@ -82,6 +90,7 @@ bool FinalState::update(double dt)
 {
 	if (m_backToMenu)
 	{
+		// save values and return to menu state
 		getContext().playerInput->updateScore(*m_name, m_score);
 		requestStateClear();
 		requestStackPush(States::Menu);
@@ -99,26 +108,19 @@ bool FinalState::handleEvent(const sf::Event& event)
 	}
 	else if (event.type == sf::Event::TextEntered)
 	{
-		if (event.text.unicode < 128)
+		// if get text from keyboard
+		if (event.text.unicode < SpecialKeyboard::MAX)
 		{
 			if (!inputLogic(event.text.unicode))
 			{
-				m_name = new std::string(playerInput.toAnsiString());
 				m_backToMenu = true;
 			}
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-	{
-		m_backToMenu = true;
-		if (playerInput.getSize() > 0)
-			m_name = new std::string(playerInput.toAnsiString());
-		else
-			m_name = new std::string("");
-	}
 	return true;
 }
 
+// private functions
 void FinalState::centerOrigin(sf::Text& text)
 {
 	sf::FloatRect bounds = text.getLocalBounds();
@@ -128,7 +130,9 @@ void FinalState::centerOrigin(sf::Text& text)
 
 bool FinalState::inputLogic(int charTyped)
 {
-	if (charTyped != DELETE_KEY && charTyped != ENTER_KEY && charTyped != ESCAPE_KEY)
+	if (charTyped != SpecialKeyboard::DELETE_KEY &&
+		charTyped != SpecialKeyboard::ENTER_KEY &&
+		charTyped != SpecialKeyboard::ESCAPE_KEY)
 	{
 		playerInput += static_cast<char>(charTyped);
 
@@ -136,11 +140,19 @@ bool FinalState::inputLogic(int charTyped)
 			return false;
 		playerText.setString(playerInput);
 	}
-	else if (charTyped == DELETE_KEY)
+	else if (charTyped == SpecialKeyboard::DELETE_KEY)
 	{
 		if (playerInput.getSize() > 0)
 			deleteLastChar();
 		playerText.setString(playerInput + "_");
+	}
+	else if (charTyped == SpecialKeyboard::ENTER_KEY)
+	{
+		if (playerInput.getSize() > 0)
+			m_name = new std::string(playerInput.toAnsiString());
+		else
+			m_name = new std::string("");
+		return false;
 	}
 	return true;
 }

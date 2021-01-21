@@ -59,7 +59,7 @@ private:
 	
 	std::vector<std::vector<char>> m_grid;
 
-	// private fanctions
+	// private functions
 	std::unique_ptr<StaticObject> createStaticObject
 	(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures);
 	std::unique_ptr<Monster> createDynamicObject

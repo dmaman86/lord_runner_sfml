@@ -11,6 +11,7 @@
 MenuState::MenuState(StateStack& stack, Context context)
 	: State(stack, context), mEffectTime(0.0f)
 {
+	// booleans for buttons
 	m_isPlayButtonSelected = false;
 	m_isPlayButtonPressed = false;
 	m_isSettingsButtonSelected = false;
@@ -23,49 +24,32 @@ MenuState::MenuState(StateStack& stack, Context context)
 	windowSize = context.window->getSize();
 	textureSize = context.textures->get(Textures::Menu).getSize();
 
+	// get texture background
 	sf::Texture& texture = context.textures->get(Textures::Menu);
 	mBackgroundSprite.setTexture(texture);
 	mBackgroundSprite.setScale((float)windowSize.x / textureSize.x,
 								(float)windowSize.y / textureSize.y);
 
-	m_sound.setBuffer(context.sounds->get(SoundEffect::Button));
-	m_sound.setPlayingOffset(sf::seconds(2.f));
-	m_soundState.setBuffer(context.sounds->get(SoundEffect::Menu));
-	m_soundState.setLoop(true);
-
-	sf::Text text;
+	// get font
 	sf::Font& font = context.fonts->get(Fonts::Main);
+	// title state
 	m_title.setFont(font);
 	m_title.setString("Lord Runner Game");
 	m_title.setFillColor(sf::Color(76,0,153));
 	m_title.setOutlineColor(sf::Color::White);
 	m_title.setOutlineThickness(5.f);
-
 	m_title.setCharacterSize(100);
 	centerOrigin(m_title);
 	m_title.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
-	text.setFont(font);
-	text.setCharacterSize(55);
-	text.setStyle(sf::Text::Bold);
+	// buttons state
+	buildButtons(windowSize);
 
-	for (size_t i = 0; i < MaxButtonsInState::MenuButtons; i++)
-	{
-		m_buttons.push_back(text);
-		m_buttons[i].setFillColor(sf::Color::White);
-
-		m_buttons[i].setOrigin(m_buttons[i].getLocalBounds().width / 2,
-			m_buttons[i].getLocalBounds().height / 2);
-		m_buttons[i].setPosition(sf::Vector2f(windowSize.x / 2.5,
-			(windowSize.y / 2) + (i * 100)));
-		m_buttons[i].setOutlineColor(sf::Color(76, 0, 153));
-		m_buttons[i].setOutlineThickness(5.f);
-
-	}
-
-	m_buttons[0].setString("Play Game");
-	m_buttons[1].setString("Game Settings");
-	m_buttons[2].setString("Top Scores");
-
+	// sounds state
+	m_sound.setBuffer(context.sounds->get(SoundEffect::Button));
+	m_sound.setPlayingOffset(sf::seconds(2.f));
+	m_soundState.setBuffer(context.sounds->get(SoundEffect::Menu));
+	m_soundState.setLoop(true);
+	// music by settings
 	aload_music = context.playerInput->getUserSound();
 
 	if (aload_music)
@@ -75,7 +59,6 @@ MenuState::MenuState(StateStack& stack, Context context)
 		m_soundState.stop();
 		m_sound.stop();
 	}
-
 }
 
 void MenuState::draw()
@@ -101,6 +84,7 @@ bool MenuState::update(double dt)
 	{
 		mEffectTime += dt;
 		updateColorButton();
+		// move to new state after second
 		if (mEffectTime >= 1.0f)
 		{
 			m_pressed = false;
@@ -126,20 +110,7 @@ bool MenuState::update(double dt)
 
 	this->updateCursor();
 
-	auto mouse_pos = sf::Mouse::getPosition(*getContext().window); // Mouse position relative to the window
-	auto translated_pos = getContext().window->mapPixelToCoords(mouse_pos);
-
-	for (int i = 0; i < m_buttons.size();i++)
-	{
-		if (m_buttons[i].getGlobalBounds().contains(translated_pos)) // Rectangle-contains-point check
-		{
-			// Mouse is inside the sprite.
-			m_buttons[i].setFillColor(sf::Color::Yellow);
-		}
-		else
-			m_buttons[i].setFillColor(sf::Color::White);
-	}
-
+	this->updateByMouse();
 
 	return true;
 }
@@ -156,8 +127,8 @@ bool MenuState::handleEvent(const sf::Event& event)
 
 	if (event.MouseButtonPressed)
 	{
-
-		if (m_isPlayButtonPressed = input->isSpriteClicked(m_buttons[0], sf::Mouse::Left, window))
+		if (m_isPlayButtonPressed = input->isSpriteClicked(m_buttons[ButtonsMenu::PlayGame],
+																sf::Mouse::Left, window))
 		{
 			m_isPlayButtonSelected = true;
 			m_isSettingsButtonSelected = false;
@@ -167,7 +138,8 @@ bool MenuState::handleEvent(const sf::Event& event)
 				m_sound.play();
 		}
 
-		if (m_isSettingsButtonPressed = input->isSpriteClicked(m_buttons[1], sf::Mouse::Left, window))
+		if (m_isSettingsButtonPressed = input->isSpriteClicked(m_buttons[ButtonsMenu::GameSettings],
+																	sf::Mouse::Left, window))
 		{
 			m_isSettingsButtonSelected = true;
 			m_isPlayButtonSelected = false;
@@ -177,7 +149,8 @@ bool MenuState::handleEvent(const sf::Event& event)
 				m_sound.play();
 		}
 
-		if (m_isRecordsPressed = input->isSpriteClicked(m_buttons[2], sf::Mouse::Left, window))
+		if (m_isRecordsPressed = input->isSpriteClicked(m_buttons[ButtonsMenu::TopScores],
+									sf::Mouse::Left, window))
 		{
 			m_isPlayButtonSelected = false;
 			m_isSettingsButtonSelected = false;
@@ -189,6 +162,31 @@ bool MenuState::handleEvent(const sf::Event& event)
 		return true;
 	}
 	return false;
+}
+// private functions
+void MenuState::buildButtons(const sf::Vector2u& windowSize)
+{
+	sf::Text text;
+	text.setFont(getContext().fonts->get(Fonts::Main));
+	text.setCharacterSize(55);
+	text.setStyle(sf::Text::Bold);
+
+	for (size_t i = 0; i < ButtonsMenu::Max; i++)
+	{
+		m_buttons.push_back(text);
+		m_buttons[i].setFillColor(sf::Color::White);
+
+		m_buttons[i].setOrigin(m_buttons[i].getLocalBounds().width / 2,
+			m_buttons[i].getLocalBounds().height / 2);
+		m_buttons[i].setPosition(sf::Vector2f(windowSize.x / 2.5,
+			(windowSize.y / 2) + (i * 100)));
+		m_buttons[i].setOutlineColor(sf::Color(76, 0, 153));
+		m_buttons[i].setOutlineThickness(5.f);
+
+	}
+	m_buttons[ButtonsMenu::PlayGame].setString("Play Game");
+	m_buttons[ButtonsMenu::GameSettings].setString("Game Settings");
+	m_buttons[ButtonsMenu::TopScores].setString("Top Scores");
 }
 
 void MenuState::centerOrigin(sf::Text& text)
@@ -202,20 +200,38 @@ void MenuState::updateColorButton()
 {
 	if (m_isPlayButtonSelected)
 	{
-		m_buttons[0].setFillColor(sf::Color::Black);
-		m_buttons[1].setFillColor(sf::Color::White);
-		m_buttons[2].setFillColor(sf::Color::White);
+		m_buttons[ButtonsMenu::PlayGame].setFillColor(sf::Color::Black);
+		m_buttons[ButtonsMenu::GameSettings].setFillColor(sf::Color::White);
+		m_buttons[ButtonsMenu::TopScores].setFillColor(sf::Color::White);
 	}
 	else if (m_isSettingsButtonSelected)
 	{
-		m_buttons[0].setFillColor(sf::Color::White);
-		m_buttons[1].setFillColor(sf::Color::Black);
-		m_buttons[2].setFillColor(sf::Color::White);
+		m_buttons[ButtonsMenu::PlayGame].setFillColor(sf::Color::White);
+		m_buttons[ButtonsMenu::GameSettings].setFillColor(sf::Color::Black);
+		m_buttons[ButtonsMenu::TopScores].setFillColor(sf::Color::White);
 	}
 	else if (m_isRecordsSelected)
 	{
-		m_buttons[0].setFillColor(sf::Color::White);
-		m_buttons[1].setFillColor(sf::Color::White);
-		m_buttons[2].setFillColor(sf::Color::Black);
+		m_buttons[ButtonsMenu::PlayGame].setFillColor(sf::Color::White);
+		m_buttons[ButtonsMenu::GameSettings].setFillColor(sf::Color::White);
+		m_buttons[ButtonsMenu::TopScores].setFillColor(sf::Color::Black);
+	}
+}
+
+void MenuState::updateByMouse()
+{
+	auto mouse_pos = getContext().input->GetMousePosition(*getContext().window);
+	auto translated_pos = getContext().window->mapPixelToCoords(mouse_pos);
+
+	for (auto& button : m_buttons)
+	{
+		// Rectangle-contains-point check
+		if (button.getGlobalBounds().contains(translated_pos))
+		{
+			// Mouse is inside the sprite.
+			button.setFillColor(sf::Color::Yellow);
+		}
+		else
+			button.setFillColor(sf::Color::White);
 	}
 }

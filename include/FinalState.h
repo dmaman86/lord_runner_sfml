@@ -1,6 +1,7 @@
 #pragma once
 
 #include "./Machine/State.h"
+#include "macros.h"
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -8,10 +9,6 @@
 #include <fstream>
 #include <string>
 #include <iostream>
-
-#define DELETE_KEY 8
-#define ENTER_KEY 13
-#define ESCAPE_KEY 27
 
 class FinalState : public State
 {

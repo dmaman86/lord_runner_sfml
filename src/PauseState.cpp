@@ -31,24 +31,10 @@ PauseState::PauseState(StateStack& stack, Context context)
 	mPausedText.setFillColor(sf::Color(76, 0, 153));
 	centerOrigin(mPausedText);
 	mPausedText.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
+	mPausedText.setOutlineColor(sf::Color::White);
+	mPausedText.setOutlineThickness(5.0f);
 
-	sf::Text text;
-	text.setFont(font);
-	text.setCharacterSize(55);
-	text.setStyle(sf::Text::Bold);
-
-	for (size_t i = 0; i < MaxButtonsInState::PauseButtons; i++)
-	{
-		m_buttons.push_back(text);
-		m_buttons[i].setFillColor(sf::Color::White);
-		m_buttons[i].setOrigin(m_buttons[i].getLocalBounds().width / 2,
-			m_buttons[i].getLocalBounds().height / 2);
-		m_buttons[i].setPosition(sf::Vector2f(windowSize.x / 2.5,
-			(windowSize.y / 2) + (i * 100)));
-	}
-	m_buttons[0].setString("Back to Game");
-	m_buttons[1].setString("Back to Game Menu");
-	m_buttons[2].setString("Restart Game");
+	buildButtons(windowSize);
 
 	m_sound.setBuffer(context.sounds->get(SoundEffect::Button));
 	m_soundState.setBuffer(context.sounds->get(SoundEffect::Menu));
@@ -86,6 +72,7 @@ bool PauseState::update(double dt)
 	{
 		updateColorButton();
 		mElapsedTime += dt;
+		// move to state after one second
 		if (mElapsedTime > 1.0f)
 		{
 			m_pressed = false;
@@ -102,14 +89,13 @@ bool PauseState::update(double dt)
 			}
 			else if (m_isResetGameSelected)
 			{
-				// requestStackPop();
 				requestStateClear();
 				requestStackPush(States::Game);
 			}
 		}
 	}
 	this->updateCursor();
-
+	this->updateByMouse();
 
 	return true;
 }
@@ -126,7 +112,8 @@ bool PauseState::handleEvent(const sf::Event& event)
 
 	if (event.MouseButtonPressed)
 	{
-		if (m_backToGamePressed = input->isSpriteClicked(m_buttons[0], sf::Mouse::Left, window))
+		if (m_backToGamePressed = input->isSpriteClicked(m_buttons[ButtonsPause::BackToGame],
+										sf::Mouse::Left, window))
 		{
 			m_backToGameSelected = true;
 			m_isBackMenuSelected = false;
@@ -135,7 +122,8 @@ bool PauseState::handleEvent(const sf::Event& event)
 			m_sound.play();
 		}
 
-		if (m_isBackMenuPressed = input->isSpriteClicked(m_buttons[1], sf::Mouse::Left, window))
+		if (m_isBackMenuPressed = input->isSpriteClicked(m_buttons[ButtonsPause::BackToMenu],
+															sf::Mouse::Left, window))
 		{
 			m_backToGameSelected = false;
 			m_isBackMenuSelected = true;
@@ -145,7 +133,8 @@ bool PauseState::handleEvent(const sf::Event& event)
 		}
 
 
-		if (m_isResetGamePressed = input->isSpriteClicked(m_buttons[2], sf::Mouse::Left, window))
+		if (m_isResetGamePressed = input->isSpriteClicked(m_buttons[ButtonsPause::Restart],
+															sf::Mouse::Left, window))
 		{
 			m_isBackMenuSelected = false;
 			m_backToGameSelected = false;
@@ -158,6 +147,7 @@ bool PauseState::handleEvent(const sf::Event& event)
 	return false;
 }
 
+// private functions
 void PauseState::centerOrigin(sf::Text& text)
 {
 	sf::FloatRect bounds = text.getLocalBounds();
@@ -165,24 +155,65 @@ void PauseState::centerOrigin(sf::Text& text)
 		std::floor(bounds.top + bounds.height / 2.f));
 }
 
+void PauseState::buildButtons(const sf::Vector2f& windowSize)
+{
+	sf::Text text;
+	text.setFont(getContext().fonts->get(Fonts::Main));
+	text.setCharacterSize(55);
+	text.setStyle(sf::Text::Bold);
+
+	for (size_t i = 0; i < ButtonsPause::Max; i++)
+	{
+		m_buttons.push_back(text);
+		m_buttons[i].setFillColor(sf::Color::White);
+		m_buttons[i].setOrigin(m_buttons[i].getLocalBounds().width / 2,
+			m_buttons[i].getLocalBounds().height / 2);
+		m_buttons[i].setPosition(sf::Vector2f(windowSize.x / 2.5,
+			(windowSize.y / 2) + (i * 100)));
+		m_buttons[i].setOutlineColor(sf::Color(76, 0, 153));
+		m_buttons[i].setOutlineThickness(5.f);
+	}
+	m_buttons[ButtonsPause::BackToGame].setString("Back to Game");
+	m_buttons[ButtonsPause::BackToMenu].setString("Back to Game Menu");
+	m_buttons[ButtonsPause::Restart].setString("Restart Game");
+}
+
 void PauseState::updateColorButton()
 {
 	if (m_backToGameSelected)
 	{
-		m_buttons[0].setFillColor(sf::Color::Black);
-		m_buttons[1].setFillColor(sf::Color::White);
-		m_buttons[2].setFillColor(sf::Color::White);
+		m_buttons[ButtonsPause::BackToGame].setFillColor(sf::Color::Black);
+		m_buttons[ButtonsPause::BackToMenu].setFillColor(sf::Color::White);
+		m_buttons[ButtonsPause::Restart].setFillColor(sf::Color::White);
 	}
 	else if (m_isBackMenuSelected)
 	{
-		m_buttons[0].setFillColor(sf::Color::White);
-		m_buttons[1].setFillColor(sf::Color::Black);
-		m_buttons[2].setFillColor(sf::Color::White);
+		m_buttons[ButtonsPause::BackToGame].setFillColor(sf::Color::White);
+		m_buttons[ButtonsPause::BackToMenu].setFillColor(sf::Color::Black);
+		m_buttons[ButtonsPause::Restart].setFillColor(sf::Color::White);
 	}
 	else if (m_isResetGameSelected)
 	{
-		m_buttons[0].setFillColor(sf::Color::White);
-		m_buttons[1].setFillColor(sf::Color::White);
-		m_buttons[2].setFillColor(sf::Color::Black);
+		m_buttons[ButtonsPause::BackToGame].setFillColor(sf::Color::White);
+		m_buttons[ButtonsPause::BackToMenu].setFillColor(sf::Color::White);
+		m_buttons[ButtonsPause::Restart].setFillColor(sf::Color::Black);
+	}
+}
+
+void PauseState::updateByMouse()
+{
+	auto mouse_pos = getContext().input->GetMousePosition(*getContext().window);
+	auto translated_pos = getContext().window->mapPixelToCoords(mouse_pos);
+
+	for (auto& button : m_buttons)
+	{
+		// Rectangle-contains-point check
+		if (button.getGlobalBounds().contains(translated_pos))
+		{
+			// Mouse is inside the sprite.
+			button.setFillColor(sf::Color::Yellow);
+		}
+		else
+			button.setFillColor(sf::Color::White);
 	}
 }

@@ -14,6 +14,7 @@ GiftStain::~GiftStain()
 void GiftStain::update()
 {
 }
+
 bool GiftStain::isActive()
 {
 	if (m_is_active && m_clock.getElapsedTime().asSeconds() < 4)

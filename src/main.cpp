@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <cstdlib>
-#include <time.h> // srand time
+#include <time.h>
 
 
 int main()

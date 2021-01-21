@@ -13,6 +13,7 @@ class RecordsState : public State
 {
 public:
 	RecordsState(StateStack& stack, Context context);
+	~RecordsState();
 
 	virtual void draw();
 	virtual bool update(double dt);
@@ -25,8 +26,8 @@ private:
 	sf::Text m_title;
 	sf::Sound m_soundState;
 
-	sf::Text m_userName;
-	sf::Text m_userScore;
+	sf::Text* m_userName;
+	sf::Text* m_userScore;
 	std::string str;
 	int score;
 

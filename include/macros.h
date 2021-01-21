@@ -27,16 +27,6 @@ namespace ObjectType
 	};
 }
 
-namespace MaxButtonsInState
-{
-	enum ID
-	{
-		SettingsButtons = 2,
-		PauseButtons = 3,
-		MenuButtons = 3
-	};
-}
-
 namespace KindMonsters
 {
 	enum ID
@@ -57,6 +47,49 @@ namespace KindGifts
 		Score,
 		Monster,
 		Stain,
+		Max
+	};
+}
+
+namespace SpecialKeyboard
+{
+	enum ID
+	{
+		DELETE_KEY = 8,
+		ENTER_KEY = 13,
+		ESCAPE_KEY = 27,
+		MAX = 128
+	};
+}
+
+namespace ButtonsMenu
+{
+	enum ID
+	{
+		PlayGame = 0,
+		GameSettings,
+		TopScores,
+		Max
+	};
+}
+
+namespace ButtonsSettings
+{
+	enum ID
+	{
+		AvailableMusic = 0,
+		NoAvailableMusic,
+		Max
+	};
+}
+
+namespace ButtonsPause
+{
+	enum ID
+	{
+		BackToGame = 0,
+		BackToMenu,
+		Restart,
 		Max
 	};
 }

@@ -16,26 +16,21 @@ public:
 	PauseState(StateStack& stack, Context context);
 	~PauseState();
 
-	virtual void		draw();
-	virtual bool		update(double dt);
-	virtual bool		handleEvent(const sf::Event& event);
+	virtual void draw();
+	virtual bool update(double dt);
+	virtual bool handleEvent(const sf::Event& event);
 
 	virtual void pause() {}
 	virtual void start() {}
 
 
 private:
-	sf::Sprite			mBackgroundSprite;
-	sf::Text			mPausedText;
+	sf::Sprite mBackgroundSprite;
+	sf::Text mPausedText;
 	std::vector<sf::Text> m_buttons;
-
 	sf::Sound m_sound;
 	sf::Sound m_soundState;
-
 	sf::Clock m_clock;
-
-	void centerOrigin(sf::Text&);
-	void updateColorButton();
 
 	bool m_isBackMenuSelected;
 	bool m_isBackMenuPressed;
@@ -49,4 +44,9 @@ private:
 	bool m_pressed;
 
 	double mElapsedTime;
+
+	void centerOrigin(sf::Text&);
+	void updateColorButton();
+	void updateByMouse();
+	void buildButtons(const sf::Vector2f&);
 };

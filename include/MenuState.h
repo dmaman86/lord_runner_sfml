@@ -40,12 +40,12 @@ private:
     bool m_isRecordsPressed;
 
     bool m_pressed = false;
-
     bool aload_music;
+    float mEffectTime;
 
     void updateColorButton();
     void centerOrigin(sf::Text&);
-
-    float mEffectTime;
+    void updateByMouse();
+    void buildButtons(const sf::Vector2u &);
 };
 

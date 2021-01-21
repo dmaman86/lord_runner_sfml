@@ -41,4 +41,6 @@ private:
 
 	void centerOrigin(sf::Text&);
 	void updateColorButton();
+	void updateByMouse();
+	void buildButtons(const sf::Vector2u&);
 };
