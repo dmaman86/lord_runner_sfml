@@ -95,7 +95,7 @@ void GameState::handleGift()
 	else if (GiftMonster::isActive())
 	{
 		m_board.createObject
-		(m_board.getPlaceToAddMon(), ObjectType::MonsterChar, *getContext().textures, m_player);
+		(m_board.getPlaceToAddMon(), ObjectType::MonsterChar, *getContext().textures, m_player,m_is_race_time);
 		this->m_board.updateMonsterData();
 	}
 
@@ -292,7 +292,7 @@ void GameState::read_data(std::ifstream& fd_readLevel)
 			{
 				m_board.createObject
 				(sf::Vector2f((float)j, (float)i), (ObjectType::ID)c,
-									*getContext().textures,m_player);
+									*getContext().textures,m_player, m_is_race_time);
 			}
 		}
 		fd_readLevel.get(c);	//eat '\n'

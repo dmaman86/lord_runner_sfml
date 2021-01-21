@@ -34,7 +34,7 @@ public:
 	~Board();
 	// public functions
 	void initSizeData(size_t, size_t);
-	void createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& textures, Player* player);
+	void createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& textures, Player* const player,bool);
 	void update(const float& dt, Player* player);
 	void newLevel();
 	void updateMonsterData();
@@ -61,9 +61,9 @@ private:
 
 	// private functions
 	std::unique_ptr<StaticObject> createStaticObject
-	(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures);
+	(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures,bool);
 	std::unique_ptr<Monster> createDynamicObject
-	(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures, Player* player);
+	(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures, Player* const player);
 
 	void updateMonsters(const float& dt);
 	void updateCreature(const float& dt, DynamicObject& creacure);

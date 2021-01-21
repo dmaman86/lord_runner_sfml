@@ -43,10 +43,10 @@ namespace KindGifts
 	enum ID
 	{
 		Life,
-		Time,
 		Score,
 		Monster,
 		Stain,
+		Time,
 		Max
 	};
 }

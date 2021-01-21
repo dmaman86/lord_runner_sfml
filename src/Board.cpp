@@ -10,7 +10,7 @@ Board::~Board()
 }
 
 std::unique_ptr<Monster> Board::createDynamicObject
-(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures,Player * player)
+(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures,Player * const player )
 {
 	if (type == ObjectType::MonsterChar)
 	{
@@ -29,7 +29,8 @@ std::unique_ptr<Monster> Board::createDynamicObject
 	return nullptr;
 }
 
-std::unique_ptr<StaticObject> Board::createStaticObject(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures)
+std::unique_ptr<StaticObject> Board::createStaticObject
+(ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures ,bool onTime)
 {
 	switch (type)
 	{
@@ -43,19 +44,23 @@ std::unique_ptr<StaticObject> Board::createStaticObject(ObjectType::ID type, sf:
 		m_location_add_monster = pos;
 		return std::make_unique<Coin>(pos, size, &textures.get(Textures::Coin));
 	case ObjectType::GiftChar:
-		int r = rand() % KindGifts::Max;
+		int r;
+		if(onTime)
+			r = rand() % KindGifts::Max;
+		else
+			r = rand() % KindGifts::Max - 1;
 		switch (r)
 		{
 		case KindGifts::Life:
 			return std::make_unique<GiftLife>(pos, size, &textures.get(Textures::Gifts));
-		case KindGifts::Time:
-			return std::make_unique<GiftTime>(pos, size, &textures.get(Textures::Gifts));
 		case KindGifts::Score:
 			return std::make_unique<GiftScore>(pos, size, &textures.get(Textures::Gifts));
 		case KindGifts::Monster:
 			return std::make_unique<GiftMonster>(pos, size, &textures.get(Textures::Gifts));
 		case KindGifts::Stain:
 			return std::make_unique<GiftStain>(pos, size, &textures.get(Textures::Gifts));
+		case KindGifts::Time:
+			return std::make_unique<GiftTime>(pos, size, &textures.get(Textures::Gifts));
 		}
 	}
 	return nullptr;
@@ -76,7 +81,7 @@ void Board::initSizeData(size_t y, size_t x )
 		m_grid[i].resize(x);
 }
 
-void Board::createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& textures, Player* player)
+void Board::createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& textures, Player* player,bool onTime)
 {
 	/*if (type == ObjectType::PlayerChar)
 	{
@@ -95,7 +100,7 @@ void Board::createObject(sf::Vector2f pos, ObjectType::ID type, TextureHolder& t
 		return;
 	}
 
-	std::unique_ptr<StaticObject> unmovable = createStaticObject(type, pos, m_avgPix, textures);
+	std::unique_ptr<StaticObject> unmovable = createStaticObject(type, pos, m_avgPix, textures,onTime);
 	if (unmovable)
 	{
 		m_grid[(int)pos.y][(int)pos.x] = (char)type;
