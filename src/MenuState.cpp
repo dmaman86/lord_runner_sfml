@@ -82,7 +82,7 @@ bool MenuState::update(double dt)
 {
 	if (m_pressed)
 	{
-		mEffectTime += dt;
+		mEffectTime += (float)dt;
 		updateColorButton();
 		// move to new state after second
 		if (mEffectTime >= 1.0f)
@@ -179,7 +179,7 @@ void MenuState::buildButtons(const sf::Vector2u& windowSize)
 		m_buttons[i].setOrigin(m_buttons[i].getLocalBounds().width / 2,
 			m_buttons[i].getLocalBounds().height / 2);
 		m_buttons[i].setPosition(sf::Vector2f(windowSize.x / 2.5,
-			(windowSize.y / 2) + (i * 100)));
+			(windowSize.y / 2u) + (i * 100)));
 		m_buttons[i].setOutlineColor(sf::Color(76, 0, 153));
 		m_buttons[i].setOutlineThickness(5.f);
 

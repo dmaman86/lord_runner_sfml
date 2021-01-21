@@ -6,7 +6,7 @@ Ropes::Ropes(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt) :
 	StaticObject(pos, size, txt)
 {
 	// that made ropes skinny
-	this->m_rec->setScale(m_rec->getScale().x * 1, m_rec->getScale().y * 0.5);
+	this->m_rec->setScale(m_rec->getScale().x * (float)1, m_rec->getScale().y * (float)0.5);
 }
 
 //=============================================================

@@ -84,7 +84,7 @@ bool SettingsState::update(double dt)
 {
 	if (m_pressed)
 	{
-		mEffectTime += dt;
+		mEffectTime += (float)dt;
 		updateColorButton();
 		if (mEffectTime >= 1.0f)
 		{
@@ -106,7 +106,7 @@ bool SettingsState::update(double dt)
 	}
 
 	// to display footer message by 0.5 seconds
-	mTextEffectTime += dt;
+	mTextEffectTime += (float)dt;
 	if (mTextEffectTime >= 0.5f)
 	{
 		m_showText = !m_showText;

@@ -51,8 +51,8 @@ FinalState::FinalState(StateStack& stack, Context context)
 	m_message.setCharacterSize(50);
 	m_message.setOrigin(m_message.getLocalBounds().width / 2,
 		m_message.getLocalBounds().height / 2);
-	m_message.setPosition(sf::Vector2f(windowSize.x / 2.5,
-		(windowSize.y / 2) + 100));
+	m_message.setPosition(sf::Vector2f(windowSize.x / (unsigned)2.5,
+		(windowSize.y / 2u) + (unsigned)100));
 
 	// text input from user
 	playerText.setFont(font);

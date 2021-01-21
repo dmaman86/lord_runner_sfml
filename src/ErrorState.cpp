@@ -55,7 +55,7 @@ void ErrorState::draw()
 bool ErrorState::update(double dt)
 {
 	// Show state for 3 seconds, after return to menu
-	mElapsedTime += dt;
+	mElapsedTime += (float)dt;
 	if (mElapsedTime > 3.0f)
 	{
 		requestStateClear();

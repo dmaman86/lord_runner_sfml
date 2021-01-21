@@ -210,7 +210,7 @@ bool GameState::update(double dt)
 	}
 	else if (!m_isPause)
 	{
-		this->m_board.update(dt, m_player);
+		this->m_board.update((float)dt, m_player);
 		this->handeleDig();
 		this->handleRace();
 		this->handleGift();
@@ -295,8 +295,9 @@ std::string GameState::getPath()
 //======================================================
 void GameState::read_data(std::ifstream& fd_readLevel)
 {
-    size_t height, weidth,time;
-    char c;
+    size_t height, weidth;
+	float time;
+	char c;
 
     fd_readLevel >> height;
     fd_readLevel >> weidth;

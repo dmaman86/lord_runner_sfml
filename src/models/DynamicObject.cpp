@@ -78,7 +78,7 @@ void DynamicObject::SaveLastPosition()
 
 // get movment vector by direction member
 //===================================================
-const sf::Vector2f& DynamicObject::getMovement() const
+sf::Vector2f DynamicObject::getMovement() const
 {
 	switch (m_dircetion)
 	{

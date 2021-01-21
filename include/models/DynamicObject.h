@@ -75,7 +75,7 @@ protected:
 	void resetDirection();
 	void SaveLastPosition();
 		// Get functions
-	const sf::Vector2f& getMovement() const;
+	sf::Vector2f getMovement() const;
 	const sf::Vector2f& getLastPos() const;
 	const sf::Vector2f& getFirstPos() const;
 

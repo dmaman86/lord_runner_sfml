@@ -7,7 +7,7 @@
 #include "../macros.h"
 #include <vector>
 
-// strcut that using in cfs algorithem
+// strcut that using in bfs algorithm
 struct NudeBfs {
 public:
 	int row;
@@ -34,7 +34,7 @@ class MonsterSmart : public Monster
 
 public:
 	// Constractor / Distactor
-	MonsterSmart(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, Player* const p);
+	MonsterSmart(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt,  Player* const p);
 	~MonsterSmart() = default;
 	// virtual functions
 	void virtual setGrid(std::vector<std::vector<char>> &) override;
@@ -46,7 +46,7 @@ private:
 	sf::Vector2f m_size;
 	std::vector<std::vector<char>> m_map;
 	std::vector<std::vector<int>> m_visited;
-	int m_last_dir;
+	size_t m_last_dir;
 	sf::Vector2i m_last_cell;
 
 	// private func

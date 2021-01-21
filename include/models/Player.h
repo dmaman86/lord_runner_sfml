@@ -47,7 +47,7 @@ public:
 	void virtual handleColision(Player& obj) {};
 	// dig functions
 	bool dig();
-	const sf::Vector2f& getMovementDig(sf::Vector2f size) const;
+	sf::Vector2f getMovementDig(sf::Vector2f size) const;
 	// access functions
 	const bool isInjured();
 	const int getLife() const;

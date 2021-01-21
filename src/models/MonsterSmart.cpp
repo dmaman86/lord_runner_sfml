@@ -6,7 +6,7 @@
 
 MonsterSmart::MonsterSmart
 (sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt,  Player* const p) :
-	Monster(pos, size, txt), m_size(size),m_last_cell(0, 0)
+	Monster(pos, size, txt), m_size(size),m_last_cell(0, 0), m_last_dir(0)
 {
 	m_copy_player = p;
 }
@@ -24,6 +24,8 @@ bool MonsterSmart::isInRange(int row, int col)
 
 void MonsterSmart::updateDirection(const float& dt)
 {
+	static float timepast = 4;
+	static int default_dir = 0;
 	sf::Vector2i  monsterPosMap, playerPosMap;
 	playerPosMap = this->getPosOnMat(m_copy_player);
 	monsterPosMap = this->getPosOnMat(this);
@@ -43,9 +45,9 @@ void MonsterSmart::updateDirection(const float& dt)
 		m_dircetion = this->getDirectionSmartBfs(playerPosMap, monsterPosMap);
 	}
 
-	if (m_dircetion == -1)
+	if (m_dircetion == -1 || this->getPosition() == this->getLastPos())
 	{
-		if (this->getLastPos() == this->m_rec->getPosition())
+		if (this->getLastPos() == this->getPosition())
 		{
 			(m_last_dir == Object_Direction::Left) ?
 				m_last_dir = Object_Direction::Right : m_last_dir = Object_Direction::Left;
@@ -66,13 +68,8 @@ size_t MonsterSmart::getDirectionSmartBfs(sf::Vector2i playerPosMap, sf::Vector2
 	std::queue <NudeBfs> queueManager;
 	std::vector<int> vec;
 	vec.clear();
+	
 	NudeBfs source(monsterPosMap.x, monsterPosMap.y, vec);
-
-	//	if (source.row >= 0 && source.col >= 0 &&
-	//		source.row < m_visited.size() && source.col < m_visited[0].size())
-	//		m_visited[source.row][source.col] = 1;
-	//	else
-	//		return -1;
 
 	queueManager.push(source);
 	bool moveTwo = false;
@@ -81,7 +78,7 @@ size_t MonsterSmart::getDirectionSmartBfs(sf::Vector2i playerPosMap, sf::Vector2
 		NudeBfs p = queueManager.front();
 		queueManager.pop();
 
-			if (!(p.row >= 0 && p.col >= 0 &&
+		if (!(p.row >= 0 && p.col >= 0 &&
 			p.row < m_visited.size() && p.col < m_visited[0].size()))
 			return -1;
 
@@ -102,9 +99,13 @@ size_t MonsterSmart::getDirectionSmartBfs(sf::Vector2i playerPosMap, sf::Vector2
 		// moving up 
 		if (p.row - 1 >= 0 && m_visited[p.row - i][p.col] == 0 && !moveTwo)
 		{
+			// push direction to vector
 			p.VecMov.push_back(Object_Direction::Up);
+			// push new nudeBfs to queue
 			queueManager.push(NudeBfs(p.row - 1, p.col, std::vector<int>(p.VecMov)));
-			p.VecMov.pop_back();
+			// pop from vector the last direction
+			p.VecMov.pop_back(); 
+			// mark the cell
 			m_visited[p.row - i][p.col] = 1;
 		}
 
@@ -146,8 +147,8 @@ sf::Vector2i MonsterSmart::getPosOnMat(DynamicObject* dObj)
 {
 	int row, col;
 
-	col = std::round((dObj->getPosition().x - m_size.x / 2u) / m_size.x);
-	row = std::round((dObj->getPosition().y - m_size.y / 2u) / m_size.y);
+	col = (int)std::round((dObj->getPosition().x - m_size.x / 2u) / m_size.x);
+	row = (int)std::round((dObj->getPosition().y - m_size.y / 2u) / m_size.y);
 
 	return sf::Vector2i(row, col);
 }
@@ -195,15 +196,15 @@ void MonsterSmart::fixPixel(sf::Vector2i  monsterPosMap)
 			if (isInRange(monsterPosMap.x + 1, monsterPosMap.y - 1) &&
 				m_map[monsterPosMap.x + i][monsterPosMap.y - i] == '#')
 				{
-					this->m_rec->setPosition(this->getPosition().x - 0.5, this->getPosition().y);
+					this->m_rec->setPosition(this->getPosition().x - (float)0.5, this->getPosition().y);
 					parameter = 1;
 				}
 			if (isInRange(monsterPosMap.x - 1, monsterPosMap.y - 1) &&
 				m_map[monsterPosMap.x - i][monsterPosMap.y - i] == '#')
 				{
-					this->m_rec->setPosition(this->getPosition().x + 0.5, this->getPosition().y);
+					this->m_rec->setPosition(this->getPosition().x + (float)0.5, this->getPosition().y);
 					if (parameter == 1)
-						this->m_rec->setPosition(this->getPosition().x + 0.5, this->getPosition().y);
+						this->m_rec->setPosition(this->getPosition().x + (float)0.5, this->getPosition().y);
 						parameter = 2;
 				}
 		}
@@ -212,15 +213,17 @@ void MonsterSmart::fixPixel(sf::Vector2i  monsterPosMap)
 			if (isInRange(monsterPosMap.x + 1, monsterPosMap.y - 1) &&
 				m_map[monsterPosMap.x + i][monsterPosMap.y - i] == '#')
 			{
-				this->m_rec->setPosition(this->getPosition().x + 0.5, this->getPosition().y);
+				this->m_rec->setPosition(this->getPosition().x + (float)0.5, this->getPosition().y);
 				parameter = 3;
 			}
 			if (isInRange(monsterPosMap.x + 1, monsterPosMap.y + 1) &&
 				m_map[monsterPosMap.x + i][monsterPosMap.y + i] == '#')
 			{
-				this->m_rec->setPosition(this->getPosition().x - 0.5, this->getPosition().y);
+				this->m_rec->setPosition
+				(this->getPosition().x - (float)0.5, this->getPosition().y);
 				if (parameter == 3)
-					this->m_rec->setPosition(this->getPosition().x - 0.5, this->getPosition().y);
+					this->m_rec->setPosition
+					(this->getPosition().x - (float)0.5, this->getPosition().y);
 				parameter = 4;
 			}
 		}
@@ -229,15 +232,17 @@ void MonsterSmart::fixPixel(sf::Vector2i  monsterPosMap)
 			if (isInRange(monsterPosMap.x + 1, monsterPosMap.y + 1) &&
 				m_map[monsterPosMap.x + i][monsterPosMap.y + i] == '#')
 			{
-				this->m_rec->setPosition(this->getPosition().x, this->getPosition().y + 0.5);
+				this->m_rec->setPosition
+				(this->getPosition().x, this->getPosition().y + (float)0.5);
 				parameter = 5;
 			}
 			if (isInRange(monsterPosMap.x - 1, monsterPosMap.y + 1) &&
 				m_map[monsterPosMap.x - i][monsterPosMap.y + i] == '#')
 			{
-					this->m_rec->setPosition(this->getPosition().x, this->getPosition().y - 0.5);
+					this->m_rec->setPosition(this->getPosition().x, this->getPosition().y - (float)0.5);
 					if (parameter == 5)
-						this->m_rec->setPosition(this->getPosition().x, this->getPosition().y - 0.5);
+						this->m_rec->setPosition
+						(this->getPosition().x, this->getPosition().y - (float)0.5);
 					parameter = 6;
 			}
 		}
@@ -246,15 +251,15 @@ void MonsterSmart::fixPixel(sf::Vector2i  monsterPosMap)
 			if (isInRange(monsterPosMap.x + 1, monsterPosMap.y - 1) &&
 				m_map[monsterPosMap.x + i][monsterPosMap.y - i] == '#')
 			{
-				this->m_rec->setPosition(this->getPosition().x, this->getPosition().y - 0.5);
+				this->m_rec->setPosition(this->getPosition().x, this->getPosition().y - (float)0.5);
 				parameter = 7;
 			}
 			if (isInRange(monsterPosMap.x - 1, monsterPosMap.y - 1) &&
 				m_map[monsterPosMap.x - i][monsterPosMap.y - i] == '#')
 			{
-				this->m_rec->setPosition(this->getPosition().x, this->getPosition().y + 0.5);
+				this->m_rec->setPosition(this->getPosition().x, this->getPosition().y + (float)0.5);
 				if (parameter == 7)
-				this->m_rec->setPosition(this->getPosition().x, this->getPosition().y + 0.5);
+				this->m_rec->setPosition(this->getPosition().x, this->getPosition().y + (float)0.5);
 				parameter = 8;
 			}
 		}

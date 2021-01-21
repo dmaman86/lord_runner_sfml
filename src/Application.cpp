@@ -39,7 +39,7 @@ Application::Application()
 
 void Application::run()
 {
-	float newTime, frameTime, interpolation;
+	float newTime, frameTime;
 	float currentTime = this->m_clock.getElapsedTime().asSeconds();
 	float accumulator = 0.0f;
 
@@ -58,7 +58,7 @@ void Application::run()
 			processInput();
 			update(TimePerFrame);
 
-			accumulator -= TimePerFrame;
+			accumulator -= (float)TimePerFrame;
 
 			if (mStateStack.isEmpty())
 				mWindow.close();

@@ -3,7 +3,7 @@
 ContainerStatus::ContainerStatus(sf::Texture* txt, sf::Font* fnt)
 {
 	this->m_heart.setTexture(*txt);
-	m_heart.setScale(0.15, 0.15);
+	m_heart.setScale((float)0.15, (float)0.15);
 	m_heart.setPosition(0, ROW + 50);
 
 	this->m_textLevel.setFont(*fnt);
@@ -21,8 +21,6 @@ ContainerStatus::ContainerStatus(sf::Texture* txt, sf::Font* fnt)
 	m_textTime.setPosition(1350, ROW + 50);
 	m_textTime.setFillColor(sf::Color::White);
 	m_textTime.setScale(1.5, 1.5);
-
-
 }
 
 ContainerStatus::~ContainerStatus()
@@ -39,7 +37,7 @@ void ContainerStatus::renderStatus
 
 	for (int i = 0; i < p.getLife();i++)
 	{
-		m_heart.setPosition(i * 100, ROW + 50);
+		m_heart.setPosition((float)i * 100, (float)ROW + 50);
 		window->draw(m_heart);
 	}
 

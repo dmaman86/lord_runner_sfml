@@ -126,7 +126,7 @@ bool RecordsState::update(double dt)
 	}
 
 	// to footer message
-	mTextEffectTime += dt;
+	mTextEffectTime += (float)dt;
 	if (mTextEffectTime >= 0.5f)
 	{
 		m_showText = !m_showText;
