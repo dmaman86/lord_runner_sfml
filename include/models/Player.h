@@ -69,5 +69,7 @@ private:
 	sf::Sound m_soundLifeUp;
 	sf::Sound m_soundScoreUp;
 	sf::Sound m_soundStain;
+	sf::Sound m_soundAddMon;
+	sf::Sound m_soundAddTime;
 
 }; // end Player

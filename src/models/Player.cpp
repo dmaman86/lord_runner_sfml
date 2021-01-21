@@ -29,6 +29,10 @@ Player::Player(sf::Vector2f pos, sf::Vector2f size, sf::Texture* txt, SoundBuffe
 	m_soundScoreUp.setVolume(30.0f);
 	m_soundStain.setBuffer(sounds.get(SoundEffect::Stain));
 	m_soundStain.setVolume(30.0f);
+	m_soundAddMon.setBuffer(sounds.get(SoundEffect::AddMonster));
+	m_soundAddTime.setBuffer(sounds.get(SoundEffect::AddTime));
+
+	//m_soundAddMon.setVolume(60.0f);
 }
 
 void Player::updateDirection(const float& dt)
@@ -146,6 +150,7 @@ void Player::handleColision(GiftMonster& obj)
 {
 	if (obj.isExsist())
 	{
+		m_soundAddMon.play();
 		obj.handleColision(*this);
 	}
 }
@@ -164,6 +169,7 @@ void Player::handleColision(GiftTime& obj)
 {
 	if (obj.isExsist())
 	{
+		m_soundAddTime.play();
 		obj.handleColision(*this);
 	}
 }

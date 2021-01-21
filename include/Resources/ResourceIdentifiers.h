@@ -71,7 +71,9 @@ namespace SoundEffect
 		LifeUp,
 		ScoreUp,
 		Stain,
-		CounterDown
+		CounterDown,
+		AddMonster,
+		AddTime
 	};
 }
 

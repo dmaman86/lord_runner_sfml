@@ -150,5 +150,7 @@ void Application::loadSounds()
 	this->mSounds.load(SoundEffect::ScoreUp, "player_score.wav");
 	this->mSounds.load(SoundEffect::Stain, "stain.wav");
 	this->mSounds.load(SoundEffect::CounterDown, "counter_down.wav");
-}
+	this->mSounds.load(SoundEffect::AddMonster, "gift_monster.wav");
+	this->mSounds.load(SoundEffect::AddTime, "gift_Time.wav");
 
+}
