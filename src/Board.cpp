@@ -12,11 +12,10 @@ Board::~Board()
 std::unique_ptr<Monster> Board::createDynamicObject
 (ObjectType::ID type, sf::Vector2f pos, sf::Vector2f size, TextureHolder& textures,Player * player)
 {
-	switch (type)
+	if (type == ObjectType::MonsterChar)
 	{
-	case ObjectType::MonsterChar:
 		int r = rand() % KindMonsters::Max;
-		switch (KindMonsters::Smart)
+		switch (r)
 		{
 		case KindMonsters::Rand:
 			return std::make_unique<MonsterRand>(pos, size, &textures.get(Textures::MonsterRand));
@@ -24,7 +23,7 @@ std::unique_ptr<Monster> Board::createDynamicObject
 			return std::make_unique<MonsterHorizontal>(pos, size, &textures.get(Textures::MonsterRL));
 		case KindMonsters::Smart:
 			return std::make_unique<MonsterSmart>
-				(pos, size, &textures.get(Textures::MonsterSmart),player);
+				(pos, size, &textures.get(Textures::MonsterSmart), player);
 		}
 	}
 	return nullptr;

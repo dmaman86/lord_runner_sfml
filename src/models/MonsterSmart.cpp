@@ -89,7 +89,7 @@ void MonsterSmart::updateDirection(const float& dt)
 size_t MonsterSmart::getDirectionSmartBfs(sf::Vector2i playerPosMap, sf::Vector2i monsterPosMap)
 {
 	if (m_map.size() == 0 || m_visited.size() == 0)
-		return 0;
+		return -1;
 
 
 	std::queue <QItem> queueManager;
